@@ -1,7 +1,7 @@
 ---
 title: "Colors and color palettes"
 author: "SPDS, uni.kn"
-date: "2019 06 14"
+date: "2019 09 24"
 output: 
   rmarkdown::html_vignette: 
     fig_caption: yes
@@ -48,7 +48,7 @@ library('unikn')             # load the package
 
 ## Overview 
 
-There are 2 functions to interact with the color palettes in the **unikn** package: `seecol()` and `usecol()`. 
+There are 2 main functions to interact with the color palettes in the **unikn** package: `seecol()` and `usecol()`. 
 
 1. The `seecol()` function is a general-purpose tool for viewing (or _seeing_) color palettes. `seecol` takes 2 main arguments:
 
@@ -62,10 +62,13 @@ Based on the setting of `pal`, the `seecol` function distinguishes between 2 mod
 
 2. The `usecol()` function allows using a color palette without showing its details. 
 
+## Viewing colors and color palettes with `seecol`
 
-## Viewing and comparing available color palettes
+The behavior of the `seecol()` function depends on the inputs to its `pal` argument. 
+It either allows comparing multiple color palettes or shows the details of a single color palette.
 
-The `seecol()` function shows multiple or the details of a single color palette. 
+### Viewing and comparing available color palettes
+
 When the `pal` argument specifies (a list of) multiple color palettes, `seecol()` plots a vector for each palette to allow comparing these palettes. 
 Some special keywords within the **unikn** package denote sets of color palettes: `"unikn_all"`, `"unikn_basic"`, `pair_all"`, `"pref_all"` and `"grad_all"`. Calling `seecol` with `pal` set to these keywords allows comparing pre-defined sets of the color palettes:   
 
@@ -101,8 +104,7 @@ seecol("pref_all")
 seecol("grad_all")
 ```
 
-
-## Viewing and saving a palette 
+### Viewing and saving a palette 
 
 When the `pal` argument of the `seecol()` function specifies a single color palette, the function plots a more detailed view of this particular color palette: 
 
@@ -136,6 +138,22 @@ Thus, the following will only plot the palette without doing anything else with 
 seecol(pal_bordeaux)
 ```
 
+### Other parameters of `seecol`
+
+The `seecol()` function provides a few aesthetic parameters for adjusting how color palettes are plotted:
+
+- `col_brd` allows specifying the color of box borders (if shown. Default: `col_brd = NULL`). 
+- `lwd_brd` allows specifying the line width of box borders (if shown. Default: `lwd_brd = NULL`). 
+- `title` allows replacing the default title with a custom title.
+
+Examples:
+
+```{r seecol_aesthetic_parameters, fig.width = 6, fig.asp = .75, fig.align = 'center'}
+seecol("grad_all", col_brd = "black", lwd_brd = 2, title = "Color gradients with black borders")
+seecol(pal_seegruen, col_brd = "white", lwd_brd = 10, title = "A color palette with white borders")
+```
+
+
 ## Using a palette with `usecol` (without seeing it)
 
 The `usecol()` function allows directly using a color palette in a plot (i.e., without first viewing it).
@@ -157,6 +175,7 @@ seecol("pal_seegruen")
 seecol(seegruen)  # issues a warning
 seecol("seegruen")
 ```
+
 
 ## Customizing color palettes
 
@@ -407,7 +426,7 @@ The color scheme of [Princeton University](https://princeton.edu/) is easily rec
 
 These definitions suggest defining 3 separate versions of orange and corresponding color palettes: 
 
-```{r Princeton, fig.width = 6, fig.asp = .618, fig.align = 'center', fig.show = "hold", collapse = TRUE}
+```{r Princeton, fig.width = 6, fig.asp = .69, fig.align = 'center', fig.show = "hold", collapse = TRUE}
 # HEX values for 3 shades of orange: 
 orange_basic <- "#E87722"  # Pantone 158 C
 orange_white <- "#E77500"  # orange on white
@@ -423,7 +442,8 @@ names(pal_princeton_1) <- c("orange_w", "white", "black")
 pal_princeton_2 <- c(pal = c(orange_black, "black", "white"))
 names(pal_princeton_2) <- c("orange_b", "black", "white")
 
-seecol(pal_princeton_1)  # view color palette
+seecol(pal_princeton_1,  # view color palette
+       col_bg = "lightgrey")
 ```
 
 #### C. [Max Planck Society](https://www.mpg.de/), Germany: 
@@ -474,19 +494,32 @@ names(pal_mpg) <- c("mpg green", "white", "mpg grey")
 
 As before, can now use the `seecol()` and `usecol()` functions to view, modify, and use the new `pal_mpg` color palette: 
 
-```{r MPG_seecol, fig.width = 6, fig.asp = .618, fig.align = 'center', collapse = TRUE}
-seecol(pal_mpg)
+```{r MPG_seecol, fig.width = 6, fig.asp = .69, fig.align = 'center', collapse = TRUE}
+seecol(pal_mpg, 
+       col_brd = "black", lwd_brd = 2)
 ```
 
+## Resources
 
-## All unikn vignettes
+The following versions of **unikn** and corresponding resources are currently available: 
+
+Type:                    | Version:           | URL:                           |         
+:------------------------|:-------------------|:-------------------------------| 
+A. **unikn** (R package): | [Release version](https://CRAN.R-project.org/package=unikn) | <https://CRAN.R-project.org/package=unikn> |
+    &nbsp;                | [Development version](https://github.com/hneth/unikn)       | <https://github.com/hneth/unikn> | 
+B. Online documentation:  | [Release version](https://hneth.github.io/unikn)            | <https://hneth.github.io/unikn> | 
+    &nbsp;                | [Development version](https://hneth.github.io/unikn/dev)    | <https://hneth.github.io/unikn/dev> | 
+
+## Vignettes
 
 <!-- unikn pkg logo and link: -->
 <a href = "https://github.com/hneth/unikn/">
 <img src = "../inst/pix/unikn.png" alt = "unikn::" align = "right" width = "140px" style = "width: 140px; float: right; border:0;"/>
-</a>
+</a> 
 
-<!-- Index of vignettes: -->
+The following vignettes provide instructions and examples for using the **unikn** objects and functions: 
+
+<!-- Table of vignettes: -->
 
 | Nr.  | Vignette | Content    |        
 | ---: |:---------|:-----------|

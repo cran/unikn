@@ -46,6 +46,10 @@ barplot(1/sqrt(1:10), col = my_pal)  # use my_pal in a plot
 ## ----invisible_seecol, fig.width = 6, fig.asp = .75, fig.align = 'center'----
 seecol(pal_bordeaux)
 
+## ----seecol_aesthetic_parameters, fig.width = 6, fig.asp = .75, fig.align = 'center'----
+seecol("grad_all", col_brd = "black", lwd_brd = 2, title = "Color gradients with black borders")
+seecol(pal_seegruen, col_brd = "white", lwd_brd = 10, title = "A color palette with white borders")
+
 ## ----use_col_default_use, fig.width = 6, fig.asp = .618, fig.align = 'center'----
 # Using a color palette:
 barplot(1/sqrt(1:11), col = usecol(pal_unikn))
@@ -189,7 +193,7 @@ seecol(pal_freiburg_info)            # view color palette
 # seecol(pal_freiburg_basic, n = 7)  # extend color palette
 # seecol(c(pal_freiburg_blue, "white", pal_freiburg_grey))  # mix color palette
 
-## ----Princeton, fig.width = 6, fig.asp = .618, fig.align = 'center', fig.show = "hold", collapse = TRUE----
+## ----Princeton, fig.width = 6, fig.asp = .69, fig.align = 'center', fig.show = "hold", collapse = TRUE----
 # HEX values for 3 shades of orange: 
 orange_basic <- "#E87722"  # Pantone 158 C
 orange_white <- "#E77500"  # orange on white
@@ -205,7 +209,8 @@ names(pal_princeton_1) <- c("orange_w", "white", "black")
 pal_princeton_2 <- c(pal = c(orange_black, "black", "white"))
 names(pal_princeton_2) <- c("orange_b", "black", "white")
 
-seecol(pal_princeton_1)  # view color palette
+seecol(pal_princeton_1,  # view color palette
+       col_bg = "lightgrey")
 
 ## ----MPG_rgb, echo = FALSE, eval = FALSE, fig.width = 6, fig.asp = .618, fig.align = 'center', collapse = TRUE----
 #  # Using RGB values:
@@ -230,6 +235,7 @@ seecol(pal_princeton_1)  # view color palette
 pal_mpg <- c("#007367", "white", "#D0D3D4")
 names(pal_mpg) <- c("mpg green", "white", "mpg grey")
 
-## ----MPG_seecol, fig.width = 6, fig.asp = .618, fig.align = 'center', collapse = TRUE----
-seecol(pal_mpg)
+## ----MPG_seecol, fig.width = 6, fig.asp = .69, fig.align = 'center', collapse = TRUE----
+seecol(pal_mpg, 
+       col_brd = "black", lwd_brd = 2)
 
