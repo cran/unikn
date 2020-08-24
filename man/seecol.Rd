@@ -5,14 +5,25 @@
 \alias{seepal}
 \title{Plot color palettes (to see their colors).}
 \usage{
-seecol(pal = "unikn_all", n = "all", alpha = NA, hex = NULL,
-  rgb = NULL, col_bg = NULL, col_brd = NULL, lwd_brd = NULL,
-  grid = TRUE, title = NA, ...)
+seecol(
+  pal = "unikn_all",
+  n = "all",
+  alpha = NA,
+  hex = NULL,
+  rgb = NULL,
+  col_bg = NULL,
+  col_brd = NULL,
+  lwd_brd = NULL,
+  grid = TRUE,
+  title = NA,
+  pal_names = NA,
+  ...
+)
 }
 \arguments{
-\item{pal}{A color palette (as a vector of colors), 
-a character string recognized as keyword by seecol or
-multiple palettes specified as list. 
+\item{pal}{A single color palette (as a vector of colors), 
+multiple color palettes (as a list), 
+or a recognized keyword (as a character string). 
 Default: \code{pal = "unikn_all"}. 
 
 Recognized keywords are: 
@@ -31,7 +42,7 @@ Recognized keywords are:
 
 }
 
-\code{seecol} does also recognize reverse keywords (e.g., \code{"all_unikn"}) or 
+\code{seecol} does also recognize keywords (e.g., \code{"all_unikn"}) or 
 keywords without \code{"unikn"} (e.g., \code{"basic"}).}
 
 \item{n}{Number of colors to show or use. 
@@ -64,8 +75,12 @@ Default: \code{lwd_brd = NULL}.}
 \item{grid}{Show grid in the color plot?
 Default: \code{grid = TRUE}.}
 
-\item{title}{Plot title? 
+\item{title}{Plot title (as a character string). 
 Default: \code{title = NA} creates a default title.}
+
+\item{pal_names}{Names of color palettes or colors 
+(as a character vector). 
+Default: \code{pal_names = NA} (for default names).}
 
 \item{...}{Other graphical parameters 
 (passed to \code{plot}).}
@@ -79,21 +94,25 @@ the colors of a palette or comparing multiple color palettes.
 
 \enumerate{
 
-\item if \code{pal = "unikn_all"} (or a list of multiple color palettes):
+  \item if \code{pal = "unikn_all"} or a list of multiple color palettes: 
 
-Plot visual vectors of all current color palettes for comparing them.
+  Plot visual vectors of all current color palettes for comparing them. 
 
-\item if \code{pal} is set to a specific color palette (or a vector of multiple colors or color palettes):
+  \item if \code{pal} is set to a specific color palette (or a vector of multiple colors or color palettes):
 
-Plot the current color palette and optional details on its colors.
+  Plot the current color palette and optional details on its colors.
 
 }
+
+The \code{title} and \code{pal_names} arguments add control over plotted text labels. 
+However, the length of a character vector provided to \code{pal_names} must correspond 
+to the number of (custom) color palettes or colors.
 }
 \examples{
-# See all color palettes: 
-seecol()  # same as seecol(pal = "all") 
+# See multiple color palettes: 
+seecol()  # default: seecol(pal = "all") 
 
-# See details of a color palette: 
+# See details of one color palette: 
 seecol(pal_unikn)  # see a specific color palette
 
 # Combining colors or color palettes: 
@@ -112,17 +131,21 @@ seecol(pal_seeblau, n = 8,
 
 # Combining and extending color palettes: 
 seecol(c(rev(pal_seeblau), "white", pal_bordeaux), n = 17, 
-       title = "Diverging custom color palette with 17 colors")
+       title = "Diverging custom color palette (with 17 colors)")
 
 # Defining custom color palettes:
-pal_mpg <- c("#007367", "white", "#D0D3D4")
-names(pal_mpg) <- c("mpg green", "mpg white", "mpg grey")
+pal_mpg <- c("#007367", "white", "#D0D3D4")  # mixing hex values and color names
+names(pal_mpg) <- c("mpg green", "mpg white", "mpg grey")  # color names
+
+pal_bdg <- usecol(c(Bordeaux, "gold"), n = 10)  # using usecol
 
 # Viewing extended color palette: 
-seecol(pal_mpg, n = 9, title = "Custom color palette for Max Planck Society")
+seecol(pal_mpg, n = 9, title = "Custom color palette of the Max Planck Society")
 
-# Comparing color palettes: 
-seecol(list(pal_mpg, pal_bordeaux, pal_unikn), n = 5)
+# Comparing (and labeling) custom color palettes: 
+seecol(list(pal_mpg, pal_bdg, pal_unikn), n = 7,
+       pal_names = c("Max Planck", "Bordeaux-Gold", "Uni Konstanz"), 
+       title = "Comparing and labeling custom color palettes")
 
 ## Viewing color palettes from other packages: 
 # library(RColorBrewer)
@@ -133,10 +156,11 @@ seecol(list(pal_mpg, pal_bordeaux, pal_unikn), n = 5)
 
 }
 \seealso{
-\code{\link{usecol}} to use a color palette; 
+\code{\link{usecol}} for using a color palette; 
 \code{\link{pal_unikn}} for the default uni.kn color palette.
 
-Other color functions: \code{\link{newpal}},
-  \code{\link{usecol}}
+Other color functions: 
+\code{\link{newpal}()},
+\code{\link{usecol}()}
 }
 \concept{color functions}

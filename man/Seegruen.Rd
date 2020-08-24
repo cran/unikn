@@ -4,7 +4,9 @@
 \name{Seegruen}
 \alias{Seegruen}
 \title{uni.kn color Seegruen.}
-\format{An object of class \code{character} of length 1.}
+\format{
+An object of class \code{character} of length 1.
+}
 \usage{
 Seegruen
 }
@@ -30,11 +32,15 @@ seecol(Seegruen)  # view color and details
 \code{\link{seecol}} to show color palettes;
 \code{\link{usecol}} to use color palettes.
 
-Other preferred colors: \code{\link{Bordeaux}},
-  \code{\link{Grau}}, \code{\link{Karpfenblau}},
-  \code{\link{Peach}}, \code{\link{Petrol}},
-  \code{\link{Pinky}}, \code{\link{Seeblau}},
-  \code{\link{Signal}}
+Other preferred colors: 
+\code{\link{Bordeaux}},
+\code{\link{Grau}},
+\code{\link{Karpfenblau}},
+\code{\link{Peach}},
+\code{\link{Petrol}},
+\code{\link{Pinky}},
+\code{\link{Seeblau}},
+\code{\link{Signal}}
 }
 \concept{preferred colors}
 \keyword{datasets}
