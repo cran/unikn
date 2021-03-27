@@ -16,6 +16,7 @@ seecol(
   lwd_brd = NULL,
   grid = TRUE,
   title = NA,
+  mar_note = NA,
   pal_names = NA,
   ...
 )
@@ -77,6 +78,9 @@ Default: \code{grid = TRUE}.}
 
 \item{title}{Plot title (as a character string). 
 Default: \code{title = NA} creates a default title.}
+
+\item{mar_note}{Optional margin note (on bottom right). 
+Default: \code{mar_note = NA} (i.e., no margin note).}
 
 \item{pal_names}{Names of color palettes or colors 
 (as a character vector). 
@@ -160,6 +164,7 @@ seecol(list(pal_mpg, pal_bdg, pal_unikn), n = 7,
 \code{\link{pal_unikn}} for the default uni.kn color palette.
 
 Other color functions: 
+\code{\link{grepal}()},
 \code{\link{newpal}()},
 \code{\link{usecol}()}
 }

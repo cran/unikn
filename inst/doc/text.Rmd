@@ -1,7 +1,7 @@
 ---
 title: "Text boxes and decorations"
 author: "SPDS, uni.kn"
-date: "2020 08 24"
+date: "2020 12 18"
 output: 
   rmarkdown::html_vignette: 
     fig_caption: yes
@@ -35,7 +35,8 @@ knitr::opts_chunk$set(echo = TRUE,
 </a>
 
 This vignette explains the **unikn** functions for plotting graphical elements and text decorations. 
-(See the vignette on [color](colors.html) for information on colors, color palettes, and corresponding functions.) 
+(See the vignette on [colors](colors.html) for general information on colors, color palettes, and corresponding functions, 
+or the more specialized vignettes on [color recipes](color_recipes.html) and [institutional colors](color_inst.html).) 
 
 Please install and/or load the **unikn** package to get started: 
 
@@ -280,7 +281,23 @@ post(labels = "R", y = .35,
      cex = 8, font = 2, new_plot = "xbox")
 ```
 
-Another use of `post` is to create an image that provides contact details: 
+<!-- Creating course logos: -->
+
+```{r post-logo-hide, echo = FALSE, eval = FALSE}
+# To be viewed/saved at 250 x 250 pixels:
+
+# ds4psy course logo: 
+post(labels = "ds4psy", x = .05, y = .34, 
+     col = "white", col_bg = pal_seeblau[[5]],
+     cex = 2.2, font = 2, new_plot = "xbox")
+
+# i2ds course logo: 
+post(labels = "i2ds", x = .05, y = .34, 
+     col = "white", col_bg = pal_pinky[[4]],
+     cex = 2.2, font = 2, new_plot = "xbox")
+```
+
+Another potential use of `post` is for creating images providing contact details: 
 
 ```{r post-address, echo = TRUE, fig.width = 3, fig.height = 3}
 address <- c("Dr. B. F. Skinner", " ",
@@ -353,20 +370,23 @@ A. **unikn** (R package): | [Release version](https://CRAN.R-project.org/package
 B. Online documentation:  | [Release version](https://hneth.github.io/unikn/)            | <https://hneth.github.io/unikn/> | 
     &nbsp;                | [Development version](https://hneth.github.io/unikn/dev/)    | <https://hneth.github.io/unikn/dev/> | 
 
+
 ## Vignettes
 
 <!-- unikn pkg logo and link: -->
 <a href = "https://github.com/hneth/unikn/">
 <img src = "../inst/pix/unikn.png" alt = "unikn::" align = "right" width = "140px" style = "width: 140px; float: right; border:0;"/>
-</a>
+</a> 
 
-The following vignettes provide instructions and examples for using the **unikn** objects and functions: 
+The following vignettes provide instructions and examples for using the **unikn** colors, color palettes, and functions: 
 
-<!-- Table of vignettes: --> 
+<!-- Table of vignettes: -->
 
 | Nr.  | Vignette | Content    |        
 | ---: |:---------|:-----------|
-| 1. | [Colors](colors.html) | Colors and color palettes | 
-| 2. | [Text](text.html)     | Text boxes and decorations | 
+| 1. | [Colors](colors.html) | Colors and color functions |
+| 2. | [Color recipes](color_recipes.html) | Recipes for color-related tasks |
+| 3. | [Institutional colors](color_inst.html) | Creating color palettes for other institutions |
+| 4. | [Text](text.html)     | Text boxes and decorations | 
 
 <!-- eof. -->

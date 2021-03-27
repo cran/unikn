@@ -143,6 +143,19 @@ post(labels = "R", y = .35,
      col = "white", col_bg = pal_seeblau[[5]],
      cex = 8, font = 2, new_plot = "xbox")
 
+## ----post-logo-hide, echo = FALSE, eval = FALSE-------------------------------
+#  # To be viewed/saved at 250 x 250 pixels:
+#  
+#  # ds4psy course logo:
+#  post(labels = "ds4psy", x = .05, y = .34,
+#       col = "white", col_bg = pal_seeblau[[5]],
+#       cex = 2.2, font = 2, new_plot = "xbox")
+#  
+#  # i2ds course logo:
+#  post(labels = "i2ds", x = .05, y = .34,
+#       col = "white", col_bg = pal_pinky[[4]],
+#       cex = 2.2, font = 2, new_plot = "xbox")
+
 ## ----post-address, echo = TRUE, fig.width = 3, fig.height = 3-----------------
 address <- c("Dr. B. F. Skinner", " ",
              "Department of Psychology",

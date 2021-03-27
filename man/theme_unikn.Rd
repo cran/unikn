@@ -8,8 +8,8 @@ theme_unikn(
   col_title = pal_seeblau[[4]],
   base_size = 11,
   base_family = "",
-  base_line_size = base_size/20,
-  base_rect_size = base_size/20
+  base_line_size = base_size/22,
+  base_rect_size = base_size/22
 )
 }
 \arguments{
@@ -22,13 +22,14 @@ Consider using \code{col_title = "black"} when data uses
 Default: \code{base_size = 11}.}
 
 \item{base_family}{Base font family (optional, character). 
-Default: \code{base_family = ""}.}
+Default: \code{base_family = ""}. 
+Options include \code{"mono"}, \code{"sans"} (default), and "serif".}
 
 \item{base_line_size}{Base line size (optional, numeric). 
-Default: \code{base_line_size = base_size/20}.}
+Default: \code{base_line_size = base_size/22}.}
 
 \item{base_rect_size}{Base rectangle size (optional, numeric). 
-Default: \code{base_rect_size = base_size/20}.}
+Default: \code{base_rect_size = base_size/22}.}
 }
 \description{
 \code{theme_unikn} provides a basic \bold{unikn} theme 
@@ -44,14 +45,14 @@ allow emphasizing data points with color accents).
 \donttest{
   # Plotting iris dataset (using ggplot2, theme_unikn, and unikn colors):
   
-  library("ggplot2")  # theme_unikn requires loading ggplot2 
+  library('ggplot2')  # theme_unikn requires ggplot2 
   
   ggplot(datasets::iris) +
     geom_jitter(aes(x = Petal.Length, y = Petal.Width, color = Species), size = 3, alpha = 2/3) +
-    scale_color_manual(values = usecol(pal = c(Seeblau, Pinky, Seegruen))) +
-    labs(title = "Iris species",
+    scale_color_manual(values = usecol(pal = c(Pinky, Seeblau, Seegruen))) +
+    labs(tag = "A", title = "Iris petals",
          caption = "Data from datasets::iris") + 
-    theme_unikn(base_size = 11)
+    theme_unikn()
 }
 
 }

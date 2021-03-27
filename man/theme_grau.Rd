@@ -8,8 +8,8 @@ theme_grau(
   col_title = grey(0, 1),
   base_size = 11,
   base_family = "",
-  base_line_size = base_size/20,
-  base_rect_size = base_size/20
+  base_line_size = base_size/22,
+  base_rect_size = base_size/22
 )
 }
 \arguments{
@@ -21,13 +21,14 @@ Consider using \code{col_title = unikn::pal_seeblau[[4]]}.}
 Default: \code{base_size = 11}.}
 
 \item{base_family}{Base font family (optional, character). 
-Default: \code{base_family = ""}.}
+Default: \code{base_family = ""}. 
+Options include \code{"mono"}, \code{"sans"} (default), and "serif".}
 
 \item{base_line_size}{Base line size (optional, numeric). 
-Default: \code{base_line_size = base_size/20}.}
+Default: \code{base_line_size = base_size/22}.}
 
 \item{base_rect_size}{Base rectangle size (optional, numeric). 
-Default: \code{base_rect_size = base_size/20}.}
+Default: \code{base_rect_size = base_size/22}.}
 }
 \description{
 \code{theme_grau} provides an alternative \bold{unikn} theme 
@@ -43,16 +44,20 @@ but is of limited use with transparent colors.
 \examples{
 
 \donttest{
-  # Plotting iris dataset (using ggplot2, theme_unikn, and unikn colors):
+# Plotting iris dataset (using ggplot2, theme_grau, and unikn colors):
   
-  library("ggplot2")  # theme_unikn requires loading ggplot2 
-  
-  ggplot(datasets::iris) +
-    geom_jitter(aes(x = Petal.Length, y = Petal.Width, color = Species), size = 3, alpha = 2/3) +
-    scale_color_manual(values = usecol(pal = c(Seeblau, Bordeaux, Petrol))) +
-    labs(title = "Iris species",
-         caption = "Data from datasets::iris") + 
-    theme_grau(base_size = 11)
+library('ggplot2')  # theme_unikn requires ggplot2 
+   
+ggplot(datasets::iris) +
+  geom_jitter(aes(x = Sepal.Length, y = Sepal.Width, color = Species), size = 3, alpha = 2/3) +
+  facet_wrap(~Species) +
+  scale_color_manual(values = usecol(pal = c(Pinky, Seeblau, Seegruen))) +
+  labs(tag = "B",
+       title = "Iris sepals",
+       caption = "Data from datasets::iris") + 
+  coord_fixed(ratio = 3/2) + 
+  theme_grau()
+
 }
 
 }

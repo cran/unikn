@@ -1,10 +1,9 @@
 ## color_fun.R  |  unikn
-## spds | uni.kn |  2020 08 22
+## spds | uni.kn |  2021 01 05
 ## ---------------------------
 
 ## Define color-related functions 
 ## (e.g., for choosing from, plotting, and creating color palettes). 
-
 
 
 ## usecol: Use a color palette (as is): ---------  
@@ -305,12 +304,12 @@ usecol <- function(pal = pal_unikn,
       
     } else {
       
-      out_col <-
-        colorRampPalette(pal_inp)(n)  # use the colorRamp (this swallows all names).
+      # use the colorRamp (this eats all names): 
+      out_col <- colorRampPalette(pal_inp)(n) 
       
     }
     
-  }
+  } # if (!pal_def) end. 
   
   
   # Name the palette (as comment attribute): ---- 
@@ -441,7 +440,10 @@ usecol <- function(pal = pal_unikn,
 #' Default: \code{grid = TRUE}. 
 #' 
 #' @param title Plot title (as a character string). 
-#' Default: \code{title = NA} creates a default title.  
+#' Default: \code{title = NA} creates a default title.
+#' 
+#' @param mar_note Optional margin note (on bottom right). 
+#' Default: \code{mar_note = NA} (i.e., no margin note). 
 #' 
 #' @param pal_names Names of color palettes or colors 
 #' (as a character vector). 
@@ -522,6 +524,7 @@ seecol <- function(pal = "unikn_all",  # which palette to output?
                    lwd_brd = NULL,  # line width of box borders
                    grid = TRUE,     # show grid? 
                    title = NA,      # plot title? Using default title = NA constructs a default title
+                   mar_note = NA,   # optional margin note (on bottom right)
                    pal_names = NA,  # names of color palettes or colors (as character vector)
                    ...              # additional arguments to plot.default().
 ) {
@@ -683,8 +686,8 @@ seecol <- function(pal = "unikn_all",  # which palette to output?
   
   ## 3. Plotting: ------ 
   
-  # 1. multiple list entries --> comparison 
-  # 2. one list entry --> details 
+  # 1. multiple list entries --> compare palettes
+  # 2. only one list entry --> details of a palette
   
   # 3.1 Plot a list of palettes: -----  
   
@@ -696,14 +699,14 @@ seecol <- function(pal = "unikn_all",  # which palette to output?
     # Set bg color:
     par(bg = col_bg)
     
-    # Create empty plot:
+    # Prepare canvas/blank plot: 
     plot(x = 0, type = "n", xlim = xlim, ylim = ylim,
          xaxt = "n", yaxt = "n",  # hide axes.
          xlab = "", ylab = "", 
          main = title,
          bty = "n",
          ...  # other graphical parameters
-    )  
+    )
     
     if (grid) {
       
@@ -730,10 +733,11 @@ seecol <- function(pal = "unikn_all",  # which palette to output?
     # if (is.null(lwd_brd)) { lwd_brd <- 0 } # set default lwd_brd
     
     apply(pal_mat, MARGIN = 1, FUN = function(row) {
-      plot_col(x = row[[1]], ypos = row[2], plot.new = FALSE, ylen = ylen, col_brd = col_brd, lwd = lwd_brd)
+      plot_col(x = row[[1]], ypos = row[2], plot.new = FALSE, 
+               ylen = ylen, col_brd = col_brd, lwd = lwd_brd)
     })
     
-    # Plot names and indices:
+    # Label pal names:
     cex_lbl <- .90
     
     text(x = 0, y = 1:length(pal_tmp), 
@@ -749,21 +753,20 @@ seecol <- function(pal = "unikn_all",  # which palette to output?
     
     while (wdth_ind > xlim[2]) {
       
-      txt_ind <- txt_ind[seq(1, length(txt_ind), by = 2)]  # only show every second index.
+      txt_ind <- txt_ind[seq(1, length(txt_ind), by = 2)]  # only show every 2nd index.
       pos_ind <- pos_ind[seq(1, length(pos_ind), by = 2)]
       wdth_ind <- sum(strwidth(txt_ind, cex = cex_ind))  # is the width small enough?
       
     } # while end. 
     
-    # Color indices:
+    # Labels of color indices:
     cex_ixs <- .80
-    yix <- -0.02 * length(pal_tmp)  # dnamic positioning of indices. 
+    yix <- -0.02 * length(pal_tmp)  # dynamic positioning of indices. 
     
     text(x = pos_ind, y = yix, labels = txt_ind, pos = 1, xpd = TRUE,
          cex = cex_ixs, col = grey(0, 2/3))
     
   } else {  # if length(pal_tmp) list is NOT > 1:
-    
     
     # 3.2 Detailed view of 1 palette: -----  
     
@@ -790,10 +793,10 @@ seecol <- function(pal = "unikn_all",  # which palette to output?
     txt_pos <- seq(0.5, length(pal_tmp) - 0.5)
     
     # y positions: 
-    y_names <- 1.5
-    y_circ  <- 1.2 
-    y_rect  <- 0.6
-    y_rgb   <- c(-0.50, -0.65, -0.80)
+    y_names <- 1.50
+    y_circ  <- 1.20 
+    y_rect  <- 0.60
+    y_rgb   <- c(-.50, -.65, -.80)
     
     # Grid:
     if (grid) {
@@ -818,44 +821,44 @@ seecol <- function(pal = "unikn_all",  # which palette to output?
     } # if (grid) etc. 
     
     # Find cex so that it is as large as possible:
-    cex_lim <- 0.7  # lower limit for cex. 
+    cex_min <- .66  # lower limit for cex. 
     
     # Determine whether to display hex values:
-    cex_hex <- 0.9  # was par("cex")
+    cex_hex <- .96  # was par("cex")
     
     placeholder <- ifelse(is.na(alpha), " #XXXXXX", " #XXXXXXXX")
+    wdth_hex <- strwidth(placeholder, cex = cex_hex) * max_ncol  # + strwidth("Hex: ", cex = cex_hex)  # width of HEX strings
     
-    wdth_hex <- strwidth(placeholder, cex = cex_hex) * max_ncol + strwidth("Hex: ")  # is the width small enough?
-    
-    while (wdth_hex > xlim[2]) {
+    while ((wdth_hex > (xlim[2] + 1)) & (cex_hex > cex_min)) {
       
-      cex_hex <- cex_hex - 0.1
-      wdth_hex <- strwidth(placeholder, cex = cex_hex) * max_ncol + strwidth("Hex: ")  # is the width small enough?
+      cex_hex  <- (cex_hex - .01)  # reduce size
+      wdth_hex <- strwidth(placeholder, cex = cex_hex) * max_ncol  # + strwidth("Hex: ", cex = cex_hex)  # is width small enough?
       
     }
     
     # If hex is NULL, determine based on width and max cex.
-    # Otherwise use the provided value: 
+    # Otherwise, use the provided value: 
     if ( is.null(hex) ) {
       
-      hex <- ifelse(wdth_hex > xlim[2] | cex_hex < cex_lim, FALSE, TRUE)  # test, whether hex can be displayed.
+      hex <- ifelse((wdth_hex > xlim[2] | (cex_hex < cex_min)), FALSE, TRUE)  # test, whether hex can be displayed.
       
-    } 
+    }
     
-    # Determine, whether to display rgb values:
-    cex_rgb <- 0.9
+    # Determine, whether to display RGB values:
+    cex_rgb <- 0.96
     wdth_rgb <- strwidth(" 999 ", cex = cex_rgb) * max_ncol
-    while (wdth_rgb > xlim[2]) {
+    
+    while ((wdth_rgb > xlim[2]) & (cex_rgb > cex_min)) {
       
-      cex_rgb <- cex_rgb - 0.1
-      wdth_rgb <- strwidth(" 999 ", cex = cex_rgb) * max_ncol  # is the width small enough?
+      cex_rgb  <- (cex_rgb - .02)  # reduce size
+      wdth_rgb <- strwidth(" 999 ", cex = cex_rgb) * max_ncol  # is width small enough?
       
     }
     
     # If rgb is NULL, determine based on width and max cex.
     # Otherwise use the provided value: 
     if ( is.null(rgb) ) {
-      rgb <- ifelse(wdth_rgb > xlim[2] | cex_rgb < cex_lim, FALSE, TRUE)
+      rgb <- ifelse(wdth_rgb > xlim[2] | cex_rgb < cex_min, FALSE, TRUE)
     }
     
     # Plot rectangles:
@@ -866,7 +869,7 @@ seecol <- function(pal = "unikn_all",  # which palette to output?
     )
     
     # Plot circles:
-    circle_len <- ifelse(((xlim[2] / 10) < 0.7), (xlim[2] / 10), .70)
+    circle_len <- ifelse(((xlim[2] / 10) < .70), (xlim[2] / 10), .70)
     
     plot_col(x = pal_tmp, ypos = y_circ, shape = "circle", xlen = circle_len, plot.new = FALSE, col_brd = col_brd, lwd = lwd_brd#,
              # ...  # other graphical parameters
@@ -909,22 +912,55 @@ seecol <- function(pal = "unikn_all",  # which palette to output?
     text(x = pos_ind, y = 0, labels = txt_ind, pos = 3, xpd = TRUE,
          cex = cex_ixs, col = grey(0, 2/3))
     
-    # Hex values:
+    # HEX values:
     if (hex) {
       
-      ## Convert to hex if not already given in this format: 
+      # Convert to hex (if not already in this format): 
       if (!all(isHexCol(pal_tmp))) { 
         pal_tmp <- rgb(t(col2rgb(pal_tmp)), maxColorValue = 255)
       }
       
-      yhex <- -0.25
+      # Plot HEX values:
+      # cex_hex <- min(cex_hex, cex_rgb)
+      wdth_hex <- strwidth(placeholder, cex = cex_hex) * max_ncol
       
-      # Plot the values: 
-      text(x = 0, y = yhex, labels = "Hex:", font = 2, pos = 2, offset = 0, xpd = TRUE, 
-           cex = cex_hex)
-      
-      text(x = txt_pos, y = yhex, labels = pal_tmp, pos = NULL, xpd = TRUE,
-           cex = cex_hex, srt = 0)
+      if (wdth_hex > (2 * xlim[2])){ # HEX is too long for 2 lines:  
+        
+        y_hex  <- -0.25  # Hex label height
+        
+        # rotate HEX labels:
+        text(x = txt_pos, y = y_hex, labels = pal_tmp, pos = NULL, xpd = TRUE, cex = cex_hex, srt = 45)  
+        
+      } else if (wdth_hex > (xlim[2] + 1)){ # HEX is too long for 1 line:  
+        
+        cex_hex <- max(cex_hex, cex_rgb)  # use the larger of both font sizes
+        
+        y_hex  <- -0.15  # Hex label height
+        yshift  <- 0.15  # downward shift
+        
+        text(x = 0, y = y_hex, labels = "Hex:", font = 2, pos = 2, offset = 0, 
+             xpd = TRUE, cex = cex_hex)  # Hex label
+        
+        # (a) print HEX on 2 levels:
+        
+        is_odd <- (1:length(pal_tmp) %% 2 == 1)  # odd elements 
+        text(x = txt_pos, y = y_hex - (is_odd * yshift), 
+             labels = pal_tmp, pos = NULL, xpd = TRUE, cex = cex_hex, srt = 0)
+        
+        # (b) rotate HEX labels:
+        # text(x = txt_pos, y = y_hex, labels = pal_tmp, pos = NULL, xpd = TRUE, cex = cex_hex, srt = 45)         
+        
+        
+      } else { # All HEX values on same line (default):
+        
+        y_hex  <- -0.25  # Hex label height
+        
+        text(x = 0, y = y_hex, labels = "Hex:", font = 2, pos = 2, offset = 0, 
+             xpd = TRUE, cex = cex_hex)  # Hex label
+        
+        text(x = txt_pos, y = y_hex, labels = pal_tmp, pos = NULL, xpd = TRUE, cex = cex_hex, srt = 0)        
+        
+      }
       
     } # if (hex) etc.
     
@@ -947,14 +983,36 @@ seecol <- function(pal = "unikn_all",  # which palette to output?
     
   }  # if (length(pal_tmp) > 1) etc. 
   
+  # Marging note: ----
+  
+  if (par("col.sub") == "black"){  # if default:
+    col_note <- "grey50"           # use "grey50"
+  } else {
+    col_note <- par("col.sub")     # use current setting.
+  }
+  
+  mtext(mar_note, side = 1, line = 1, adj = 1.0, cex = .90, col = col_note)
+  
   # Reset plotting parameters: 
   par(op)
   
-  # Invisibly return pal_tmp palette(s):
+  # Output: Invisibly return pal_tmp palette(s):
   invisible(pal_tmp)
   
 } # seecol end. 
 
+## Check:
+# library(unikn)
+# library(magrittr)
+# unikn::usecol(c("black","blue3","white"), n= 8) %>% unikn::seecol(hex = TRUE)
+# unikn::usecol(c("black","blue3","white"), n=12) %>% unikn::seecol(hex = TRUE)
+# unikn::usecol(c("black","blue3","white"), n=20) %>% unikn::seecol(hex = TRUE)
+
+## Margin notes (and custom colors for title and note):
+# op <- par(no.readonly = TRUE)
+# par("col.main" = "blue", "col.sub" = "red")
+# seecol(c("black", "white"), n = 5, mar_note = "This is a note.")
+# par(op)
 
 
 ## newpal: Define a new color palette: ---------- 
@@ -1191,5 +1249,130 @@ newpal <- function(col,            # a vector of colors
 # seecol(my_pals, col_brd = "white", lwd_brd = 5,
 #        title = "Comparing custom color palettes")
 
+
+## grepal: Get a color vector (from colors() or a named df) matching a regex -------
+
+# - Documentation: ---- 
+
+#' Get a vector of colors whose names match a regular expression. 
+#'
+#' \code{grepal} returns a vector of colors whose names match a regular expression (regex). 
+#' 
+#' By default, the base R vector of named colors (i.e., \code{colors()}) is searched 
+#' for names matching a \code{pattern} (which can be a simple string or regular expression). 
+#' 
+#' If \code{x} (i.e., the object to be searched) is provided, 
+#' it is must be a vector of color names or a data frame of named color objects 
+#' (e.g., a color palette). 
+#' 
+#' The name \code{grepal} is an abbreviation of \code{grep} and "pal". 
+#'
+#' @param pattern A regular expression 
+#' (specified as a string/character object). 
+#' 
+#' @param x A vector of R color names or a data frame of named colors  
+#' (i.e., whose names can be searched). 
+#' Default: \code{x = colors()}. 
+#' 
+#' @param ignore_case Should the case of pattern be ignored 
+#' (passed to \code{ignore.case} of the \code{grep} function)?   
+#' Default: \code{ignore_case = TRUE}. 
+#' 
+#' @examples
+#' grepal("cyan")
+#' 
+#' # With regular expressions:
+#' some_grey  <- grepal("gr(a|e)y")
+#' start_grey <- grepal("^gr(a|e)y")
+#' only_grey  <- grepal("^gr(a|e)y$")
+#' 
+#' length(some_grey)
+#' length(only_grey)
+#' 
+#' # With other color objects (df as x):
+#' grepal("blau", x = pal_unikn)
+#' grepal("SEE", x = pal_unikn_pref)
+#' 
+#' # Applications:
+#' seecol(grepal("white"), col_bg = "lightblue2", title = "See 'white' colors()")
+#' 
+#' olives  <- grepal("olive")
+#' oranges <- grepal("orange")
+#' seecol(list(olives, oranges), 
+#'        pal_names = c("olives", "oranges"), 
+#'        title = "Comparing olives and oranges")
+#' 
+#' seecol(grepal("SEE", pal_unikn), title = "All 'SEE' colors in pal_unikn")
+#' seecol(grepal("blau", pal_unikn_pref), title = "All 'blau' colors in pal_unikn_pref")
+#' 
+#' @family color functions
+#' 
+#' @seealso 
+#' \code{\link{defpal}} to define color palettes; 
+#' \code{\link{seepal}} to plot color palettes;  
+#' \code{\link{usecol}} to use a color palette.  
+#'
+#' @import grDevices 
+#' 
+#' @export 
+
+# - Definition: ------- 
+
+grepal <- function(pattern, x = colors(), ignore_case = TRUE){
+  
+  # Initialize: 
+  ix <- NA  # index
+  cv <- NA  # color vector
+  
+  # Main: 
+  if (is.vector(x)){
+    # if (ds4psy::is_vector(x) & !is.data.frame(x)){
+    
+    # message("x is a vector:")
+    
+    ix <- grep(x = x, pattern = pattern, ignore.case = ignore_case)
+    cv <- x[ix]
+    
+  } else if (is.data.frame(x)){
+    
+    # message("x is a data frame:")    
+    
+    df <- x  # work with df: 
+    ix <- grep(x = names(df), pattern = pattern, ignore.case = ignore_case)
+    cv <- df[ix]
+    
+  } # end if.
+  
+  # Output:
+  return(cv)
+  
+} # grepal end. 
+
+
+# # Check:
+# grepal("cyan")
+# 
+# # With regular expressions:
+# grepal("gr(a|e)y")
+# grepal("^gr(a|e)y")
+# grepal("^gr(a|e)y$")
+# 
+# # With other color objects (as x):
+# grepal("blau", x = pal_unikn)
+# grepal("SEE", x = pal_unikn_pref)
+# 
+# # Example applications:
+# seecol(grepal("cyan"))
+# seecol(grepal("white"), col_bg = "lightblue2")
+# seecol(grepal("SEE", pal_unikn))
+# seecol(grepal("blau", pal_unikn_pref))
+
+
+## ToDo: ------
+
+# - seecol(): Add options for showing HCL values (see HCL_color_exploration.Rmd). 
+# - seecol(): Add options for printing multiple palettes with fixed width and as continuous color palettes.
+# - seecol() and newpal(): Add option for margin notes/crediting color sources.
+# - grepal(): Consider alternative that allows searching for similar colors (based on hue/color distance)
 
 ## eof. ----------
