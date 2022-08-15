@@ -25,13 +25,14 @@ seecol(
 \item{pal}{A single color palette (as a vector of colors), 
 multiple color palettes (as a list), 
 or a recognized keyword (as a character string). 
-Default: \code{pal = "unikn_all"}. 
+Default: \code{pal = "unikn_all"} (i.e., plot all color palettes 
+provided by the \bold{unikn} package). 
 
 Recognized keywords are: 
 
 \enumerate{
 
-  \item \code{"unikn_all"}: All color palettes defined in \code{unikn}
+  \item \code{"unikn_all"}: All color palettes defined in \bold{unikn}
 
   \item \code{"unikn_basic"}: All basic palettes. 
   
@@ -52,8 +53,8 @@ color palette \code{pal}, the color palette is reduced or extrapolated
 (using \code{grDevices::colorRampPalette}). 
 Default: \code{n = "all"} (i.e., show all colors in palette).}
 
-\item{alpha}{A factor modifying the opacity alpha (as in \code{\link{adjustcolor}}); 
-typically in [0,1]. If used, the value is shown in the plot title.
+\item{alpha}{A factor modifying the opacity alpha 
+(as \code{alpha.f} in \code{\link{adjustcolor}}) to a value in \code{[0, 1]}. 
 Default: \code{alpha = NA} (i.e., no modification of opacity).}
 
 \item{hex}{Should HEX color values be shown? 
@@ -94,19 +95,22 @@ Default: \code{pal_names = NA} (for default names).}
 the colors of a palette or comparing multiple color palettes.
 }
 \details{
-\code{seecol} has 2 main modes, based on the contents of its \code{pal} argument:
+\code{seecol} has two main modes, based on the contents of its \code{pal} argument:
 
 \enumerate{
 
-  \item if \code{pal = "unikn_all"} or a list of multiple color palettes: 
-
-  Plot visual vectors of all current color palettes for comparing them. 
-
-  \item if \code{pal} is set to a specific color palette (or a vector of multiple colors or color palettes):
+  \item if \code{pal} is set to a \emph{specific} color palette (or a vector of multiple colors or color palettes):
 
   Plot the current color palette and optional details on its colors.
 
+  \item if \code{pal = "unikn_all"} or a list of \emph{multiple} color palettes: 
+
+  Plot visual vectors of all current color palettes for comparing them. 
+
 }
+
+Specifying \code{distinct = TRUE} removes visual duplicate colors (based on HEX values, 
+ignoring transparency), but only when showing an individual color palette \code{pal}. 
 
 The \code{title} and \code{pal_names} arguments add control over plotted text labels. 
 However, the length of a character vector provided to \code{pal_names} must correspond 
@@ -160,12 +164,20 @@ seecol(list(pal_mpg, pal_bdg, pal_unikn), n = 7,
 
 }
 \seealso{
-\code{\link{usecol}} for using a color palette; 
+\code{\link{usecol}} for using color palettes; 
+\code{\link{simcol}} for finding similar colors; 
+\code{\link{newpal}} for defining new color palettes; 
+\code{\link{grepal}} for finding named colors; 
+\code{\link{shades_of}} to defining shades of a given color; 
+\code{\link{ac}} for adjusting color transparency; 
 \code{\link{pal_unikn}} for the default uni.kn color palette.
 
 Other color functions: 
+\code{\link{ac}()},
 \code{\link{grepal}()},
 \code{\link{newpal}()},
+\code{\link{shades_of}()},
+\code{\link{simcol}()},
 \code{\link{usecol}()}
 }
 \concept{color functions}

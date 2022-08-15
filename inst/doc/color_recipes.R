@@ -79,7 +79,7 @@ par(opar)  # re-store current settings
 #    theme_void() +
 #    theme(legend.position = "none")
 
-## ----seecol-example-1, fig.width = 5, fig.asp = .8, fig.align = 'center'------
+## ----seecol-example-1, fig.width = 5, fig.asp = .80, fig.align = 'center'-----
 col_pal <- hcl.colors(10, "Vik")  # some color palette
 
 seecol(col_pal)  # see its colors and details 
@@ -113,6 +113,15 @@ seecol(pal = l_pal,
        col_brd = "white", lwd_brd = 1,
        title = t_lbl)
 
+## ----simcol-example-01, fig.width = 5, fig.asp = .90, fig.align = 'center', fig.show = "hold"----
+simcol("forestgreen")
+
+## ----simcol-example-02, fig.width = 5, fig.asp = .90, fig.align = 'center', fig.show = "hold"----
+simcol(col_target = "orange", col_candidates = pal_unikn_pref, tol = 150)
+
+## ----simcol-example-03, fig.width = 5, fig.asp = .90, fig.align = 'center', fig.show = "hold"----
+simcol(col_target = Seeblau, tol = c(20, 20, 80))
+
 ## ----newpal-example, fig.width = 5, fig.asp = .9, fig.align = 'center'--------
 # 1. Choose colors:
 # Google logo colors (from <https://www.schemecolor.com/google-logo-colors.php>)
@@ -131,39 +140,51 @@ seecol(pal_google,
        col_brd = "white", lwd_brd = 8,
        title = "Colors of the Google logo")
 
-## ----grepal-example-1, fig.width=5, fig.height=4, fig.align = 'center'--------
+## ----grepal-example-1, fig.width = 5, fig.height = 4, fig.align = 'center'----
 # Get color palettes matching a pattern:
-pal_1 <- grepal("orange")
-pal_2 <- grepal("olive")
-pal_3 <- grepal("white")
+pal_1 <- grepal("orange", plot = FALSE)
+pal_2 <- grepal("olive", plot = FALSE)
+pal_3 <- grepal("white", plot = FALSE)
 
 # See individual palettes:
-# seecol(pal_1, title = "Shades of 'orange' colors()")
-# seecol(pal_2, title = "Shades of 'olive' colors()")
-seecol(pal_3, title = "Shades of 'white' colors()", col_bg = "grey90")
+# seecol(pal_1, title = "Hues of 'orange' colors()")
+# seecol(pal_2, title = "Hues of 'olive' colors()")
+seecol(pal_3, title = "Hues of 'white' colors()", col_bg = "grey90")
 
-## ----grepal-example-2, fig.width=6, fig.asp=.50, fig.align = 'center'---------
+## ----grepal-example-2, fig.width = 6, fig.asp = .50, fig.align = 'center'-----
 # See multiple color palettes:
 seecol(pal = list(pal_1, pal_2, pal_3), 
        pal_names = c("orange", "olive", "white"), 
        col_bg = "grey90")
 
-## ----grepal-example-3, fig.width=6, fig.align=.50, fig.align = 'center'-------
+## ----grepal-example-3, fig.width = 6, fig.align = .50, fig.align = 'center'----
 # Search colors() with specific patterns (in their names): 
-blues    <- grepal("blue$")   # ending on "blue"
-oranges  <- grepal("orange")  # containing "orange"
-purpviol <- grepal("purple|violet")  # containing "purple" or "violet"
+blues    <- grepal("blue$", plot = FALSE)   # ending on "blue"
+oranges  <- grepal("orange", plot = FALSE)  # containing "orange"
+purpviol <- grepal("purple|violet", plot = FALSE)  # containing "purple" or "violet"
 
 # Search unikn palettes for color names: 
-blaus_1 <- grepal("blau", pal_unikn)
-blaus_2 <- grepal("blau", pal_karpfenblau)
-pinks <- grepal("pink", pal_pinky)
-peach <- grepal("peach", pal_peach)
-baux  <- grepal("bordeaux", pal_bordeaux)
+blaus_1 <- grepal("blau", pal_unikn, plot = FALSE)
+blaus_2 <- grepal("blau", pal_karpfenblau, plot = FALSE)
+pinks <- grepal("pink", pal_pinky, plot = FALSE)
+peach <- grepal("peach", pal_peach, plot = FALSE)
+baux  <- grepal("bordeaux", pal_bordeaux, plot = FALSE)
 
 # See multiple color palettes: 
 seecol(list(blues, oranges, purpviol, 
             c(blaus_1, blaus_2, pinks, peach, baux)),
        pal_names = c("blues", "oranges", "purpviol", "unikn colors"),
        title ="Comparing custom color palettes")
+
+## ----shades-of-example-1, fig.width = 5, fig.asp = .90, fig.align = 'center'----
+greys <- shades_of(10)
+seecol(greys, title = "10 shades of grey")
+
+## ----shades-of-example-2, fig.width = 5, fig.asp = .90, fig.align = 'center'----
+seecol(shades_of(4, Seeblau, "black"), title = "4 shades of Seeblau")
+seecol(shades_of(7, "forestgreen"), title = "7 shades of 'forestgreen'")
+
+## ----shades-of-example-3, fig.width = 5, fig.asp = .90, fig.align = 'center'----
+wine_gold <- shades_of(4, Bordeaux, col_n = "gold", alpha = .65)
+seecol(wine_gold, title = "5 transparent shades from Bordeaux to gold")
 

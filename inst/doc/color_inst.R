@@ -24,16 +24,16 @@ library('unikn')             # loads the package
 #  # ToDo.
 
 ## ----freiburg-cols, fig.width = 5, fig.asp = .80, fig.align = 'center', fig.show = "hold", collapse = TRUE----
-# Basic colors: https://www.zuv.uni-freiburg.de/service/cd/cd-manual/farbwelt
+# Source: http://portal.uni-freiburg.de/cmsforum/wsg/webstyleguide/farben
 
+# Basic colors: ---- 
 pal_freiburg_bluered <- c("#004a99", "#c1002a")
 names(pal_freiburg_bluered) <- c("uni-blau", "uni-rot")
 
 pal_freiburg_basic <- c("#004a99", "white", "#c1002a")  # add "white" for better gradients
 names(pal_freiburg_basic) <- c("uni-blau", "weiss", "uni-rot")
 
-# Web colors: https://www.zuv.uni-freiburg.de/service/wsg/webstyleguide/farben
-
+# Web colors: ----
 pal_freiburg_blue <- c("#004a99", "#2a6ebb", "#6f9ad3")
 names(pal_freiburg_blue) <- c("blue-1", "blue-2", "blue-3")
 
@@ -103,17 +103,19 @@ seecol(pal_princeton_1,  # view color palette
 #  # col2rgb(mpg_grey)
 #  
 #  pal_mpg <- usecol(pal = c(mpg_green, "white", mpg_grey))
+#  # seecol(pal_mpg)
 
 ## ----mpg-pal-def-vector, echo = FALSE, eval = FALSE, fig.width = 5, fig.asp = .8, fig.align = 'center', collapse = TRUE----
 #  pal_mpg <- c("#007367", "white", "#D0D3D4")
 #  names(pal_mpg) <- c("mpg green", "white", "mpg grey")
+#  # seecol(pal_mpg)
 
 ## ----mpg-pal-def-df, fig.width = 5, fig.asp = .80, fig.align = 'center', collapse = TRUE----
 # Define vectors:
 col_mpg <- c("#007367", "white", "#D0D3D4")     # color definition 
 col_lbl <- c("mpg green", "white", "mpg grey")  # color names
 
-# Create new color palette:
+# Create new color palette (as a vector):
 pal_mpg <- newpal(col = col_mpg, names = col_lbl)
 
 ## ----mpg-seecol, fig.width = 5, fig.asp = .80, fig.align = 'center', collapse = TRUE----

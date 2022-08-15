@@ -8,6 +8,7 @@ uline(
   labels,
   x = 0,
   y = 0.55,
+  x_layout = NA,
   y_layout = "even",
   col = "black",
   col_bg = Seeblau,
@@ -32,11 +33,23 @@ If the lengths of \code{x} and \code{y} differ,
 the shorter one is recycled. 
 Default: \code{y = .55}.}
 
-\item{y_layout}{A numeric value or vector for the vertical 
-spacing of labels in \code{labels}. 
-2 special values are 
+\item{x_layout}{An optional numeric vector or character string
+to control the horizontal positions of \code{labels}. 
+Numeric values are interpreted as increments to values of \code{x} 
+and recycled (to enable stepwise or alternating patterns). 
+3 character string options are: 
+\code{"center"} (i.e., center wrt. first label or plot center),
+\code{"left"} (i.e., left wrt. first label or plot center), 
+\code{"right"} (i.e., right wrt. first label or plot center). 
+Default: \code{x_layout = NA} (i.e., using values of \code{x}).}
+
+\item{y_layout}{A numeric value or character string 
+to control the vertical positions of \code{labels}. 
+Numeric values are interpreted as increments to values of \code{y[1]} 
+and recycled (to enable stepwise or alternating patterns). 
+2 character string options are: 
 \code{"even"} (i.e., even distribution of labels across available y-space) and 
-\code{"flush"} (i.e., no space between adjacent labels, or \code{y_layout = 0}). 
+\code{"flush"} (i.e., no space between adjacent labels, i.e., \code{y_layout = 0}). 
 Default: \code{y_layout = "even"}.}
 
 \item{col}{The color(s) of the text label(s). 
@@ -89,7 +102,12 @@ uline(x = .02, y = .80, labels = "Underline text (on a new plot)",
 lbl_line <- c("This is neat, true, and terribly important.")
 uline(labels = lbl_line, new_plot = "blank")  # create a new plot
 uline(labels = "(which is why we underline it).", y = .40, cex = 1.2)  # add to plot
-                        
+
+# Using x_layout and y_layout:
+uline(labels = c("Ene,", "mene, miste,", "es rappelt", "in der Kiste."), 
+     cex = 1.4, font = 2, col = Grau, col_bg = Pinky,
+     x = 1.2, y = .85, x_layout = "right", y_layout = "even", new_plot = "slide")
+                                      
 }
 \seealso{
 \code{\link{slide}} and \code{\link{xbox}} to create simple plots (without text).

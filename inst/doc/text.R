@@ -107,6 +107,71 @@ mark(labels = s,
      cex = 1.5, 
      new_plot = "none")
 
+## ----mark-x-layout-center, echo = FALSE, eval = FALSE, fig.width = 4, fig.asp = 1----
+#  # Labels to plot:
+#  s <- c("Please note:",
+#         "These text labels",
+#         "are centered:",
+#         ">>> <<<")
+#  
+#  # Create a new plot (of type "slide"):
+#  mark(labels = s,
+#       x = NA, y = .85,
+#       x_layout = "center", y_layout = "even",
+#       col = "white", col_bg = c(Pinky, Petrol, Bordeaux, Karpfenblau),
+#       cex = 1.2,
+#       new_plot = "slide")
+#  
+#  # mark middle:
+#  plot_dim <- par("usr")
+#  x_middle <- (plot_dim[2]-plot_dim[1])/2
+#  abline(v = x_middle - 32/600, col = "grey", lty = 2)  # corrected for offset
+
+## ----mark-x-layout-all, echo = FALSE, eval = TRUE, fig.width = 6, fig.height = 3.5----
+# (A) x_layout = "center": ---- 
+s <- c("Please note:", "These text labels",
+       "are centered:", ">>> <<<")
+
+# Create a new plot (of type "slide"):
+mark(labels = s, x = NA, y = .85, 
+     x_layout = "center", y_layout = "even",
+     col = "white", col_bg = c(Pinky, Petrol, Bordeaux, Karpfenblau),
+     cex = 1,
+     new_plot = "slide")
+
+# mark middle:
+plot_dim <- par("usr")
+x_middle <- (plot_dim[2]-plot_dim[1])/2
+abline(v = x_middle - 32/600, col = "grey", lty = 2)  # corrected for offset
+
+# (B) x_layout = "right": ----  
+s <- c("Please note:", "These text labels",
+       "are right-justified:", ">>>")
+
+x_r <- 4/3 - .05
+
+# Add to plot:
+mark(labels = s, x = x_r, y = .85, 
+     x_layout = "right", y_layout = "even",
+     col = "white", col_bg = c(Pinky, Petrol, Bordeaux, Karpfenblau),
+     cex = 1)
+
+abline(v = x_r, col = "grey", lty = 2)
+
+# (C) x_layout = "left": ----  
+s <- c("Please note:", "These text labels",
+       "are left-justified:", "<<<")
+
+x_l <- .05
+
+# Add to plot:
+mark(labels = s, x = x_l, y = .85, 
+     x_layout = "left", y_layout = "even",
+     col = "white", col_bg = c(Pinky, Petrol, Bordeaux, Karpfenblau),
+     cex = 1)
+
+abline(v = x_l, col = "grey", lty = 2)
+
 ## ----uline-demo, echo = FALSE, fig.width = 3, fig.height = 3------------------
 slogan <- c("Geradlinig", "Authentisch", "Beweglich", "Offen", "Paradiesisch")
 uline(labels = slogan,
@@ -125,6 +190,70 @@ uline(labels = slogan,
       x = c(0, .5), y = .9, y_layout = "even",
       col = c("black", Bordeaux), col_bg = c(Seeblau, Seegruen), 
       cex = 1.1, font = 2, new_plot = "blank")
+
+## ----uline-x-layout-center, echo = FALSE, eval = FALSE, fig.width = 4, fig.asp=1----
+#  # Labels to plot:
+#  s <- c("Please note:",
+#         "These text labels",
+#         "are centered:",
+#         ">>> <<<")
+#  
+#  # Create a new plot (of type "slide"):
+#  uline(labels = s,
+#        x = NA, y = .85,
+#        x_layout = "center", y_layout = "even",
+#        col = "black", col_bg = c(Pinky, Petrol, Bordeaux, Karpfenblau),
+#        cex = 1.0,
+#        new_plot = "slide")
+#  
+#  # mark middle:
+#  plot_dim <- par("usr")
+#  x_middle <- (plot_dim[2]-plot_dim[1])/2
+#  abline(v = x_middle - 32/600, col = "grey", lty = 2)  # corrected for offset
+
+## ----uline-x-layout-all, echo = FALSE, eval = TRUE, fig.width = 5, fig.height = 3.5----
+# (A) x_layout = "center": ---- 
+s <- c("Please note:", "These text labels",
+       "are centered:", ">>> <<<")
+
+# Create a new plot (of type "slide"):
+uline(labels = s, x = NA, y = .85, 
+     x_layout = "center", y_layout = "even",
+     col = "black", col_bg = c(Pinky, Petrol, Bordeaux, Karpfenblau),
+     cex = .9, new_plot = "slide")
+
+# mark middle:
+plot_dim <- par("usr")
+x_middle <- (plot_dim[2]-plot_dim[1])/2
+abline(v = x_middle - 32/600, col = "grey", lty = 2)  # corrected for offset
+
+# (B) x_layout = "right": ----  
+s <- c("Please note:", "These text labels",
+       "are right-justified:", ">>>")
+
+x_r <- 4/3 - .10
+
+# Add to plot:
+uline(labels = s, x = x_r, y = .85, 
+     x_layout = "right", y_layout = "even",
+     col = "black", col_bg = c(Pinky, Petrol, Bordeaux, Karpfenblau),
+     cex = .9)
+
+abline(v = x_r, col = "grey", lty = 2)
+
+# (C) x_layout = "left": ----  
+s <- c("Please note:", "These text labels",
+       "are left-justified:", "<<<")
+
+x_l <- .10
+
+# Add to plot:
+uline(labels = s, x = x_l, y = .85, 
+     x_layout = "left", y_layout = "even",
+     col = "black", col_bg = c(Pinky, Petrol, Bordeaux, Karpfenblau),
+     cex = .9)
+
+abline(v = x_l, col = "grey", lty = 2)
 
 ## ----post-demo, echo = FALSE, fig.width = 4, fig.height = 2-------------------
 xbox(col = Seegruen, dim = c(4, 2))
@@ -159,7 +288,7 @@ post(labels = "R", y = .35,
 ## ----post-address, echo = TRUE, fig.width = 3, fig.height = 3-----------------
 address <- c("Dr. B. F. Skinner", " ",
              "Department of Psychology",
-             "Office F101",
+             "Office Z101",
              "Tel.: +49 7531 88-0815",
              "Fax: +49 7531 88-0810",
              "b.f.skin@uni-konstanz.de")
@@ -174,6 +303,71 @@ post(labels = address,
      y = .5, y_layout = .03,
      new_plot = "none")  # add to plot
 
+## ----post-x-layout-center, echo = FALSE, eval = FALSE, fig.width = 3, fig.height = 3----
+#  # Labels to plot:
+#  s <- c("Please note:",
+#         "These text labels",
+#         "are centered:",
+#         ">>> <<<")
+#  
+#  # Create a new plot (of type "slide"):
+#  post(labels = s,
+#       x = NA, y = .80,
+#       x_layout = "center", y_layout = "even",
+#       col = "white", col_bg = c(Karpfenblau),
+#       font = 2, cex = 1.0,
+#       new_plot = "xbox")
+#  
+#  # mark middle:
+#  plot_dim <- par("usr")
+#  x_middle <- (plot_dim[2]-plot_dim[1])/2
+#  abline(v = x_middle - 32/600, col = "grey", lty = 2)  # corrected for offset
+
+## ----post-x-layout-all, echo = FALSE, eval = TRUE, fig.width = 3, fig.height = 3----
+# (A) x_layout = "center": ---- 
+s <- c("Note:", "Labels",
+       "centered:", ">>> <<<")
+
+# Create a new plot (of type "slide"):
+post(labels = s, x = NA, y = .80, 
+     x_layout = "center", y_layout = "even",
+     col = "white", col_bg = Karpfenblau,
+     cex = .85, new_plot = "xbox")
+
+# middle of current plot:
+plot_dim <- par("usr")
+x_middle <- (plot_dim[2]-plot_dim[1])/2
+abline(v = x_middle - 32/600, col = "grey", lty = 2)  # corrected for offset
+
+
+# (B) x_layout = "right": ----  
+s <- c("Adjust", "labels on",
+       "the right:", ">>>")
+
+x_r <- 1 - .15
+
+# Add to plot:
+post(labels = s, x = x_r, y = .80, 
+     x_layout = "right", y_layout = "even",
+     col = "white", 
+     cex = .85)
+
+abline(v = x_r, col = "grey", lty = 2)
+
+# (C) x_layout = "left": ----  
+s <- c("Adjust", "labels on",
+       "the left:", "<<<")
+
+x_l <- .15
+
+# Add to plot:
+post(labels = s, x = x_l, y = .80, 
+     x_layout = "left", y_layout = "even",
+     col = "white", 
+     cex = .85)
+
+abline(v = x_l, col = "grey", lty = 2)
+
 ## ----heading-demo, echo = FALSE, fig.width = 4, fig.height = 3----------------
 heading(labels = c("Ich bin", "eine", "Headline."))
 
@@ -187,6 +381,71 @@ heading(labels = c("Ich bin", "eine alternative", "Headline."))
 ## ----heading-col, echo = TRUE, fig.width = 4, fig.height = 3------------------
 heading(labels = c("Ene,", "mene, miste,", "es rappelt", "in der Kiste."), 
         col = "white", col_bg = c(Pinky, Seegruen, Bordeaux, Karpfenblau))
+
+## ----heading-x-layout-center, echo = FALSE, eval = FALSE, fig.width = 4, fig.asp=1----
+#  # Labels to plot:
+#  s <- c("Please note:",
+#         "These headings",
+#         "are centered:",
+#         ">>> <<<")
+#  
+#  # Create a new plot (of type "slide"):
+#  heading(labels = s,
+#          x = NA, y = .85,
+#          x_layout = "center", y_layout = "even",
+#          col = "white", col_bg = c(Pinky, Petrol, Bordeaux, Karpfenblau),
+#          font = 2, cex = 1.2,
+#          new_plot = "slide")
+#  
+#  # mark middle:
+#  plot_dim <- par("usr")
+#  x_middle <- (plot_dim[2]-plot_dim[1])/2
+#  abline(v = x_middle - 32/600, col = "grey", lty = 2)  # corrected for offset
+
+## ----heading-x-layout-all, echo = FALSE, eval = FALSE, fig.width = 6, fig.height = 4----
+#  # (A) x_layout = "center": ----
+#  s <- c("Please note:", "These headings",
+#         "are centered:", ">>> <<<")
+#  
+#  # Create a new plot (of type "slide"):
+#  heading(labels = s, x = NA, y = .85,
+#          x_layout = "center", y_layout = "even",
+#          col = "white", col_bg = c(Pinky, Petrol, Bordeaux, Karpfenblau),
+#          cex = 1,
+#          new_plot = "slide")
+#  
+#  # middle of current plot:
+#  plot_dim <- par("usr")
+#  x_middle <- (plot_dim[2]-plot_dim[1])/2
+#  abline(v = x_middle - 32/600, col = "grey", lty = 2)  # corrected for offset
+#  
+#  # (B) x_layout = "right": ----
+#  s <- c("Please note:", "These headings",
+#         "are right-justified:", ">>>")
+#  
+#  x_r <- 1.23
+#  
+#  # Add to plot:
+#  heading(labels = s, x = x_r, y = .85,
+#          x_layout = "right", y_layout = "even",
+#          col = "white", col_bg = c(Pinky, Petrol, Bordeaux, Karpfenblau),
+#          cex = 1, new_plot = FALSE)
+#  
+#  abline(v = x_r, col = "grey", lty = 2)
+#  
+#  # (C) x_layout = "left": ----
+#  s <- c("Please note:", "These headings",
+#         "are left-justified:", "<<<")
+#  
+#  x_l <- .10
+#  
+#  # Add to plot:
+#  heading(labels = s, x = x_l, y = .85,
+#          x_layout = "left", y_layout = "even",
+#          col = "white", col_bg = c(Pinky, Petrol, Bordeaux, Karpfenblau),
+#          cex = 1, new_plot = FALSE)
+#  
+#  abline(v = x_l, col = "grey", lty = 2)
 
 ## ----url-post, fig.align = 'center', fig.width = 2, fig.height = 2------------
 my_url <- url_unikn("https://www.uni-konstanz.de/")  # input URL as copied from web browser

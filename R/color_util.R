@@ -1,5 +1,5 @@
 ## color_util.R  |  unikn
-## spds | uni.kn | 2020 12 21
+## spds | uni.kn | 2022 08 13
 ## ---------------------------
 
 ## Utility functions for converting colors, 
@@ -7,6 +7,7 @@
 
 
 ## 1. General functions: -------
+
 
 # col2rgb in grDevices: ------ 
 
@@ -20,22 +21,37 @@
 # col2rgb("#FFFFFF")
 
 
+
+# get_alpha: Get color transparency / alpha values: ------
+
+get_alpha <- function(pal){
+  grDevices::col2rgb(pal, alpha = TRUE)["alpha", ] 
+} # get_alpha().
+
+## Check:
+# get_alpha("red")
+# get_alpha(shades_of(10, "black"))  # all same alpha
+# get_alpha(ac(col = "black", alpha = seq(0, 1, by = 0.10)))  # 11 different alphas
+
+
+
 # rgb2hex color conversion function: ------ 
 
 rgb2hex <- function(R, G, B) {
   rgb(R, G, B, maxColorValue = 255)
-}
+} # rgb2hex().
 
 ## Check:
 # rgb2hex(255, 255, 255)
 # rgb2hex(0, 0, 0)
 
 
+
 # col2hex color conversion function: ------ 
 
 col2hex <- function(col, alpha = alpha) {
   rgb(t(col2rgb(col)), alpha = alpha, maxColorValue = 255)
-}
+} # col2hex().
 
 ## Check: 
 # hex1 <- col2hex("black", alpha = 255/2)
@@ -43,13 +59,26 @@ col2hex <- function(col, alpha = alpha) {
 # hex3 <- col2hex("gold", alpha = 255/2)
 # hex4 <- col2hex("steelblue", alpha = 255/2)
 # seecol(pal = c(hex1, hex2, hex3, hex4), n = "all")
+# 
+# # Note 2 limitations: 
+# 1. As col2hex assumes a SCALAR alpha value,
+#    the following does currently NOT work:
+# col2hex("black", alpha = c(1/4, 1/2, 3/4))
+# # ToDo 1: Vectorize col2hex arguments.
+#
+# 2. Current col2hex does not detect/use transparency differences: 
+# col2hex(tblack)  # ignores transparency!
+# # ToDo 2: Allow retaining transparency in col2hex:
+# col2hex(tblack, alpha = alpha(tblack))
+# # (and consider using get_alpha() for this).
+
 
 
 # isHexCol: Helper function to detect HEX-colors: ------ 
 
 isHexCol <- function(color) {
   return(grepl(pattern = "^#[0-9A-Fa-f]{6,}", color))
-}
+} # isHexCol().
 
 ## Check:
 # isHexCol("black")
@@ -57,11 +86,12 @@ isHexCol <- function(color) {
 # isHexCol(rgb2hex(0, 0, 0))
 
 
+
 # isCol: Helper function to detect any color (in an individual character string): ------ 
 
 isCol <- function(color) {
   return(isHexCol(color) | color %in% colors())
-}
+} # isCol(). 
 
 ## Check:
 # isCol("white")
@@ -73,7 +103,124 @@ isCol <- function(color) {
 # isCol(col2rgb("white"))  # => FALSE FALSE FALSE
 
 
+
+# col_distance: Color distance (in RGB space): ------
+
+col_distance <- function(col_1, col_2){
+  
+  # Vectorize (if needed):
+  len_1 <- length(col_1)
+  len_2 <- length(col_2)
+  
+  if (len_1 > len_2){ # extend col_2:
+    fct <- ceiling(len_1/len_2)
+    col_2 <- rep(col_2, fct)[1:len_1]
+  }
+  
+  if (len_2 > len_1){ # extend col_1:
+    fct <- ceiling(len_2/len_1)
+    col_1 <- rep(col_1, fct)[1:len_2]
+  }
+  
+  # Convert to RGB:
+  rgb_1 <- grDevices::col2rgb(col_1)
+  rgb_2 <- grDevices::col2rgb(col_2)
+  
+  # Output (as matrix): 
+  abs(rgb_1 - rgb_2)
+  
+} # col_distance().
+
+## Check: 
+# # (a) individual colors: 
+# col_distance("red", "red")
+# col_distance("black", "white")
+# 
+# # (b) Color palette: 
+# # col2rgb(palette())
+# pal <- palette()
+# names(pal) <- palette()
+# col_distance("black", pal)  # No names vs.
+# col_distance(pal, "black")  # Note names
+
+
+
+# col_distinct: A unique() function for color values (using HEX codes): ------
+
+# Goal: Remove visual duplicate colors (using HEX values to judge the identiy of colors, 
+#       rather than color names). 
+#
+# Notes: 
+# - The function aims to detect visual duplicates (i.e., colors that look the same, 
+#   irrespective of their names/values).
+# - Color transparency is only considered when use_alpha = TRUE.
+# - grDevices::colors() has a 'distinct = TRUE' argument to remove visual duplicates.
+
+col_distinct <- function(pal, use_alpha = FALSE){
+  
+  # Prepare: ---- 
+  
+  if (any(isCol(pal) == FALSE)){
+    stop("pal contains non-colors")
+  }
+  
+  
+  # Main: ----
+  
+  # 1. alpha values:
+  if (use_alpha){
+    
+    # Get transparency values:
+    pal_alpha <- get_alpha(pal)
+    
+    ix_alpha_dupes <- duplicated(pal_alpha)  # duplicate alpha values
+    
+  } else {
+    
+    ix_alpha_dupes <- TRUE  # default: all same alpha values
+    
+  }
+  
+  # 2. HEX values:
+  pal_hex <- col2hex(pal)  # ignores transparency!
+  
+  ix_hex_dupes <- duplicated(pal_hex)  # duplicated hex values
+  
+  
+  # Combine logical indices:
+  ix_pal_dupes <- ix_hex_dupes & ix_alpha_dupes
+  
+  
+  # Output: ----
+  
+  # Return pal without duplicates: 
+  pal[ix_pal_dupes == FALSE]
+  
+} # col_distinct().
+
+
+## Check:
+# p1 <- c("gray", "grey", "black", "grey0", "red", "red1", "red2", "red3")
+# col_distinct(p1)
+# 
+# (p2 <- usecol(c(pal_unikn, pal_seeblau)))
+# col_distinct(p2)
+# 
+# # By default, color transparency is being ignored:
+# tblack <- ac("black", alpha = seq(0, 1, by = 0.25))
+# seecol(tblack)        # Shows 5 shades, but
+# col_distinct(tblack)  # all share same basic color!
+# col_distinct(tblack, use_alpha = TRUE)  # USES color transparency!
+# 
+# # Invalid inputs:
+# col_distinct(c("black", "NOT a color", "white"))
+
+
+
+
 ## 2. Color getting functions: ------
+
+
 
 # parse_pal(): Parse a palette input ------ 
 
@@ -117,6 +264,7 @@ parse_pal <- function(pal) {
     }
     
     # Split input string; getting everything within the parentheses:
+    
     if ( grepl("\\(", tmp) ) {  # only if any parenthesis exists.
       
       tmp <- sub(".*?\\(+(.*)\\).*", "\\1", tmp, perl=TRUE)
@@ -141,13 +289,14 @@ parse_pal <- function(pal) {
     elem <- sub(".*?\\(+(.*)\\).*", "\\1", elem, perl = TRUE)
     
     # Existence checks: ----- 
+    
     ## Now ask for every element, whether it exists:
     elemex <- sapply(elem, function(x) exists(x) & x != "pal")
     # also ask, whether the element is named pal, to prevent name conflicts!
     # Was: elemex <- sapply(elem, exists)
     
     
-    if ( any(!elemex) ) {  # only if not all inputs have been resolved
+    if ( any(!elemex) ) { # only if not all inputs have been resolved
       
       # Those which are still unknown: Are those colors? 
       elemex[!elemex] <- sapply(elem[!elemex], isCol)
@@ -162,7 +311,8 @@ parse_pal <- function(pal) {
       
     }
     
-    # Handle undefined palettes: 
+    # Handle undefined palettes: ---- 
+    
     if (!all(elemex)) {
       
       nex <- gsub("pal_", "", elem[!elemex])  # remove any "pal_" string parts. 
@@ -181,10 +331,10 @@ parse_pal <- function(pal) {
       
     }
     
-    # Get all palettes:
+    # Get all palettes: 
     out <- lapply(elem, function(x) if( isCol(x) ) x else get(x) )
     
-    # Apply any previously detected functions: 
+    # Apply any previously detected functions: ----  
     if ( any(!is.na(funs)) ) {
       
       out[!is.na(funs)] <- apply(rbind(out, funs), MARGIN = 2, FUN = function(x) {
@@ -204,10 +354,12 @@ parse_pal <- function(pal) {
   ix_nameless <- is.null(names(out)) | names(out) == ""
   names(out)[ix_nameless] <- out[ix_nameless]
   
-  # Output:
+  # Output: ---- 
+  
   return(out)
   
-} # parse_pal end. 
+} # parse_pal().
+
 
 
 # getpal_key(): Get a palette or list of palettes by keyword: -------
@@ -299,11 +451,13 @@ getpal_key <- function(pal = "all", n = "all", alpha = NA) {
   
   return(out)
   
-} # getpal_key end. 
+} # getpal_key(). 
+
 
 
 
 ## 3. Plotting functions: ------
+
 
 
 # plot_shape: Plot a shape in a certain color: ------
@@ -357,7 +511,7 @@ plot_shape <- function(pos_x, pos_y,  # midpoint of shape
     
   } 
   
-} # plot_shape end.
+} # plot_shape().
 
 
 
@@ -426,12 +580,17 @@ plot_col <- function(x,         # a *vector* of colors to be plotted.
              ...  # graphics parameters (e.g., lwd)
   )
   
-} # plot_col end. 
+} # plot_col().
+
+
 
 
 ## ToDo: ------
 
-# - plot_col(): Add option for scaling multiple color palettes to fixed width rectangles. 
-# - Add functions for translating to/from HCL values (see HCL_color_exploration.Rmd). 
+# - Consider exporting utility functions `get_alpha()`, `col_distance()` and `col_distinct()`.
+
+# - `col2hex()`: Improve by vectorizing arguments and considering transparency/alpha values (see 2 ToDos above). 
+# - `plot_col()`: Add option for scaling multiple color palettes to fixed width rectangles. 
+# - Add functions for translating to/from HCL values (see `HCL_color_exploration.Rmd`). 
 
 ## eof. ----------

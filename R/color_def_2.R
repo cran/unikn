@@ -1,5 +1,5 @@
 ## color_def_2.R | unikn
-## spds | uni.kn  | 2020 09 04
+## spds | uni.kn  | 2021 04 29
 ## ---------------------------
 
 ## Define colors and color palettes (2 of 2).
@@ -12,9 +12,9 @@
 
 #' unikn default color palette (11 colors).
 #'
-#' \code{pal_unikn} combines the 5 blue colors 
+#' \code{pal_unikn} combines the 5 shades of blue colors 
 #' from color palette \code{\link{pal_seeblau}} 
-#' with the 6 non-blue colors of \code{\link{pal_unikn}} 
+#' with the 6 non-blue colors of \code{\link{pal_unikn_web}} 
 #' to a palette containing 11 color values. 
 #' 
 #' Adding seeblau5 (i.e., \code{pal_seeblau[1]}) to 
@@ -30,7 +30,7 @@
 #'
 #' @examples
 #' pal_unikn
-#' dim(pal_unikn)         # 1 11
+#' dim(pal_unikn)  # 1 11
 #' 
 #' # Access by position:
 #' pal_unikn[1]    # new color "seeblau5" (as df)
@@ -126,8 +126,11 @@ pal_unikn_pref <- data.frame(  # Element:
 
 pal_unikn_pref <- pal_unikn_pref[c(1, 7, 5, 2, 6, 9, 8, 3, 4)]
 
+rownames(pal_unikn_pref) <- "1"  # fix/set rownames() of palette
+
 ## Check:
 # pal_unikn_pref
+# rownames(pal_unikn_pref)
 # seecol(pal_unikn_pref)
 
 
@@ -179,9 +182,13 @@ pal_unikn_light <- data.frame(
   pal_grau[c(2, 1)],
   stringsAsFactors = FALSE)
 
+rownames(pal_unikn_light) <- "1"  # fix/set rownames() of palette
+
 ## Check:
 # pal_unikn_light
+# rownames(pal_unikn_light)
 # seecol(pal_unikn_light)
+
 
 #  (4) pal_unikn_dark: Scale of 8 dark colors (in 4 pairs) from other palettes: ------ 
 
@@ -225,6 +232,8 @@ pal_unikn_dark <- data.frame(
   pal_pinky[c(5, 3)],
   pal_grau[c(5, 3)],
   stringsAsFactors = FALSE)
+
+rownames(pal_unikn_dark) <- "1"  # fix/set rownames() of palette
 
 ## Check:
 # pal_unikn_dark
@@ -292,9 +301,12 @@ pal_unikn_pair <- data.frame(
 #   pal_grau[c(1, 2)],
 #   stringsAsFactors = FALSE)
 
+rownames(pal_unikn_pair) <- "1"  # fix/set rownames() of palette
+
 ## Check:
 # pal_unikn_pair
 # seecol(pal_unikn_pair)
+
 
 ## Color sources: ------ 
 

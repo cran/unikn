@@ -8,6 +8,7 @@ usecol(
   pal = pal_unikn,
   n = "all",
   alpha = NA,
+  distinct = FALSE,
   use_names = FALSE,
   use_col_ramp = FALSE
 )
@@ -23,9 +24,12 @@ colors if the desired number of colors is smaller than the available number.
 For all other palettes and values of \code{n} larger than \code{length(pal)}, 
 \code{n} compresses or extends the palette using \code{\link{colorRampPalette}}.}
 
-\item{alpha}{A factor modifying the opacity alpha (as in \code{\link{adjustcolor}}); 
-to a value in [0,1]. 
+\item{alpha}{A factor modifying the opacity alpha 
+(as \code{alpha.f} in \code{\link{adjustcolor}}) to a value in \code{[0, 1]}. 
 Default: \code{alpha = NA} (i.e., no modification of opacity).}
+
+\item{distinct}{Boolean: Return only visually distinct colors? 
+Default: \code{distinct = FALSE} (i.e., include duplicate colors).}
 
 \item{use_names}{A logical value indicating whether colors should be returned as a named vector.
 Default: \code{use_names = FALSE}, for compatibility with \code{ggplot}.}
@@ -35,7 +39,7 @@ should be overridden and \code{\link{colorRampPalette}} should be used to proces
 Default: \code{use_col_ramp = FALSE}.}
 }
 \value{
-A vector of colors (in character format).
+A (named) vector of colors (of type character).
 }
 \description{
 \code{usecol} allows using a color or color palette \code{pal} (e.g., for plotting).
@@ -63,14 +67,26 @@ names(pal_princeton_1) <- c("orange_w", "white", "black")
 pal_3 <- usecol(pal_princeton_1, n = 7)
 seecol(pal_3)
 
+# Removing visual duplicates:
+usecol(c("black", "#000000", "gray", "grey", "red", "red1"), distinct = TRUE)
+seecol(usecol(c(pal_unikn, pal_seeblau), distinct = TRUE), title = "Using distinct colors")
+
 }
 \seealso{
-\code{\link{seecol}} to plot color palettes; 
+\code{\link{seecol}} for plotting/seeing color palettes; 
+\code{\link{simcol}} for finding similar colors; 
+\code{\link{newpal}} for defining new color palettes; 
+\code{\link{grepal}} for finding named colors; 
+\code{\link{shades_of}} to defining shades of a given color; 
+\code{\link{ac}} for adjusting color transparency; 
 \code{\link{pal_unikn}} for the default uni.kn color palette.
 
 Other color functions: 
+\code{\link{ac}()},
 \code{\link{grepal}()},
 \code{\link{newpal}()},
-\code{\link{seecol}()}
+\code{\link{seecol}()},
+\code{\link{shades_of}()},
+\code{\link{simcol}()}
 }
 \concept{color functions}

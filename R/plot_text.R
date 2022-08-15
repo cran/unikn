@@ -1,18 +1,18 @@
 ## plot_text.R | unikn
-## spds  | uni.kn | 2019 06 04
+## spds | uni.kn | 2021 04 24
 ## ---------------------------
 
 ## General functions to plot text with formatting elements (marking/highlighting or underlining).
 
-# [A]: General functions to plot formatted text with options (e.g., size, font, mark/line decorations): -------- 
+## (A): General function to plot formatted text with options (e.g., size, font, mark/line decorations): -------- 
 
-# (1) plot_text: Add formatted text labels (with decorations like highlighting or underlining) to a plot: -------- 
+## (1) plot_text: Add formatted text labels (with decorations like highlighting or underlining) to a plot: -------- 
 
 # Note that plot_text is an experimental function, intended for expert users.
 # plot_text is an enhanced (expert/experimental) version of box_text 
 # (also supporting underlining, and arranging text labels). 
 
-# plot_text: 
+# plot_text(): 
 # An uber function that can do many kinds of things:
 #  - plot boxes or slides (to a new plotting device, resetting margins)
 #  - plot text to (existing) plots
@@ -26,7 +26,8 @@
 # - Definition: ---- 
 
 plot_text <- function(labels = NA,        # labels of text element(s) 
-                      x = 0, y = .55,     # coordinates of text labels 
+                      x = 0, y = .55,     # coordinates of text labels
+                      x_layout = NA,      # 3 options: "left", "center", "right"
                       y_layout = "even",  # "even", "flush", or numeric value(s) for distance b/w labels (y-space between subsequent labels)
                       
                       # Text parameters:
@@ -56,7 +57,7 @@ plot_text <- function(labels = NA,        # labels of text element(s)
                       grid = FALSE,  # for debugging (to position objects)
                       
                       ## Other stuff:                       
-                      ...  # etc. arguments, passed to text()
+                      ...  # other arguments (e.g., pos) passed to text()
 ){
   
   ## Interpret inputs (for robustness): ----
@@ -152,15 +153,15 @@ plot_text <- function(labels = NA,        # labels of text element(s)
   if (any(is.na(col_bg)) && mark) {col_bg <- pal_seeblau[[2]]} # default mark color: pal_seeblau[[3]]
   if (any(is.na(col_bg)) && line) {col_bg <- pal_seeblau[[4]]} # default underline color: pal_seeblau[[4]] 
   
-  # (d) y_layout:
-  # Treat "flush" as special case of numeric layout (fixed distance of 0): 
-  if (!is.numeric(y_layout) && (y_layout == "flush")) {y_layout <- 0}  
+  # (d) x_layout and y_layout special cases:
+  if ((all(!is.na(x_layout))) && (length(x_layout) == 1) && (x_layout == "left")) {x_layout <- 0}  # x_layout == "left"  ==> numeric 0.
+  if ((!is.numeric(y_layout)) && (y_layout == "flush")) {y_layout <- 0}  # y_layout == "flush" ==> numeric 0.
   
   ## Plotting area: ----- 
   
   # (a) Record graphical parameters (par):
   opar <- par(no.readonly = TRUE)  # all par settings that can be changed.
-  # on.exit(par(opar))               # restore upon exit
+  # on.exit(par(opar))             # restore upon exit
   
   # (b) Re-size plotting area (if desired): 
   if (!is.na(mar_all)) {  # reset all mar values:
@@ -330,12 +331,14 @@ plot_text <- function(labels = NA,        # labels of text element(s)
     
   } # if (mark) etc. 
   
+  
   ## Compute text positions (AFTER all measurements are known): ------
   
   # Extreme y coordinates: ---- 
   y_bot <- NA
   y_top <- NA
   
+  # Plot dimensions: 
   plot_dim <- par("usr")  # actual dimensions (of current plot): 4 values: x_min, x_max, y_min, y_max. 
   # print(paste0("Current plot_dim = ", plot_dim))  # 4debugging  
   
@@ -345,13 +348,14 @@ plot_text <- function(labels = NA,        # labels of text element(s)
   y_bot <- (y_bot_blank_space * abs(y_top - y_bot))  # lowest actual y coordinate tolerated
   # print(paste0("y_bot = ", y_bot))  # 4debugging
   
-  # Adjust y values (if fewer y's than labels): ---- 
+  
+  # Apply y_layout (iff fewer y's than labels): ---- 
   
   if (N_labels > length(y)) { # If there are more labels than y coordinates: 
     
-    # message(paste0("N_labels > N(y): Automatic ", as.character(y_layout), " label layout..."))
+    # message(paste0("plot_text: N_labels > N(y): Apply y_layout = ", as.character(y_layout), "..."))
     
-    if (mark) { 
+    if (mark) { # mark: mark() OR heading()
       
       # (a) Adjust y by rect_height (NOT text_height) sequence: 
       # print(paste0("rect_height", 1:N_labels, " = ", rect_height))  # 4debugging
@@ -373,7 +377,7 @@ plot_text <- function(labels = NA,        # labels of text element(s)
     
   } else {
     
-    # message("N(y) >= N_labels: Using y-values provided for label layout...")
+    # message("plot_text: N(y) >= N_labels: Using y-values provided for y-label layout...")
     
   }
   
@@ -470,13 +474,135 @@ plot_text <- function(labels = NA,        # labels of text element(s)
   # }
   
   
-  # Midpoints of text(s): ---- 
+  # Compute midpoints of text(s): ---- 
   
   x_mid <- x + ((.5 - adj[1]) * text_width)  + offset_vec[1]
   y_mid <- y + ((.5 - adj[2]) * text_height) + offset_vec[2]
   
+  
+  # Apply x_layout (iff not NA): ---- 
+  
+  if (!all(is.na(x_layout))) { # x_layout is specified:  
+    
+    # message(paste0("plot_text: Apply x_layout = ", as.character(x_layout), "..."))  # 4debugging 
+    
+    if (is.numeric(x_layout)){  # interpret x_layout as increments to x:
+      
+      # (a) Determine desired x_increments:
+      if (length(x_layout) == 1){  # increment by this value:
+        
+        x_layout <- c(0, rep(x_layout, (N_labels - 1)))  # use 0 (for 1st label) and this value (as increments)
+        
+      } else { # multiple values provided: Interpret as sequence of desired increments:
+        
+        if (length(x_layout) < N_labels){  # recycle x_layout:
+          x_layout <- rep(x_layout, ceiling(N_labels/length(x_layout)))[1:N_labels]  # extend  
+        } else if (length(x_layout) > N_labels){
+          x_layout <- x_layout[1:N_labels]  # truncate
+        }
+        
+      }
+      
+      x_increm <- cumsum(x_layout)  # compute x_increments 
+      # print(x_increm)  # 4debugging
+      
+      # (b) Apply x_increm to current x_mid:
+      if (all(is.na(x))){
+        
+        if (mark) {
+          x_mid <- 0 + x_increm + padl_width  # use increments and padl_width
+        } else {
+          x_mid <- 0 + x_increm  # use only increments 
+        }
+        
+      } else { # x value(s) not NA:
+        x_mid  <- x_mid + x_increm  # add increments to current mid-points
+      }
+      
+    } else { # x_layout is NOT numeric: "center"/"left"/"right":
+      
+      # Compute middle point: 
+      x_min <- plot_dim[1]
+      x_max <- plot_dim[2]
+      mid_p <- (x_max - x_min)/2  # mid point of plot (horizontally/x)
+      
+      x_lay <- substr(tolower(x_layout), 1, 3)  # simplify for robustness 
+      # print(paste0("Adjusting x_layout: x_lay = ", x_lay))  # 4debugging
+      
+      if (x_lay == "cen"){  # (a) center: 
+        
+        if (is.na(x[1])){ # no first x:
+          
+          off_center <- 32/600  # Hack: Middle corrected for offset to right in plot_box()! 
+          
+          if (mark){
+            x_mid <- mid_p - padl_width - off_center  # center labels at (corrected) plot center
+          } else {
+            x_mid <- mid_p - off_center  # center labels at (corrected) plot center
+          }
+          
+          
+        } else { # 1st x specified:
+          
+          if (mark){
+            x_mid <- x_mid[1]  # - padl_width  # center labels at 1st label
+          } else {
+            x_mid <- x_mid[1]  # center labels at 1st label    
+          }
+          
+        }
+      } # if ("cen").
+      
+      
+      if (x_lay == "rig"){  # (b) right: 
+        
+        if (is.na(x[1])){ # no 1st x:
+          
+          if (mark) {
+            x_mid <- mid_p - rect_width/2 - padl_width  # right flush rect_width at plot center          
+          } else {
+            x_mid <- mid_p - text_width/2  # right flush text_width at plot center 
+          }
+          
+        } else { # 1st x specified:
+          
+          if (mark) {
+            x_mid <- x[1] - rect_width/2 - padl_width  # right flush rect_width at 1st label          
+          } else {
+            x_mid <- x[1] - text_width/2  # right flush at 1st label 
+          }
+          
+        }
+      } # if ("rig"). 
+      
+      
+      ## Handled as a special case of numeric x_layout = 0 (above):       
+      # if (x_lay == "lef"){  # (c) left: 
+      #   
+      #   # Note: No special case for "mark" needed, as all labels are 
+      #   #       shifted to the right below (to ensure left-flush, see [246]). 
+      #   
+      #   if (is.na(x[1])){ # no first x:
+      #     x_mid <- mid_p + text_width/2  # left flush at plot center 
+      #   } else { # 1st x specified:
+      #     x_mid <- x[1] + text_width/2  # left flush at 1st label 
+      #   }
+      #   
+      # } # if ("lef").
+      
+    } # if (is.numeric(x_layout)) else.
+    
+    
+  } else {
+    
+    # message("plot_text: No x_layout specified...")  # 4debugging 
+    
+  } # if (!is.na(x_layout)). 
+  
+  
   # Check for step-function: ---- 
-  if (mark && (length(x_mid) > 2) && monotonic(x_mid)) {
+  
+  if (mark && (length(x_mid) > 2) && monotonic(x_mid) && is.na(x_layout)) {
     
     # print(paste0("x_mid = ", x_mid))  # 4debugging 
     
@@ -485,7 +611,6 @@ plot_text <- function(labels = NA,        # labels of text element(s)
   }
   
   ## Plot stuff: ------ 
-  
   
   #  A. mark: Highlight background of text (using colored rectangles): ---- 
   
@@ -497,8 +622,7 @@ plot_text <- function(labels = NA,        # labels of text element(s)
     # (A) Correct mid-points of text by padding (to align rectangles, rather than text): ---- 
     # print(padl_width)  # 4debugging
     
-    x_mid <- (x_mid + padl_width) 
-    
+    x_mid <- (x_mid + padl_width)  # shift to right (to ensure left-flush) [246]
     
     # (B) Plot rectangle(s): ---- 
     graphics::rect(xleft   = (x_mid - rect_width/2),
@@ -632,14 +756,14 @@ plot_text <- function(labels = NA,        # labels of text element(s)
     
   } # if (mark) etc.
   
-} # plot_text end.
+} # plot_text().
 
 
 # - Check: ------ 
 
-## Demo cases:
+## Demo cases: 
 
-# ## (1) Markieren: 
+## (1a) Markieren: 
 # lbl_mark <- c("                                                ",
 #               "                                      ",
 #               "                                                      ",
@@ -652,10 +776,7 @@ plot_text <- function(labels = NA,        # labels of text element(s)
 #           new_plot = "blank",
 #           mark = TRUE)
 
-# +++ here now +++
-
-## (4) mark + flush: Formatting headlines/titles:
-
+## (1b) mark + flush: Formatting headlines/titles: 
 # lbl_hl1 <- c("Ich bin", "eine", "Headline.")
 # plot_text(labels = lbl_hl1,
 #           x = 0, y = .8, y_layout = "flush",
@@ -663,6 +784,18 @@ plot_text <- function(labels = NA,        # labels of text element(s)
 #           cex = 2.5, pos = 4,
 #           mark = TRUE,
 #           new_plot = "blank")
+# 
+# # with layout options:
+# lbl_hl1b <- c("Ich bin", "eine", "etwas längere", "Headline", "geworden.")
+# plot_text(labels = lbl_hl1b,
+#           x = 0, y = .8, 
+#           x_layout = .05,  # numeric constant, "left" == 0, "center", "right" 
+#           y_layout = .00,  # 0 == "flush", "even",
+#           col_bg = c(usecol(pal_pinky, 5)),
+#           cex = 2.5, pos = 4,
+#           mark = TRUE,
+#           # line = TRUE, 
+#           new_plot = "slide")
 
 # lbl_hl2 <- c("Ich", "bin keine", "gute Headline.")
 # plot_text(labels = lbl_hl2,
@@ -680,8 +813,7 @@ plot_text <- function(labels = NA,        # labels of text element(s)
 #           mark = TRUE,
 #           new_plot = "blank")
 
-
-# ## (2) Unterstreichen: 
+## (2) Unterstreichen: 
 # lbl_line <- c("Teaching", "This is a line of text", "Learning and studying", "Test")
 # lbl_line <- c("Das ist korrekt, wahr und wahnsinnig wichtig.")
 # plot_text(labels = lbl_line, font = 1,
@@ -698,16 +830,25 @@ plot_text <- function(labels = NA,        # labels of text element(s)
 #           cex = 1.2, pos = 4,
 #           new_plot = "blank",
 #           line = TRUE, cex_lwd = 2.5, cex_ldn = .42)
+# 
+# # With layout options:
+# slogan2 <- c("Verbogen", "Verlogen", "Flexibel", "Unklar", "Paradox")
+# plot_text(labels = slogan2, font = 2,
+#           x = .7, y = .8, 
+#           x_layout = c(-.2, +.2), 
+#           y_layout = .1,
+#           col = "black", col_bg = Seeblau, col_bg_border = NA,
+#           cex = 1.2, pos = 4,
+#           new_plot = "slide",
+#           line = TRUE, cex_lwd = 2.5, cex_ldn = .42)
 
-## (3) Merken:
+## (3) Merken: 
 # xbox()
-
 # ToDo: xbox with text (different cex and font values)
 
-
-# # Crucial test cases: 
-# 
-# # (a) xbox with text:
+# ## Crucial test cases: 
+# # 
+# ## (a) xbox with text:
 # lbl_1 <- c("Erste Zeile", "Zweite Zeile", "Dritte steile Zeile", "Vierte Zeile zum Verweilen",
 #            "Ziemlich ausgefeilte Zeilen", "Wichtig mitzuteilen!")
 # plot_text(labels = lbl_1,
@@ -717,15 +858,15 @@ plot_text <- function(labels = NA,        # labels of text element(s)
 #           y_layout = "even",  # "even", "flush", OR fixed numeric value for distance b/w labels (e.g., c(.02, .05), recycled)!
 #           cex = c(1, 1, 2, 2, 3, 3),
 #           font = c(2, 1, 2, 1, 2, 1),
-#           col_bg = c(unlist(seeblau), "gold"), lwd_bg = NA,
+#           col_bg = c(Seeblau, "gold"), lwd_bg = NA,
 #           pos = NULL, adj = c(0, .5),  offset = 999,
 #           # pos = 4, adj = c(1, 1), offset = 0,
 #           new_plot = "xbox",
 #           mark = FALSE, grid = TRUE,
 #           mar_all = NA, oma_all = NA
 # )
-
-# # # (b) slide with text and line: 
+# 
+# ## (b) slide with text and line: 
 # lbl_2 <- rep("l Eine durch zwei `l` begrenzte Zeile l", 6)
 # plot_text(labels = lbl_2,
 #           x = .00,
@@ -734,7 +875,7 @@ plot_text <- function(labels = NA,        # labels of text element(s)
 #           y_layout = c(.05, .10), # "even" or fixed numeric value(s) for distance b/w labels (e.g., c(.02, .05), recycled)!
 #           cex = c(1, 1, 1.5, 1.5, 2, 2),
 #           font = c(2, 1, 2, 1, 2, 1),
-#           col_bg = c(unlist(seeblau), "gold"), lwd_bg = 0,
+#           col_bg = c(Seeblau, "gold"), lwd_bg = 0,
 #           pos = NULL, adj = c(0, .5), offset = 999,
 #           # pos = 4, adj = c(1, 1), offset = 0,
 #           padding = 1, # OR: c(.5, .5),
@@ -742,8 +883,8 @@ plot_text <- function(labels = NA,        # labels of text element(s)
 #           line = TRUE,
 #           grid = TRUE, mar_all = NA, oma_all = NA
 # )
-
-# # (c) slide with text and mark:
+# 
+# ## (c) slide with text and mark:
 # lbl_3 <- rep("In Schrift und Grösse variable Zeilen", 6)
 # plot_text(labels = lbl_3,
 #           x = 0,
@@ -761,42 +902,40 @@ plot_text <- function(labels = NA,        # labels of text element(s)
 #           grid = FALSE, mar_all = NA, oma_all = NA
 # )
 
-# # What works:
+## (A) What works: 
 # # - Mixing sizes (cex) and fonts:
 # lbl_tst <- rep("Variable Grösse und Schrift", 4)
-# plot_text(lbl = lbl_tst, new_plot = "slide", y = .85, y_layout = c(.0, .15),
+# plot_text(labels = lbl_tst, new_plot = "slide", y = .85, y_layout = c(.0, .15),
 #           cex = c(1.2, .8, 1.8, 1.5), font = c(2, 1, 4, 3), x = .05, pos = 4,
 #           mark = TRUE, col_bg = c(pal_seeblau[[2]], pal_seeblau[[3]]))
-# #  
-# plot_text(lbl = lbl_tst, new_plot = "xbox", col_bg = Seeblau, 
+# 
+# plot_text(labels = lbl_tst, new_plot = "xbox", col_bg = Seeblau,
 #           x = .02, y = .55, y_layout = c(.03, .15),
 #           cex = c(1.2, 1.0, 1.5, 1.2), font = c(2, 1, 2, 3), pos = 4)
-
-# # - Automatic vertical spacing of labels (in y-direction):
-# #   (see crucial test cases above)
-
-#   +++ here now +++
-
-# ## What works:
+# 
+# # # - Automatic vertical spacing of labels (in y-direction):
+# # #   (see crucial test cases above)
+# # 
 # plot(x = 0, y = 0, type = "n", xlim = c(0, 1), ylim = c(0, 1), xlab = "", ylab = "")
 # 
-# ## Multiple cex values:
+# # - Multiple cex values:
 # plot_text(labels = c("m", "m"), x = 0, y = .8, cex = c(1, 5),
 #           col_bg = "red1", mark = TRUE)
-# =>  works (i.e., different cex sizes are supported)
-
+# # =>  works (i.e., different cex sizes are supported)
+# 
 # ## Multiple font values:
-# plot_text(labels = rep("m", 4), x = 0, y = .9, y_layout = "flush",  
-#           cex = 5, font = c(2, 1), pos = 4, 
+# plot_text(labels = rep("m", 4), x = 0, y = .9, y_layout = "flush",
+#           cex = 5, font = c(2, 1), pos = 4,
 #           col_bg = "gold", mark = TRUE, new_plot = "slide")
-# => works (i.e., different font sizes are supported)
+# # => works (i.e., different font sizes are supported)
 
-# # What fails: 
+## (B) What fails: 
 # # - Rotation of labels is not supported:
-# plot_text(labels = "This is a test", x = .20, col = "black", 
+# plot_text(labels = "This is a test", x = .20, col = "black",
 #           new_plot = "blank", srt = 45, mark = TRUE)
-# plot_text(labels = "This is a test", x = .60, col = "black", 
+# plot_text(labels = "This is a test", x = .60, col = "black",
 #           new_plot = "none", srt = -45, line = TRUE)
+
 
 ## Example 0: Plot box
 
@@ -827,16 +966,13 @@ plot_text <- function(labels = NA,        # labels of text element(s)
 #          col_bg = c(pal_seeblau[[2]], "gold"), pos = 4, padding = c(.25, .85), cex = 1.2)
 
 
-
-
-
-
 ## Done: ------
 
-# - Clean up code.  [2019-06-04]
+# - Added x_layout option (with some hacks, needs fine-tuning).
 
 ## ToDo: ------
 
-# - ...
+# - Add a numeric option for x_layout (as in y_layout) and 
+#   reduce "left" to x_layout = 0 case.
 
 ## eof. ----------

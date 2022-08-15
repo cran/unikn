@@ -1,30 +1,30 @@
 ## plot_kn.R | unikn
-## spds | uni.kn |  2020 10 01
+## spds | uni.kn |  2021 12 08
 ## ---------------------------
 
-## Function to plot unikn logo:
+## plot_unikn: Function to plot unikn logo: ------ 
 
 plot_kn <- function(axes = FALSE, 
                     back = TRUE, 
                     city = TRUE, 
                     univ = TRUE){
   
-  # Parameters: ------
+  # Parameters: ----
   
   # Booleans (for parts and use of areas/colors): ---- 
   
-  # axes <- FALSE  # FALSE/TRUE
-  grid <- axes     # FALSE/TRUE
+  # axes <- FALSE # FALSE/TRUE
+  grid <- axes    # FALSE/TRUE
   
-  use_colors <- FALSE  # use colors?
-  use_areas  <- FALSE  # draw rectangles and polygons (for colored areas)?
+  use_colors <- FALSE # TRUE  # use colors (for lines)?
+  use_areas  <- FALSE # TRUE  # draw rectangles and polygons (for colored areas)?
   
   # back <- TRUE   # draw background lines?
   
   # city  <- TRUE  # wrapper for road/house/cath
-  road  <- TRUE
-  house <- TRUE
-  cath  <- TRUE
+  road  <- TRUE # FALSE
+  house <- TRUE # FALSE
+  cath  <- TRUE # FALSE
   
   # univ <- TRUE  # draw university?
   
@@ -81,6 +81,7 @@ plot_kn <- function(axes = FALSE,
     col_flap <- pal_seegruen[[2]]
     
     col_back_pal <- usecol(pal = pal_unikn, alpha = 1)  # color range (11)
+    # col_back_pal <- usecol(c(Seeblau, "white", Bordeaux), n = 11, alpha = 1)  # color gradient (11)
     # seecol(col_back_pal)
     
   } else {
@@ -93,12 +94,13 @@ plot_kn <- function(axes = FALSE,
     col_univ  <- col_line
     
     # area colors (only used if use_areas = TRUE and use_colors = TRUE): 
-    col_cath_roof <- "white"  # always used (to obscure line)    
-    col_roof <- NA 
+    col_cath_roof <- "white"  # use always (to obscure line)    
+    col_roof <- NA            # transparent
     col_sail <- NA
     col_flap <- NA
     
-    col_back_pal <- rep(NA, 11)
+    col_back_pal <- rep(NA, 11)  # transparent
+    
     
   } # use_colors end. 
   
@@ -143,7 +145,7 @@ plot_kn <- function(axes = FALSE,
   
   # Draw segments: ---- 
   
-  # (1) Shapes (optional polygons, in background): ------ 
+  # (1) Shapes (optional polygons, in background): ---- 
   
   if (use_areas){ 
     
@@ -187,7 +189,7 @@ plot_kn <- function(axes = FALSE,
   
   # (2) Lines: ------ 
   
-  # Background parts: ----- 
+  # Background parts: ---- 
   
   if (back){
     
@@ -214,7 +216,7 @@ plot_kn <- function(axes = FALSE,
   } # back end. 
   
   
-  # Lower half: ----- 
+  # Lower half: ---- 
   
   if (road & city){
     
@@ -282,7 +284,7 @@ plot_kn <- function(axes = FALSE,
   } # house end. 
   
   
-  # Upper half: ----- 
+  # Upper half: ----  
   
   if (univ){
     
@@ -448,7 +450,7 @@ plot_kn <- function(axes = FALSE,
   
   # return what?
   
-} # plot_kn end. 
+} # plot_kn().
 
 
 ## Check: ----- 

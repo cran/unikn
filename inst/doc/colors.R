@@ -19,6 +19,18 @@ knitr::opts_chunk$set(echo = TRUE,
 # install.packages('unikn')  # install unikn from CRAN client
 library('unikn')             # loads the package
 
+## ----unikn-palette, fig.width = 5, fig.asp = .8, fig.align = 'center'---------
+seecol(pal_unikn)  # view details of pal_unikn 
+
+## ----save-seecol, fig.width = 5, fig.asp = .8, fig.align = 'center'-----------
+my_pal <- seecol(pal_unikn_light)  # view details of AND save a color palette  
+
+## ----my-pal-example, fig.width = 5, fig.asp = .65, fig.align = 'center'-------
+barplot(1/sqrt(1:10), col = my_pal)  # use my_pal in a plot
+
+## ----invisible-seecol, fig.width = 5, fig.asp = .8, fig.align = 'center'------
+seecol(pal_bordeaux)
+
 ## ----seecol-unikn-all, fig.width = 6, fig.height = 5, fig.align = 'center'----
 seecol("unikn_all")  # same as seecol("all")
 
@@ -33,18 +45,6 @@ seecol("pref_all")
 
 ## ----seecol-grad-all-2, fig.width = 5, fig.asp = .8, fig.align = 'center'-----
 seecol("grad_all")
-
-## ----unikn-palette, fig.width = 5, fig.asp = .8, fig.align = 'center'---------
-seecol(pal_unikn)  # view details of pal_unikn 
-
-## ----save-seecol, fig.width = 5, fig.asp = .8, fig.align = 'center'-----------
-my_pal <- seecol(pal_unikn_light)  # view details of AND save pal_unikn_light to my_pal  
-
-## ----my-pal-example, fig.width = 5, fig.asp = .65, fig.align = 'center'-------
-barplot(1/sqrt(1:10), col = my_pal)  # use my_pal in a plot
-
-## ----invisible-seecol, fig.width = 5, fig.asp = .8, fig.align = 'center'------
-seecol(pal_bordeaux)
 
 ## ----seecol-aesthetic-parameters, fig.width = 5, fig.asp = .8, fig.align = 'center'----
 seecol("grad_all", col_brd = "black", lwd_brd = 1, title = "Color gradients (with black borders)")
@@ -105,6 +105,10 @@ seecol(four_cols, title = "Four named colors with added transparency")
 ## ----transparency-all, fig.width = 5, fig.height = 4, fig.align = 'center'----
 seecol("grad", alpha = 0.67, title = "Seeing color palettes with added transparency")
 
+## ----transparency-ac, fig.width = 5, fig.asp = .8, fig.align = 'center'-------
+my_cols <- c("black", "firebrick", "forestgreen", "gold", "steelblue")
+seecol(ac(my_cols, alpha = c(rep(.25, 5), rep(.75, 5))))
+
 ## ----compare-custom-palettes, fig.width = 5, fig.height = 3, fig.align = 'center'----
 # Define 2 palettes: 
 pal1 <- c(rev(pal_seeblau), "white", pal_bordeaux)
@@ -129,6 +133,34 @@ seecol(list(my_pair, pal1, pal2, pal_unikn, pal_unikn_pair), n = 5)
 ## ----superset-compare, fig.width = 5, fig.height = 3, fig.align = 'center'----
 seecol(list(my_pair, pal1, pal2, pal_unikn, pal_unikn_pair), n = 15)
 
+## ----simcol-1, fig.width = 5, fig.asp = .8, fig.align = 'center', fig.show = 'hold'----
+simcol("deeppink")
+
+## ----simcol-2, fig.width = 5, fig.asp = .8, fig.align = 'center', fig.show = 'hold'----
+simcol("deepskyblue", col_candidates = pal_unikn, tol = c(50, 50, 100))
+
+## ----grepal-1, fig.width = 6, fig.height = 4, fig.align = 'center', fig.show = 'hold'----
+grepal("purple")  # get & see 10 names of colors() with "purple" in their name
+
+## ----grepal-2-----------------------------------------------------------------
+length(grepal("gr(a|e)y", plot = FALSE))    # shades of "gray" or "grey"
+length(grepal("^gr(a|e)y", plot = FALSE))   # shades starting with "gray" or "grey"
+length(grepal("^gr(a|e)y$", plot = FALSE))  # shades starting and ending with "gray" or "grey"
+
+## ----grepal-3, fig.width = 5, fig.asp = .8, fig.align = 'center'--------------
+grepal("see", pal_unikn)  # finding "see" in (the names of) pal_unikn (as df)
+grepal("blau", pal_unikn_pref, plot = FALSE)  # finding "blau" in pal_unikn_pref
+
+## ----shades-of-1, fig.width = 5, fig.asp = .8, fig.align = 'center'-----------
+seecol(shades_of(n = 7, col_1 = Karpfenblau), title = "Shades of Karpfenblau")
+
+## ----shades-of-2, fig.width = 5, fig.asp = .8, fig.align = 'center'-----------
+shady_1 <- usecol(c("deeppink", "gold"), 5)
+shady_2 <- shades_of(5, "deeppink", "gold")
+all.equal(shady_1, shady_2)
+
+seecol(shady_2, title = "A bi-polar color gradient")
+
 ## ----newpal-1, fig.width = 5, fig.asp = .8, fig.align = 'center'--------------
 col_flag <- c("#000000", "#dd0000", "#ffce00")  # source: www.schemecolor.com
 
@@ -136,19 +168,4 @@ flag_de  <- newpal(col = col_flag,
                    names = c("black", "red", "gold"))
 
 seecol(flag_de, title = "Defining a flag_de color palette")
-
-## ----grepal-1, fig.width = 6, fig.height = 4, fig.align = 'center'------------
-grepal("red")  # get 27 names of colors() with "red" in their name
-
-seecol(grepal("red"))  # see all colors() with "red" in their name
-
-## ----grepal-2-----------------------------------------------------------------
-length(grepal("gr(a|e)y"))   # shades of "gray" or "grey"
-length(grepal("^gr(a|e)y"))  # shades starting with "gray" or "grey"
-length(grepal("^gr(a|e)y$")) # shades starting and ending with "gray" or "grey"
-
-## ----grepal-3, fig.width = 5, fig.asp = .8, fig.align = 'center'--------------
-grepal("see", pal_unikn)
-
-seecol(grepal("blau", pal_unikn_pref), title = "Shades of 'blau' in pal_unikn_pref")
 

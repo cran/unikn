@@ -1,5 +1,5 @@
 ## plot_text_calls.R | unikn
-## spds | uni.kn |  2019 08 28
+## spds | uni.kn |  2021 04 24
 ## ---------------------------
 
 # Specialized functions for plotting formatted text (with decorations):
@@ -48,11 +48,23 @@
 #' the shorter one is recycled. 
 #' Default: \code{y = .55}. 
 #' 
-#' @param y_layout A numeric value or vector for the vertical 
-#' spacing of labels in \code{labels}. 
-#' 2 special values are 
+#' @param x_layout An optional numeric vector or character string  
+#' to control the horizontal positions of \code{labels}. 
+#' Numeric values are interpreted as increments to values of \code{x} 
+#' and recycled (to enable stepwise or alternating patterns). 
+#' 3 character string options are: 
+#' \code{"center"} (i.e., center wrt. first label or plot center),
+#' \code{"left"} (i.e., left wrt. first label or plot center), 
+#' \code{"right"} (i.e., right wrt. first label or plot center). 
+#' Default: \code{x_layout = NA} (i.e., using values of \code{x}). 
+#' 
+#' @param y_layout A numeric value or character string 
+#' to control the vertical positions of \code{labels}. 
+#' Numeric values are interpreted as increments to values of \code{y[1]} 
+#' and recycled (to enable stepwise or alternating patterns). 
+#' 2 character string options are: 
 #' \code{"even"} (i.e., even distribution of labels across available y-space) and 
-#' \code{"flush"} (i.e., no space between adjacent labels, or \code{y_layout = 0}). 
+#' \code{"flush"} (i.e., no space between adjacent labels, i.e., \code{y_layout = 0}). 
 #' Default: \code{y_layout = "even"}. 
 #' 
 #' @param col The color(s) of the text label(s). 
@@ -94,6 +106,15 @@
 #' mark(labels = c("It is also flexible", "but to be handled with care"),
 #'      x = .4, y = .3, y_layout = "flush", cex = 1.2,
 #'      col = c("white", "black"), col_bg = c(pal_seeblau[[5]], "gold"))
+#'      
+#' # Using x_layout and y_layout:
+#' mark(labels = c("Ene,", "mene, miste,", "es rappelt", "in der Kiste."), 
+#'      cex = 1.4, font = 2, col = "white", col_bg = Petrol,
+#'      x = NA, y = .85, x_layout = "center", y_layout = "even", new_plot = "slide")
+#'      
+#' mark(labels = c("One, and", "two, and", "three and four is", "plenty and perhaps enough..."), 
+#'      cex = 1.4, font = 2, col = "white", col_bg = Bordeaux,
+#'      x = .5, y = .6, x_layout = c(-.25, +.25), y_layout = 0, new_plot = "slide")
 #' 
 #' @family text functions
 #' 
@@ -107,7 +128,8 @@
 # - Definition: ---- 
 
 mark <- function(labels,             # labels of text element(s) to plot
-                 x = 0, y = .55,     # coordinates of text labels 
+                 x = 0, y = .55,     # coordinates of text labels
+                 x_layout = NA,      # 3 options: "left", "center", "right"
                  y_layout = "even",  # "even", "flush", or numeric value(s) for distance b/w labels (y-space between subsequent labels)
                  # Colors and text parameters:
                  col = "black", col_bg = Seeblau,  # default color(s)
@@ -116,7 +138,7 @@ mark <- function(labels,             # labels of text element(s) to plot
                  new_plot = "none"                 # type of new plot (if desired)
 ){
   
-  ## Robustify:
+  # Robustify:
   if (new_plot == FALSE || tolower(new_plot) == "false" || substr(tolower(new_plot), 1, 2) == "no") {
     new_plot <- "none"
   } 
@@ -127,9 +149,13 @@ mark <- function(labels,             # labels of text element(s) to plot
   
   # Pass on (to newer plot_text function):
   plot_text(labels = labels, 
-            x = x, y = y, y_layout = y_layout,  
-            col = col, col_bg = col_bg,
-            cex = cex, font = font,
+            x = x, y = y, 
+            x_layout = x_layout, 
+            y_layout = y_layout,  
+            col = col, 
+            col_bg = col_bg,
+            cex = cex, 
+            font = font,
             new_plot = new_plot, 
             # fixed defaults (not available to user): 
             col_bg_border = NA,
@@ -138,7 +164,8 @@ mark <- function(labels,             # labels of text element(s) to plot
   )
   
   # Return? 
-}
+  
+} # mark(). 
 
 ## Check:
 
@@ -239,11 +266,23 @@ mark <- function(labels,             # labels of text element(s) to plot
 #' the shorter one is recycled. 
 #' Default: \code{y = .55}. 
 #' 
-#' @param y_layout A numeric value or vector for the vertical 
-#' spacing of labels in \code{labels}. 
-#' 2 special values are 
+#' @param x_layout An optional numeric vector or character string  
+#' to control the horizontal positions of \code{labels}. 
+#' Numeric values are interpreted as increments to values of \code{x} 
+#' and recycled (to enable stepwise or alternating patterns). 
+#' 3 character string options are: 
+#' \code{"center"} (i.e., center wrt. first label or plot center),
+#' \code{"left"} (i.e., left wrt. first label or plot center), 
+#' \code{"right"} (i.e., right wrt. first label or plot center). 
+#' Default: \code{x_layout = NA} (i.e., using values of \code{x}). 
+#' 
+#' @param y_layout A numeric value or character string 
+#' to control the vertical positions of \code{labels}. 
+#' Numeric values are interpreted as increments to values of \code{y[1]} 
+#' and recycled (to enable stepwise or alternating patterns). 
+#' 2 character string options are: 
 #' \code{"even"} (i.e., even distribution of labels across available y-space) and 
-#' \code{"flush"} (i.e., no space between adjacent labels, or \code{y_layout = 0}). 
+#' \code{"flush"} (i.e., no space between adjacent labels, i.e., \code{y_layout = 0}). 
 #' Default: \code{y_layout = "even"}. 
 #' 
 #' @param col The color(s) of the text label(s). 
@@ -281,7 +320,12 @@ mark <- function(labels,             # labels of text element(s) to plot
 #' lbl_line <- c("This is neat, true, and terribly important.")
 #' uline(labels = lbl_line, new_plot = "blank")  # create a new plot
 #' uline(labels = "(which is why we underline it).", y = .40, cex = 1.2)  # add to plot
-#'                         
+#'
+#' # Using x_layout and y_layout:
+#' uline(labels = c("Ene,", "mene, miste,", "es rappelt", "in der Kiste."), 
+#'      cex = 1.4, font = 2, col = Grau, col_bg = Pinky,
+#'      x = 1.2, y = .85, x_layout = "right", y_layout = "even", new_plot = "slide")
+#'                                       
 #' @family text functions
 #' 
 #' @seealso
@@ -294,7 +338,8 @@ mark <- function(labels,             # labels of text element(s) to plot
 # - Definition: ---- 
 
 uline <- function(labels,             # labels of text element(s) to plot
-                  x = 0, y = .55,     # coordinates of text labels 
+                  x = 0, y = .55,     # coordinates of text labels
+                  x_layout = NA,      # 3 options: "left", "center", "right"
                   y_layout = "even",  # "even", "flush", or numeric value(s) for distance b/w labels (y-space between subsequent labels)
                   # Colors and text parameters:
                   col = "black", col_bg = Seeblau,  # default color(s)
@@ -305,17 +350,20 @@ uline <- function(labels,             # labels of text element(s) to plot
   
   # Pass on (to newer plot_text function):
   plot_text(labels = labels, 
-            x = x, y = y, y_layout = y_layout,  
+            x = x, y = y, 
+            x_layout = x_layout, 
+            y_layout = y_layout,  
             col = col, col_bg = col_bg,
             cex = cex, font = font,
             new_plot = new_plot, 
             # fixed defaults (not available to user): 
             col_bg_border = NA,
             pos = 4,
-            line = TRUE)
+            line = TRUE
+  )
   
   # Return? 
-}
+} # uline(). 
 
 ## Check: 
 
@@ -369,11 +417,23 @@ uline <- function(labels,             # labels of text element(s) to plot
 #' the shorter one is recycled. 
 #' Default: \code{y = .55}. 
 #' 
-#' @param y_layout A numeric value or vector for the vertical 
-#' spacing of labels in \code{labels}. 
-#' 2 special values are 
+#' @param x_layout An optional numeric vector or character string  
+#' to control the horizontal positions of \code{labels}. 
+#' Numeric values are interpreted as increments to values of \code{x} 
+#' and recycled (to enable stepwise or alternating patterns). 
+#' 3 character string options are: 
+#' \code{"center"} (i.e., center wrt. first label or plot center),
+#' \code{"left"} (i.e., left wrt. first label or plot center), 
+#' \code{"right"} (i.e., right wrt. first label or plot center). 
+#' Default: \code{x_layout = NA} (i.e., using values of \code{x}). 
+#' 
+#' @param y_layout A numeric value or character string 
+#' to control the vertical positions of \code{labels}. 
+#' Numeric values are interpreted as increments to values of \code{y[1]} 
+#' and recycled (to enable stepwise or alternating patterns). 
+#' 2 character string options are: 
 #' \code{"even"} (i.e., even distribution of labels across available y-space) and 
-#' \code{"flush"} (i.e., no space between adjacent labels, or \code{y_layout = 0}). 
+#' \code{"flush"} (i.e., no space between adjacent labels, i.e., \code{y_layout = 0}). 
 #' Default: \code{y_layout = "even"}. 
 #' 
 #' @param col The color(s) of the text label(s). 
@@ -407,7 +467,16 @@ uline <- function(labels,             # labels of text element(s) to plot
 #'               "and even more here."), 
 #'               y = .4, y_layout = .04, 
 #'               new_plot = "none")
-#'                         
+#'               
+#' # Using x_layout and y_layout:
+#' post(labels = c("Ene,", "mene, miste,", "es rappelt", "in der Kiste."), 
+#'      cex = 1.4, font = 2, col = "white", col_bg = Pinky, 
+#'      x = .1, y = .5, x_layout = "left", y_layout = .05, new_plot = "xbox")
+#'      
+#' post(labels = c("Hello world!", "Does this work?", "That's good!", "Please carry on..."), 
+#'      cex = 1.4, font = 2, col = "white", col_bg = Karpfenblau, 
+#'      x = .01, y = .6, x_layout = .10, y_layout = .05, new_plot = "xbox")
+#'                                                
 #' @family text functions
 #' 
 #' @seealso 
@@ -421,6 +490,7 @@ uline <- function(labels,             # labels of text element(s) to plot
 
 post <- function(labels,             # labels of text element(s) to plot 
                  x = .03, y = .55,   # coordinates of text labels 
+                 x_layout = NA,      # 3 options: "left", "center", "right"
                  y_layout = "even",  # "even", "flush", or numeric value(s) for distance b/w labels (y-space between subsequent labels)
                  # Colors and text parameters:
                  col = "white", col_bg = Seeblau,  # default color(s)
@@ -431,7 +501,9 @@ post <- function(labels,             # labels of text element(s) to plot
   
   # Pass on (to newer plot_text function):
   plot_text(labels = labels, 
-            x = x, y = y, y_layout = y_layout,  
+            x = x, y = y, 
+            x_layout = x_layout, 
+            y_layout = y_layout,  
             col = col, col_bg = col_bg,
             cex = cex, font = font,
             new_plot = new_plot, 
@@ -441,7 +513,7 @@ post <- function(labels,             # labels of text element(s) to plot
   )
   
   # Return? 
-}
+} # post(). 
 
 ## Check:
 
@@ -558,11 +630,23 @@ post <- function(labels,             # labels of text element(s) to plot
 #' the shorter one is recycled. 
 #' Default: \code{y = .8}. 
 #' 
-#' @param y_layout A numeric value or vector for the vertical 
-#' spacing of labels in \code{labels}. 
-#' 2 special values are 
+#' @param x_layout An optional numeric vector or character string  
+#' to control the horizontal positions of \code{labels}. 
+#' Numeric values are interpreted as increments to values of \code{x} 
+#' and recycled (to enable stepwise or alternating patterns). 
+#' 3 character string options are: 
+#' \code{"center"} (i.e., center wrt. first label or plot center),
+#' \code{"left"} (i.e., left wrt. first label or plot center), 
+#' \code{"right"} (i.e., right wrt. first label or plot center). 
+#' Default: \code{x_layout = NA} (i.e., using values of \code{x}). 
+#' 
+#' @param y_layout A numeric value or character string 
+#' to control the vertical positions of \code{labels}. 
+#' Numeric values are interpreted as increments to values of \code{y[1]} 
+#' and recycled (to enable stepwise or alternating patterns). 
+#' 2 character string options are: 
 #' \code{"even"} (i.e., even distribution of labels across available y-space) and 
-#' \code{"flush"} (i.e., no space between adjacent labels, or \code{y_layout = 0}). 
+#' \code{"flush"} (i.e., no space between adjacent labels, i.e., \code{y_layout = 0}). 
 #' Default: \code{y_layout = "flush"}. 
 #' 
 #' @param col The color(s) of the text label(s). 
@@ -599,6 +683,11 @@ post <- function(labels,             # labels of text element(s) to plot
 #' heading(labels = c("Ene,", "mene, miste,", "es rappelt", "in der Kiste."), 
 #'         cex = 1.6, col = "white", col_bg = usecol(c(Pinky, Seegruen, Bordeaux, Karpfenblau)))
 #' 
+#' # Using x_layout and y_layout:
+#' heading(labels = c("Ene,", "mene, miste,", "es rappelt", "in der Kiste."), 
+#'         cex = 1.6, col = "white", col_bg = usecol(pal_pinky[2:5]), 
+#'         x = NA, y = .6, x_layout = "right", y_layout = "flush")
+#' 
 #' #' @family text functions
 #' 
 #' @seealso 
@@ -611,7 +700,8 @@ post <- function(labels,             # labels of text element(s) to plot
 # - Definition: ---- 
 
 heading <- function(labels,             # labels of text element(s) to plot 
-                    x = 0, y = .8,      # coordinates of text labels 
+                    x = 0, y = .8,      # coordinates of text labels
+                    x_layout = NA,      # 3 options: "left", "center", "right"
                     y_layout = "flush", # "even", "flush", or numeric value(s) for distance b/w labels (y-space between subsequent labels)
                     # Colors and text parameters: 
                     col = "black", col_bg = "default",  # default color(s) 
@@ -654,7 +744,9 @@ heading <- function(labels,             # labels of text element(s) to plot
   
   # Pass on (to newer plot_text function):
   plot_text(labels = labels, 
-            x = x, y = y, y_layout = y_layout,  
+            x = x, y = y, 
+            x_layout = x_layout, 
+            y_layout = y_layout,  
             col = col, col_bg = col_bg,
             cex = cex, 
             font = font,
@@ -666,7 +758,7 @@ heading <- function(labels,             # labels of text element(s) to plot
   )
   
   # Return? 
-}
+} # heading(). 
 
 ## Check:
 
@@ -717,7 +809,7 @@ heading <- function(labels,             # labels of text element(s) to plot
 
 ## Done: ------
 
-# - Clean up code.  [2019-06-04]
+# - Add x_layout options.  [2021-04-24]
 
 ## ToDo: ------
 
