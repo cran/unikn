@@ -1,13 +1,13 @@
 ## plot_kn.R | unikn
-## spds | uni.kn |  2021 12 08
+## spds | uni.kn |  2022 08 23
 ## ---------------------------
 
 ## plot_unikn: Function to plot unikn logo: ------ 
 
-plot_kn <- function(axes = FALSE, 
-                    back = TRUE, 
+plot_kn <- function(back = TRUE, 
                     city = TRUE, 
-                    univ = TRUE){
+                    univ = TRUE,
+                    axes = FALSE){
   
   # Parameters: ----
   
@@ -18,10 +18,11 @@ plot_kn <- function(axes = FALSE,
   
   use_colors <- FALSE # TRUE  # use colors (for lines)?
   use_areas  <- FALSE # TRUE  # draw rectangles and polygons (for colored areas)?
+  rand_col   <- FALSE # TRUE  # randomize color palettes?
   
   # back <- TRUE   # draw background lines?
   
-  # city  <- TRUE  # wrapper for road/house/cath
+  # city  <- TRUE  # draw city (road/house/cath)?
   road  <- TRUE # FALSE
   house <- TRUE # FALSE
   cath  <- TRUE # FALSE
@@ -29,14 +30,14 @@ plot_kn <- function(axes = FALSE,
   # univ <- TRUE  # draw university?
   
   
-  # Canvas: ---- 
+  # Canvas settings: ------ 
   
+  # par: ----
   opar <- par(no.readonly = TRUE)  # all par settings that can be changed.
-  on.exit(par(opar))  # par(opar)  # restore original par() settings
-  
+  on.exit(par(opar))  # par(opar)  # restore original par() settings  
   
   if (axes) {
-    par(mar = c(0, 0, 0, 0) + 2.1)   # min. margins (with axes)
+    par(mar = c(0, 0, 0, 0) + 2.1)  # min. margins (with axes)
   } else {
     par(mar = c(0, 0, 0, 0) + 4.1)  # symmetrical margins
   }
@@ -45,12 +46,35 @@ plot_kn <- function(axes = FALSE,
   par("fg" = "black")
   
   
+  
   # Dimensions: ---- 
   
   # xmin <-  0  # (not needed)
   # ymin <-  0  # (not needed)
   xmax <- 48
   ymax <- 48
+  
+  
+  # Scale x-dimension: ----- 
+  
+  # ToDo: Add option to enforce 1:1 aspect ratio 
+  #       (by re-scaling based on current canvas dimensions).
+  
+  # (a) Current device: Determine plot aspect ratio (for scaling purposes):
+  plot_xy <- dev.size("in")            # use EITHER par("pin") OR dev.size("in")
+  plot_ratio <- plot_xy[1]/plot_xy[2]  # current aspect ratio
+  xsf <- 1/plot_ratio                  # multiplicative scaling factor (for x-widths)
+  
+  # (b) Current box dimensions (code from plot_box.R):
+  # xsf <- box_height/box_width
+  
+  # (b) Assume square:
+  # xsf <- 1
+  
+  # print(paste0("X scaling factor xsf = ", xsf)) # 4debugging
+  
+  # # Apply to ALL x-coords: 
+  # xmax <- xmax * xsf  # FAILS, as only x-differences should be scaled (not all x-values)
   
   
   # Colors: ---- 
@@ -67,22 +91,34 @@ plot_kn <- function(axes = FALSE,
   # (c) Specific parts:
   if (use_colors){
     
-    # line colors: 
-    col_back  <- Grau
-    col_road  <- Seeblau  
-    col_house <- Karpfenblau
-    col_cath  <- Petrol
-    col_univ  <- Bordeaux
+    # 1. Line colors: 
+    line_pal <- usecol(c(pal_grau[[3]], Karpfenblau, pal_grau[[5]], Petrol, Bordeaux))
+    if (rand_col) { line_pal <- sample(line_pal) }
     
-    # area colors (only used if use_areas = TRUE and use_colors = TRUE): 
-    col_cath_roof <- pal_pinky[[1]]
-    col_roof <- pal_pinky[[2]] 
-    col_sail <- pal_signal[[2]] # pal_peach[[2]]
-    col_flap <- pal_seegruen[[2]]
+    col_back  <- line_pal[1]
+    col_road  <- line_pal[2]
+    col_house <- line_pal[3]
+    col_cath  <- line_pal[4]
+    col_univ  <- line_pal[5]
     
-    col_back_pal <- usecol(pal = pal_unikn, alpha = 1)  # color range (11)
-    # col_back_pal <- usecol(c(Seeblau, "white", Bordeaux), n = 11, alpha = 1)  # color gradient (11)
-    # seecol(col_back_pal)
+    # 2. Area colors (only used if use_areas = TRUE and use_colors = TRUE): 
+    area_pal <- usecol(c(pal_pinky[[1]], pal_pinky[[2]], pal_peach[[2]], pal_seegruen[[2]]))
+    if (rand_col) { area_pal <- sample(area_pal) }
+    
+    col_cath_roof <- area_pal[1]
+    col_roof <- area_pal[2]
+    col_sail <- area_pal[3]
+    col_flap <- area_pal[4]
+    
+    # 3. Background colors: 
+    back_pal <- usecol(pal = pal_unikn, alpha = 1)  # color range (11)
+    # back_pal <- usecol(c(Seeblau, "white", Bordeaux), n = 11, alpha = 1)  # color gradient (11)
+    # seecol(back_pal)
+    if (rand_col) { back_pal <- sample(back_pal) }
+    
+    # 4. Window colors (for highlights):
+    win_pal <- pal_signal
+    if (rand_col) { win_pal <- sample(win_pal) }
     
   } else {
     
@@ -99,7 +135,7 @@ plot_kn <- function(axes = FALSE,
     col_sail <- NA
     col_flap <- NA
     
-    col_back_pal <- rep(NA, 11)  # transparent
+    back_pal <- rep(NA, 11)  # transparent
     
     
   } # use_colors end. 
@@ -120,14 +156,14 @@ plot_kn <- function(axes = FALSE,
   
   if (axes){
     
-    # x_ax_seq <- seq(0, 100, by = 10)
+    x_ax_seq <- seq(0,  50, by =  5) # square OR (scaled: y_ax_seq * xsf) 
+    x_ax_lbl <- seq(0,  50, by =  5)
     y_ax_seq <- seq(0,  50, by =  5)
-    x_ax_seq <- y_ax_seq  # square 
     
-    axis(1, at = x_ax_seq, col = col_axes)
-    axis(2, at = y_ax_seq, col = col_axes)
-    axis(3, at = x_ax_seq, col = col_axes)
-    axis(4, at = y_ax_seq, col = col_axes)
+    axis(1, at = x_ax_seq, labels = x_ax_lbl, col = col_axes)  # x-bottom
+    axis(2, at = y_ax_seq, col = col_axes)  # y-left
+    axis(3, at = x_ax_seq, labels = x_ax_lbl, col = col_axes)  # x-top
+    axis(4, at = y_ax_seq, col = col_axes)  # y-right
     
   } # axes end. 
   
@@ -151,27 +187,58 @@ plot_kn <- function(axes = FALSE,
     
     if (back){
       
-      rect(xleft = 00/48 * xmax, ybottom = 00/48 * ymax, xright = 48/48 * xmax, ytop = 48/48 * ymax, border = col_back, col = col_back_pal[[7]])  # main background rectangle 
+      rect(xleft = 00/48 * xmax, ybottom = 00/48 * ymax, xright = 48/48 * xmax, ytop = 48/48 * ymax, border = col_back, col = back_pal[[7]])  # main background rectangle 
       
-      rect(xleft = 00/48 * xmax, ybottom = 00/48 * ymax, xright = 24/48 * xmax, ytop = 24/48 * ymax, border = col_back, col = col_back_pal[[8]])  # bottom left quarter
-      rect(xleft = 24/48 * xmax, ybottom = 00/48 * ymax, xright = 48/48 * xmax, ytop = 24/48 * ymax, border = col_back, col = col_back_pal[[9]])  # bottom right quarter
-      rect(xleft = 00/48 * xmax, ybottom = 24/48 * ymax, xright = 24/48 * xmax, ytop = 48/48 * ymax, border = col_back, col = col_back_pal[[5]])  # top left quarter
-      rect(xleft = 24/48 * xmax, ybottom = 24/48 * ymax, xright = 48/48 * xmax, ytop = 48/48 * ymax, border = col_back, col = col_back_pal[[5]])  # top right quarter
+      rect(xleft = 00/48 * xmax, ybottom = 00/48 * ymax, xright = 24/48 * xmax, ytop = 24/48 * ymax, border = col_back, col = back_pal[[8]])  # bottom left quarter
+      rect(xleft = 24/48 * xmax, ybottom = 00/48 * ymax, xright = 48/48 * xmax, ytop = 24/48 * ymax, border = col_back, col = back_pal[[7]])  # bottom right quarter
+      rect(xleft = 00/48 * xmax, ybottom = 24/48 * ymax, xright = 24/48 * xmax, ytop = 48/48 * ymax, border = col_back, col = back_pal[[5]])  # top left quarter
+      rect(xleft = 24/48 * xmax, ybottom = 24/48 * ymax, xright = 48/48 * xmax, ytop = 48/48 * ymax, border = col_back, col = back_pal[[5]])  # top right quarter
       
-      rect(xleft = 24/48 * xmax, ybottom = 36/48 * ymax, xright = 36/48 * xmax, ytop = 48/48 * ymax, border = col_back, col = col_back_pal[[4]])  # 16th: row_1 col_3
-      rect(xleft = 36/48 * xmax, ybottom = 36/48 * ymax, xright = 48/48 * xmax, ytop = 48/48 * ymax, border = col_back, col = col_back_pal[[3]])  # 16th: row_1 col_4
-      rect(xleft = 00/48 * xmax, ybottom = 12/48 * ymax, xright = 12/48 * xmax, ytop = 24/48 * ymax, border = col_back, col = col_back_pal[[7]])  # 16th: row_3 col_1
-      rect(xleft = 12/48 * xmax, ybottom = 12/48 * ymax, xright = 24/48 * xmax, ytop = 24/48 * ymax, border = col_back, col = col_back_pal[[6]])  # 16th: row_3 col_2
+      rect(xleft = 24/48 * xmax, ybottom = 36/48 * ymax, xright = 36/48 * xmax, ytop = 48/48 * ymax, border = col_back, col = back_pal[[4]])  # 16th: row_1 col_3
+      rect(xleft = 36/48 * xmax, ybottom = 36/48 * ymax, xright = 48/48 * xmax, ytop = 48/48 * ymax, border = col_back, col = back_pal[[3]])  # 16th: row_1 col_4
+      rect(xleft = 00/48 * xmax, ybottom = 12/48 * ymax, xright = 12/48 * xmax, ytop = 24/48 * ymax, border = col_back, col = back_pal[[7]])  # 16th: row_3 col_1
+      rect(xleft = 12/48 * xmax, ybottom = 12/48 * ymax, xright = 24/48 * xmax, ytop = 24/48 * ymax, border = col_back, col = back_pal[[6]])  # 16th: row_3 col_2
       
-    }
+      rect(xleft = 00/48 * xmax, ybottom = 00/48 * ymax, xright = 12/48 * xmax, ytop = 12/48 * ymax, border = col_back, col = back_pal[[6]])  # 16th: row_4 col_1
+      
+    } # if (back).
     
-    if (city & house){
+    
+    if (city){
       
-      polygon(x = c(12, 15, 18)/48 * xmax, y = c(06, 12, 06)/48 * ymax, border = col_house, col = col_roof)  # roof of low house left
-      polygon(x = c(18, 21, 24)/48 * xmax, y = c(06, 12, 06)/48 * ymax, border = col_house, col = col_roof)  # roof of low house right
-      polygon(x = c(42, 45, 48)/48 * xmax, y = c(12, 18, 12)/48 * ymax, border = col_house, col = col_roof)  # roof of high house
+      if (house){
+        
+        polygon(x = c(12, 15, 18)/48 * xmax, y = c(06, 12, 06)/48 * ymax, border = col_house, col = col_roof)  # roof of low house left
+        polygon(x = c(18, 21, 24)/48 * xmax, y = c(06, 12, 06)/48 * ymax, border = col_house, col = col_roof)  # roof of low house right
+        polygon(x = c(42, 45, 48)/48 * xmax, y = c(12, 18, 12)/48 * ymax, border = col_house, col = col_roof)  # roof of high house
+        
+        rect(xleft = 12/48 * xmax, ybottom = 03/48 * ymax, xright = 18/48 * xmax, ytop = 06/48 * ymax, border = col_house, col = back_pal[[4]])  # low house left
+        rect(xleft = 18/48 * xmax, ybottom = 03/48 * ymax, xright = 24/48 * xmax, ytop = 06/48 * ymax, border = col_house, col = back_pal[[5]])  # low house right
+        rect(xleft = 42/48 * xmax, ybottom = 00/48 * ymax, xright = 48/48 * xmax, ytop = 06/48 * ymax, border = col_house, col = back_pal[[7]])  # high house bottom
+        rect(xleft = 42/48 * xmax, ybottom = 06/48 * ymax, xright = 48/48 * xmax, ytop = 12/48 * ymax, border = col_house, col = back_pal[[6]])  # high house top
+        
+      }
       
-    }
+      if (cath){
+        
+        rect(xleft = 24/48 * xmax, ybottom = 00/48 * ymax, xright = 42/48 * xmax, ytop = 18/48 * ymax, border = col_cath, col = back_pal[[8]])  # cathedral base
+        rect(xleft = 30/48 * xmax, ybottom = 00/48 * ymax, xright = 36/48 * xmax, ytop = 24/48 * ymax, border = col_cath, col = back_pal[[8]])  # cathedral tower
+        
+        rect(xleft = 26/48 * xmax, ybottom = 06/48 * ymax, xright = 28/48 * xmax, ytop = 15/48 * ymax, border = col_cath, col = win_pal[[2]])  # cathedral window left
+        rect(xleft = 32/48 * xmax, ybottom = 06/48 * ymax, xright = 34/48 * xmax, ytop = 15/48 * ymax, border = col_cath, col = win_pal[[2]])  # cathedral window middle
+        rect(xleft = 38/48 * xmax, ybottom = 06/48 * ymax, xright = 40/48 * xmax, ytop = 15/48 * ymax, border = col_cath, col = win_pal[[2]])  # cathedral window right
+        
+      }
+      
+      if (road){
+        
+        rect(xleft = 00/48 * xmax, ybottom = 00/48 * ymax, xright = 24/48 * xmax, ytop = 03/48 * ymax, border = col_back, col = back_pal[[3]])  # river/lake
+        
+      }
+      
+      
+    } # if (city).
+    
     
     if (univ){
       
@@ -182,9 +249,9 @@ plot_kn <- function(axes = FALSE,
       polygon(x = c(18, 21, 24)/48 * xmax, y = c(36, 34, 36)/48 * ymax, border = col_univ, col = col_flap)  # flap middle
       polygon(x = c(36, 39, 42)/48 * xmax, y = c(36, 34, 36)/48 * ymax, border = col_univ, col = col_flap)  # flap right
       
-    }
+    } # if (univ). 
     
-  } # use_areas end. 
+  } # if (use_areas). 
   
   
   # (2) Lines: ------ 
@@ -213,12 +280,12 @@ plot_kn <- function(axes = FALSE,
     # upper half: 
     segments(x0 = 36/48 * xmax, y0 = 36/48 * ymax, x1 = 36/48 * xmax, y1 = 48/48 * ymax, col = col_back) # vertical upper right square
     
-  } # back end. 
+  } # if (back).
   
   
   # Lower half: ---- 
   
-  if (road & city){
+  if (city & road){
     
     # bridge lines:
     segments(x0 = 00/48 * xmax, y0 = 03/48 * ymax, x1 = 24/48 * xmax, y1 = 03/48 * ymax, col = col_road)  # horizontal bridge (redundant)
@@ -241,10 +308,10 @@ plot_kn <- function(axes = FALSE,
     
     # grid.circle(x = (03/48 * xmax), y = (10/48 * ymax), r = (02/48 * xmax), gp = gpar(), draw = TRUE)
     
-  } # road end. 
+  } # if (city & road). 
   
   
-  if (house & city){
+  if (city & house){
     
     # horizontal:
     segments(x0 = 12/48 * xmax, y0 = 06/48 * ymax, x1 = 18/48 * xmax, y1 = 06/48 * ymax, col = col_house)  # low house left top
@@ -281,7 +348,7 @@ plot_kn <- function(axes = FALSE,
     segments(x0 = 48/48 * xmax, y0 = 12/48 * ymax, x1 = 45/48 * xmax, y1 = 18/48 * ymax, col = col_house)
     # polygon(x = c(42, 45, 48)/48 * xmax, y = c(12, 18, 12)/48 * xmax, border = col_house, col = col_roof)  # upper roof 
     
-  } # house end. 
+  } # if (city & house).
   
   
   # Upper half: ----  
@@ -402,7 +469,7 @@ plot_kn <- function(axes = FALSE,
     # polygon(x = c(36, 39, 42)/48 * xmax, y = c(36, 34, 36)/48 * ymax, border = col_univ, col = col_flap)  # right flap
     
     
-  } # univ end. 
+  } # if (univ). 
   
   
   # Cathedral (Münster): ---- 
@@ -443,7 +510,7 @@ plot_kn <- function(axes = FALSE,
     segments(x0 = 33/48 * xmax, y0 = 07/48 * ymax, x1 = 33/48 * xmax, y1 = 13/48 * ymax, col = col_cath)  # window mid.
     segments(x0 = 39/48 * xmax, y0 = 07/48 * ymax, x1 = 39/48 * xmax, y1 = 13/48 * ymax, col = col_cath)  # window right
     
-  } # cath end. 
+  } # if (cath & city). 
   
   # restore original par() settings: ---- 
   # par(opar)
@@ -466,8 +533,9 @@ plot_kn <- function(axes = FALSE,
 
 ## ToDo: ------
 
-# - fix curves of bridge/waves
-# - add option to enforce 1:1 aspect ratio (by scaling to current canvas dimensions)
-# - add coordinates to function?
+# - Add more color options (e.g., random color areas).
+# - Fix curves of bridge/waves. 
+# - Add option to enforce 1:1 aspect ratio (by re-scaling based on current canvas dimensions). 
+# - Add starting coordinate (and size argument) to function?
 
 ## eof. ----------

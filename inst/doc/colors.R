@@ -47,8 +47,8 @@ seecol("pref_all")
 seecol("grad_all")
 
 ## ----seecol-aesthetic-parameters, fig.width = 5, fig.asp = .8, fig.align = 'center'----
-seecol("grad_all", col_brd = "black", lwd_brd = 1, title = "Color gradients (with black borders)")
-seecol(pal_seegruen, col_brd = "white", lwd_brd = 10, title = "A color palette (with white borders)")
+seecol("grad_all", col_brd = "black", lwd_brd = 1, main = "Color gradients (with black borders)")
+seecol(pal_seegruen, col_brd = "white", lwd_brd = 10, main = "A color palette (with white borders)")
 
 ## ----usecol-default-use, fig.width = 5, fig.asp = .65, fig.align = 'center'----
 # Using a color palette:
@@ -100,10 +100,10 @@ seecol(pal_unikn, alpha = 0.5)
 ## ----transparency-four, fig.width = 5, fig.asp = .8, fig.align = 'center'-----
 four_cols <- usecol(c("steelblue", "gold", "firebrick", "forestgreen"), alpha = 2/3)
 
-seecol(four_cols, title = "Four named colors with added transparency")
+seecol(four_cols, main = "Four named colors with added transparency")
 
 ## ----transparency-all, fig.width = 5, fig.height = 4, fig.align = 'center'----
-seecol("grad", alpha = 0.67, title = "Seeing color palettes with added transparency")
+seecol("grad", alpha = 0.67, main = "Seeing color palettes with added transparency")
 
 ## ----transparency-ac, fig.width = 5, fig.asp = .8, fig.align = 'center'-------
 my_cols <- c("black", "firebrick", "forestgreen", "gold", "steelblue")
@@ -120,12 +120,12 @@ seecol(list(my_pair, pal1, pal2, pal_unikn, pal_unikn_pair))
 ## ----set-custom-palette-names, fig.width = 5, fig.height = 3, fig.align = 'center'----
 seecol(list(my_pair, pal1, pal2, pal_unikn, pal_unikn_pair), 
        pal_names = c("my_pair", "blue_bord", "blue_yell"),
-       title = "Labeling custom color palettes")
+       main = "Labeling custom color palettes")
 
 ## ----set-all-palette-names, fig.width = 5, fig.height = 3, fig.align = 'center'----
 seecol(list(my_pair, pal1, pal2, pal_unikn, pal_unikn_pair), 
        pal_names = c("my_pair", "blue_bord", "blue_yell", "blue_black", "mix_pair"),
-       title = "Comparing and labeling custom color palettes")
+       main = "Comparing and labeling custom color palettes")
 
 ## ----subset-compare, fig.width = 5, fig.height = 3, fig.align = 'center'------
 seecol(list(my_pair, pal1, pal2, pal_unikn, pal_unikn_pair), n = 5)
@@ -134,10 +134,10 @@ seecol(list(my_pair, pal1, pal2, pal_unikn, pal_unikn_pair), n = 5)
 seecol(list(my_pair, pal1, pal2, pal_unikn, pal_unikn_pair), n = 15)
 
 ## ----simcol-1, fig.width = 5, fig.asp = .8, fig.align = 'center', fig.show = 'hold'----
-simcol("deeppink")
+simcol("deeppink", plot = FALSE)
 
 ## ----simcol-2, fig.width = 5, fig.asp = .8, fig.align = 'center', fig.show = 'hold'----
-simcol("deepskyblue", col_candidates = pal_unikn, tol = c(50, 50, 100))
+simcol("deepskyblue", col_candidates = pal_seeblau, tol = c(50, 50, 100))
 
 ## ----grepal-1, fig.width = 6, fig.height = 4, fig.align = 'center', fig.show = 'hold'----
 grepal("purple")  # get & see 10 names of colors() with "purple" in their name
@@ -152,14 +152,14 @@ grepal("see", pal_unikn)  # finding "see" in (the names of) pal_unikn (as df)
 grepal("blau", pal_unikn_pref, plot = FALSE)  # finding "blau" in pal_unikn_pref
 
 ## ----shades-of-1, fig.width = 5, fig.asp = .8, fig.align = 'center'-----------
-seecol(shades_of(n = 7, col_1 = Karpfenblau), title = "Shades of Karpfenblau")
+seecol(shades_of(n = 5, col_1 = Karpfenblau), main = "5 shades of Karpfenblau")
 
 ## ----shades-of-2, fig.width = 5, fig.asp = .8, fig.align = 'center'-----------
-shady_1 <- usecol(c("deeppink", "gold"), 5)
-shady_2 <- shades_of(5, "deeppink", "gold")
-all.equal(shady_1, shady_2)
+pg_1 <- usecol(c("deeppink", "gold"), 5)
+pg_2 <- shades_of(5, "deeppink", "gold")
+all.equal(pg_1, pg_2)
 
-seecol(shady_2, title = "A bi-polar color gradient")
+seecol(pg_2, main = "A bi-polar color gradient")
 
 ## ----newpal-1, fig.width = 5, fig.asp = .8, fig.align = 'center'--------------
 col_flag <- c("#000000", "#dd0000", "#ffce00")  # source: www.schemecolor.com
@@ -167,5 +167,5 @@ col_flag <- c("#000000", "#dd0000", "#ffce00")  # source: www.schemecolor.com
 flag_de  <- newpal(col = col_flag,
                    names = c("black", "red", "gold"))
 
-seecol(flag_de, title = "Defining a flag_de color palette")
+seecol(flag_de, main = "Defining a flag_de color palette")
 

@@ -83,7 +83,7 @@ pal_princeton_2 <- newpal(col = c(orange_black, "black", "white"),
 
 # View color palette (with custom background color and title):
 seecol(pal_princeton_1,  # view color palette
-       col_bg = "grey90", title = "Color palette of Princeton University")
+       col_bg = "grey90", main = "Color palette of Princeton University")
 
 ## ----mpg-rgb-cols, echo = FALSE, eval = FALSE, fig.width = 6, fig.asp = .618, fig.align = 'center', collapse = TRUE----
 #  # Using RGB values:
@@ -121,7 +121,7 @@ pal_mpg <- newpal(col = col_mpg, names = col_lbl)
 ## ----mpg-seecol, fig.width = 5, fig.asp = .80, fig.align = 'center', collapse = TRUE----
 seecol(pal_mpg,
        col_brd = "black", lwd_brd = 1, 
-       title = "Colors of the Max Planck Society")
+       main = "Colors of the Max Planck Society")
 
 ## ----compare-custom-pals, eval = TRUE, fig.width = 5, fig.asp = .50, fig.align = 'center', collapse = TRUE----
 # Compare and extend custom color palettes:
@@ -130,5 +130,5 @@ seecol(pal_mpg,
 # Scaled version: 
 seecol(list(pal_freiburg_basic, pal_princeton_1, pal_mpg, pal_unikn), n = 9,
        pal_names = c("Uni Freiburg", "Princeton Uni", "Max Planck", "Uni Konstanz"),
-       title = "Comparing scaled color palettes")
+       main = "Comparing scaled color palettes")
 
