@@ -4,6 +4,7 @@
 \alias{demopal}
 \alias{democol}
 \alias{demofun}
+\alias{demoplot}
 \title{Demonstrate a color palette.}
 \usage{
 demopal(pal = pal_unikn, type = NA, pal_name = NULL, ...)
@@ -12,8 +13,10 @@ demopal(pal = pal_unikn, type = NA, pal_name = NULL, ...)
 \item{pal}{A color palette (to be illustrated).
 Default: \code{pal = pal_unikn}.}
 
-\item{type}{The type of plot to be used (as character or integer index). 
-Permissible types are \code{"bar"}, \code{"mosaic"}, \code{"scatter"} (or 1 to 3).}
+\item{type}{The type of plot to be used (as character string or integer value). 
+Permissible types are 
+\code{"bar"}, \code{"curve"}, \code{"mosaic"}, \code{"polygon"}, or \code{"scatter"} 
+(or an integer value from 1 to 5, respectively).}
 
 \item{pal_name}{A name for the input color palette \code{pal} (shown on bottom-right margin). 
 Default: \code{pal_name = NULL} (deparsing to input name).}
@@ -40,9 +43,15 @@ Common arguments include:
   \item \code{main} plot title (on top); 
   \item \code{sub} plot subtitle (on right margin);  
   
-  \item \code{seed} A random seed (for reproducible randomness). 
+  \item \code{seed} A random seed value (for reproducible randomness). 
   
 }
+
+The fit between a color palette \code{pal} and plot \code{type} 
+depends on the uses of colors in a plot. 
+For instance, overlaps of transparent color areas can be evaluated 
+with plot \code{type = "curve"} or plot \code{type = "scatter"} 
+(and \code{0 < alpha < 1}). 
 
 Some functions additionally accept type-specific arguments 
 (e.g., \code{beside}, \code{horiz}, and \code{as_prop}, for plot \code{type = "bar"}, 

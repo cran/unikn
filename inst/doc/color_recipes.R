@@ -11,8 +11,8 @@ knitr::opts_chunk$set(echo = TRUE,
                ## Default figure options:
                # fig.width = 6, 
                # fig.asp = .8 # .618, # golden ratio
-               # out.width = "75%",
-               fig.align = "center"
+               fig.align = "center",
+	             out.width = "60%"
                )
 
 ## ----load-pkg-colors, message = FALSE, warning = FALSE------------------------
@@ -38,24 +38,32 @@ plot(x = runif(99), y = runif(99), type = "p",
 par(opar)  # re-store current settings
 
 ## ----use-pal-ggplot2, eval = FALSE, fig.width = 6, fig.asp = .618, fig.align = 'center', collapse = TRUE----
-#  # 0. Data: ----
+#  # 0. Create data: ----
+#  
 #  # Example based on https://www.r-graph-gallery.com/137-spring-shapes-data-art/
 #  n <- 50
-#  names <- paste("G_", seq(1, n), sep = "")
+#  groups <- 1:n
 #  df <- data.frame()
 #  
 #  set.seed(3)
-#  for (i in seq(1:30)){
-#      data <- data.frame(matrix(0, n, 3))
-#      data[, 1] <- i
-#      data[, 2] <- sample(names, nrow(data))
-#      data[, 3] <- prop.table(sample( c(rep(0, 100), c(1:n)), nrow(data)))
-#      df <- rbind(df, data)}
-#  colnames(df) <- c("X","group","Y")
-#  df <- df[order(df$X, df$group) , ]
 #  
+#  for (i in seq(1:30)){
+#    data = data.frame(matrix(0, n, 3))
+#    data[, 1] <- i
+#    data[, 2] <- sample(groups, nrow(data))
+#    data[, 3] <- prop.table(sample(c(rep(0, 100), c(1:n)), nrow(data)))
+#    df = rbind(df, data)}
+#  
+#  names(df) <- c("X","Group","Y")
+#  df$Group <- as.factor(df$Group)
+#  df <- df[c(2, 1, 3)]
+#  df <- df[order(df$X, df$Group) , ]
+#  rownames(df) <- NULL
+#  
+#  my_data <- df
 #  
 #  # 1. Colors: ----
+#  
 #  # A. using RColorBrewer:
 #  # library(RColorBrewer)
 #  
@@ -66,15 +74,16 @@ par(opar)  # re-store current settings
 #  # B. using unikn colors:
 #  library(unikn)
 #  
-#  cur_col <- usecol(pal = pal_unikn, n = n)
+#  # Mix a color gradient:
+#  cur_col <- usecol(c(Bordeaux, "white", Petrol), n = n)
 #  # cur_col <- cur_col[sample(c(1:length(cur_col)), size = length(cur_col))]  # randomize
 #  
 #  # 2. Plotting: ----
 #  
 #  library(ggplot2)
 #  
-#  ggplot(df, aes(x = X, y = Y, fill = group)) +
-#    geom_area(alpha = 1, color = Grau, size = .01 ) +
+#  ggplot(my_data, aes(x = X, y = Y, fill = Group)) +
+#    geom_area() +
 #    scale_fill_manual(values = cur_col) +
 #    theme_void() +
 #    theme(legend.position = "none")
@@ -135,7 +144,7 @@ names_google <- c("blueberry", "sea green", "selective yellow", "cinnabar")
 # 4. Define color palette:
 pal_google <- newpal(color_google, names_google)
 
-# 5. Inspect color palette:
+# Inspect color palette:
 seecol(pal_google, 
        col_brd = "white", lwd_brd = 8,
        main = "Colors of the Google logo")

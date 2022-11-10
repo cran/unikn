@@ -1,5 +1,5 @@
 ## color_def_1.R | unikn
-## spds | uni.kn |  2021 12 16
+## spds | uni.kn |  2022 11 07
 ## ---------------------------
 
 ## Define colors and color palettes (1 of 2).
@@ -12,7 +12,7 @@
 
 # Definition: 
 
-pal_unikn_web <- data.frame(                                 #  element: 
+pal_unikn_web <- data.frame(                             #  Element: 
   "seeblau1" = rgb(204, 238, 249, maxColorValue = 255),  #  1. seeblau1 (non-transparent)
   "seeblau2" = rgb(166, 225, 244, maxColorValue = 255),  #  2. seeblau2 (non-transparent)
   "seeblau3" = rgb( 89, 199, 235, maxColorValue = 255),  #  3. seeblau3 (non-transparent) == preferred color: "Seeblau"
@@ -24,7 +24,6 @@ pal_unikn_web <- data.frame(                                 #  element:
   "seegrau1" = rgb(229, 229, 229, maxColorValue = 255),  #  9. grey90 (non-transparent)
   "white"    = rgb(255, 255, 255, maxColorValue = 255),  # 10. white
   stringsAsFactors = FALSE)
-# pal_unikn
 
 # Note: Web (sRGB) colors appear to be more vibrant than pal_unikn_ppt variant (below). 
 
@@ -60,8 +59,8 @@ pal_unikn_web <- data.frame(                                 #  element:
 #' \code{\link{pal_unikn}} for the unikn default color palette with all 5 colors of \code{\link{pal_seeblau}}; 
 #' \code{\link{pal_unikn_ppt}} for an alternative (ppt) version; 
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
-#' \code{\link{seecol}} to show color palettes;
-#' \code{\link{usecol}} to use color palettes. 
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes. 
 #'
 #' @export
 
@@ -82,7 +81,7 @@ pal_unikn_web <- pal_unikn_web[c(4:1, 10:5)] # seeblau (2 as default) > white (5
 
 # Definition:
 
-pal_unikn_ppt <- data.frame(                             #  element:
+pal_unikn_ppt <- data.frame(                             #  Element:
   "seeblau1" = rgb(200, 229, 239, maxColorValue = 255),  #  1. seeblau1 (non-transparent)
   "seeblau2" = rgb(160, 211, 230, maxColorValue = 255),  #  2. seeblau2 (non-transparent)
   "seeblau3" = rgb( 89, 182, 220, maxColorValue = 255),  #  3. seeblau3 (non-transparent) == preferred color: "Seeblau"
@@ -129,8 +128,8 @@ pal_unikn_ppt <- data.frame(                             #  element:
 #' @seealso
 #' \code{\link{pal_unikn}} for the unikn default color palette with all 5 colors of \code{\link{pal_seeblau}}; 
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
-#' \code{\link{seecol}} to show color palettes;
-#' \code{\link{usecol}} to use color palettes. 
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes. 
 #'
 #' @export
 
@@ -202,14 +201,14 @@ pal_unikn_ppt <- pal_unikn_ppt[c(4:1, 10:5)] # seeblau (1) > white (5) > grey > 
 #' \code{\link{pal_unikn}} for the unikn default color palette with all 5 colors of \code{\link{pal_seeblau}}; 
 #' \code{\link{pal_karpfenblau}} for an alternative blue uni.kn color palette;  
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
-#' \code{\link{seecol}} to show color palettes;
-#' \code{\link{usecol}} to use color palettes. 
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes. 
 #'
 #' @export
 
 #   (c) Definition: ---- 
 
-pal_seeblau <- data.frame(                               #  element: 
+pal_seeblau <- data.frame(                               #  Element: 
   "seeblau1" = rgb(204, 238, 249, maxColorValue = 255),  #  1. seeblau1 (non-transparent):  20%
   "seeblau2" = rgb(166, 225, 244, maxColorValue = 255),  #  2. seeblau2 (non-transparent):  35%
   "seeblau3" = rgb( 89, 199, 235, maxColorValue = 255),  #  3. seeblau3 (non-transparent):  65%: preferred color: "seeblau"
@@ -270,8 +269,8 @@ pal_seeblau <- data.frame(                               #  element:
 #' \code{\link{pal_seeblau}} for the corresponding color palette; 
 #' \code{\link{pal_unikn}} for the unikn default color palette with all 5 colors of \code{\link{pal_seeblau}}; 
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
-#' \code{\link{seecol}} to show color palettes;
-#' \code{\link{usecol}} to use color palettes. 
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes. 
 #'
 #' @export
 
@@ -320,8 +319,8 @@ names(Seeblau) <- "Seeblau"
 #' \code{\link{pal_unikn}} for the unikn default color palette with all 5 colors of \code{\link{pal_seeblau}}; 
 #' \code{\link{pal_pinky}} and \code{\link{pal_bordeaux}} for alternative redish uni.kn color palettes;  
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
-#' \code{\link{seecol}} to show color palettes;
-#' \code{\link{usecol}} to use color palettes. 
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes. 
 #'
 #' @export
 
@@ -358,8 +357,8 @@ pal_peach <- data.frame(                               #  Element:
 ##| \code{\link{pal_peach}} for the corresponding color palette;
 ##| \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors;
 ##| \code{\link{pal_unikn}} for the default uni.kn color palette;
-##| \code{\link{seecol}} to show color palettes;
-##| \code{\link{usecol}} to use color palettes. 
+##| \code{\link{seecol}} for viewing and comparing color palettes;
+##| \code{\link{usecol}} for using color palettes. 
 
 # peach <- pal_peach[4]  # == peach.4 of pal_peach 
 
@@ -388,7 +387,8 @@ pal_peach <- data.frame(                               #  Element:
 #' \code{\link{pal_peach}} for the corresponding color palette; 
 #' \code{\link{pal_unikn}} for the unikn default color palette with all 5 colors of \code{\link{pal_seeblau}}; 
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
-#' \code{\link{seecol}} to show and use color palettes.  
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes.  
 #'
 #' @export
 
@@ -435,14 +435,14 @@ names(Peach) <- "Peach"
 #' @seealso
 #' \code{\link{pal_unikn}} for the unikn default color palette with all 5 colors of \code{\link{pal_seeblau}}; 
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
-#' \code{\link{seecol}} to show color palettes;
-#' \code{\link{usecol}} to use color palettes.  
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes.  
 #'
 #' @export
 
 #   (c) Definition: ---- 
 
-pal_grau <- data.frame(                               #  element: 
+pal_grau <- data.frame(                               #  Element: 
   "grau1" = rgb(225, 226, 229, maxColorValue = 255),  #  1. grau1 (non-transparent)
   "grau2" = rgb(184, 188, 193, maxColorValue = 255),  #  2. grau2 (non-transparent)
   "grau3" = rgb(154, 160, 167, maxColorValue = 255),  #  3. grau3 (non-transparent): preferred color: "grau"
@@ -473,7 +473,8 @@ pal_grau <- data.frame(                               #  element:
 ##| \code{\link{pal_grau}} for the corresponding color palette;
 ##| \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors;
 ##| \code{\link{pal_unikn}} for the default uni.kn color palette;
-##| \code{\link{seecol}} to show and use color palettes. 
+##| \code{\link{seecol}} for viewing and comparing color palettes;
+##| \code{\link{usecol}} for using color palettes. 
 
 # grau <- pal_grau[3]  # == grau.3 of pal_grau: "grau3" OR "#9AA0A7"
 
@@ -502,8 +503,8 @@ pal_grau <- data.frame(                               #  element:
 #' \code{\link{pal_grau}} for the corresponding color palette; 
 #' \code{\link{pal_unikn}} for the unikn default color palette with all 5 colors of \code{\link{pal_seeblau}}; 
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
-#' \code{\link{seecol}} to show color palettes;
-#' \code{\link{usecol}} to use color palettes. 
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes. 
 #'
 #' @export
 
@@ -554,14 +555,14 @@ names(Grau) <- "Grau"
 #' \code{\link{pal_unikn}} for the unikn default color palette with all 5 colors of \code{\link{pal_seeblau}}; 
 #' \code{\link{pal_seegruen}} for an alternative green/grue uni.kn color palette;  
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
-#' \code{\link{seecol}} to show color palettes;
-#' \code{\link{usecol}} to use color palettes. 
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes. 
 #'
 #' @export
 
 #   (c) Definition: ---- 
 
-pal_petrol <- data.frame(                               #  element: 
+pal_petrol <- data.frame(                               #  Element: 
   "petrol1" = rgb(156, 198, 207, maxColorValue = 255),  #  1. petrol1 (non-transparent)
   "petrol2" = rgb(106, 170, 183, maxColorValue = 255),  #  2. petrol2 (non-transparent)
   "petrol3" = rgb( 57, 141, 159, maxColorValue = 255),  #  3. petrol3 (non-transparent)
@@ -592,7 +593,8 @@ pal_petrol <- data.frame(                               #  element:
 ##| \code{\link{pal_petrol}} for the corresponding color palette; 
 ##| \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
 ##| \code{\link{pal_unikn}} for the default uni.kn color palette; 
-##| \code{\link{seecol}} to show and use color palettes.  
+##| \code{\link{seecol}} for viewing and comparing color palettes;
+##| \code{\link{usecol}} for using color palettes.  
 
 # petrol <- pal_petrol[4]  # == petrol.4 of pal_petrol: "petrol4" OR "#077187"
 
@@ -621,8 +623,8 @@ pal_petrol <- data.frame(                               #  element:
 #' \code{\link{pal_petrol}} for the corresponding color palette; 
 #' \code{\link{pal_unikn}} for the unikn default color palette with all 5 colors of \code{\link{pal_seeblau}}; 
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
-#' \code{\link{seecol}} to show color palettes;
-#' \code{\link{usecol}} to use color palettes. 
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes. 
 #'
 #' @export
 
@@ -670,14 +672,14 @@ names(Petrol) <- "Petrol"
 #' \code{\link{pal_unikn}} for the unikn default color palette with all 5 colors of \code{\link{pal_seeblau}}; 
 #' \code{\link{pal_petrol}} for an alternative green uni.kn color palette;  
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
-#' \code{\link{seecol}} to show color palettes;
-#' \code{\link{usecol}} to use color palettes. 
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes. 
 #'
 #' @export
 
 #   (c) Definition: ---- 
 
-pal_seegruen <- data.frame(                               #  element: 
+pal_seegruen <- data.frame(                               #  Element: 
   "seegruen1" = rgb(113, 209, 204, maxColorValue = 255),  #  1. seegruen1 (non-transparent)
   "seegruen2" = rgb( 84, 191, 183, maxColorValue = 255),  #  2. seegruen2 (non-transparent)
   "seegruen3" = rgb( 10, 163, 152, maxColorValue = 255),  #  3. seegruen3 (non-transparent)
@@ -708,7 +710,8 @@ pal_seegruen <- data.frame(                               #  element:
 ##| \code{\link{pal_seegruen}} for the corresponding color palette; 
 ##| \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
 ##| \code{\link{pal_unikn}} for the default uni.kn color palette; 
-##| \code{\link{seecol}} to show and use color palettes. 
+##| \code{\link{seecol}} for viewing and comparing color palettes;
+##| \code{\link{usecol}} for using color palettes. 
 
 # seegruen <- pal_seegruen[4]  # == seegruen.4 of pal_seegruen: "seegruen4" OR "#0A9086"
 
@@ -737,8 +740,8 @@ pal_seegruen <- data.frame(                               #  element:
 #' \code{\link{pal_seegruen}} for the corresponding color palette; 
 #' \code{\link{pal_unikn}} for the unikn default color palette with all 5 colors of \code{\link{pal_seeblau}}; 
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
-#' \code{\link{seecol}} to show color palettes;
-#' \code{\link{usecol}} to use color palettes. 
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes.  
 #'
 #' @export
 
@@ -787,13 +790,14 @@ names(Seegruen) <- "Seegruen"
 #' \code{\link{pal_unikn}} for the unikn default color palette with all 5 colors of \code{\link{pal_seeblau}}; 
 #' \code{\link{pal_seeblau}} for the default seeblau uni.kn color palette;  
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
-#' \code{\link{seecol}} to show and use color palettes. 
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes. 
 #'
 #' @export
 
 #   (c) Definition: ---- 
 
-pal_karpfenblau <- data.frame(                               #  element: 
+pal_karpfenblau <- data.frame(                               #  Element: 
   "karpfenblau1" = rgb(180, 188, 214, maxColorValue = 255),  #  1. karpfenblau1 (non-transparent)
   "karpfenblau2" = rgb(130, 144, 187, maxColorValue = 255),  #  2. karpfenblau2 (non-transparent)
   "karpfenblau3" = rgb( 88, 107, 164, maxColorValue = 255),  #  3. karpfenblau3 (non-transparent)
@@ -824,7 +828,8 @@ pal_karpfenblau <- data.frame(                               #  element:
 ##| \code{\link{pal_karpfenblau}} for the corresponding color palette; 
 ##| \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
 ##| \code{\link{pal_unikn}} for the default uni.kn color palette; 
-##| \code{\link{seecol}} to show and use color palettes. 
+##| \code{\link{seecol}} for viewing and comparing color palettes;
+##| \code{\link{usecol}} for using color palettes.  
 
 # karpfenblau <- pal_karpfenblau[4]  # == karpfenblau4 of pal_karpfenblau: "karpfenblau4" OR "#3E5496"
 
@@ -853,8 +858,8 @@ pal_karpfenblau <- data.frame(                               #  element:
 #' \code{\link{pal_karpfenblau}} for the corresponding color palette; 
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
 #' \code{\link{pal_unikn}} for the default uni.kn color palette; 
-#' \code{\link{seecol}} to show color palettes;
-#' \code{\link{usecol}} to use color palettes.  
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes.   
 #'
 #' @export
 
@@ -902,8 +907,8 @@ names(Karpfenblau) <- "Karpfenblau"
 #' \code{\link{pal_unikn}} for the unikn default color palette with all 5 colors of \code{\link{pal_seeblau}}; 
 #' \code{\link{pal_peach}} and \code{\link{pal_bordeaux}} for alternative redish uni.kn color palettes; 
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
-#' \code{\link{seecol}} to show color palettes;
-#' \code{\link{usecol}} to use color palettes. 
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes. 
 #'
 #' @export
 
@@ -940,7 +945,8 @@ pal_pinky <- data.frame(                               #  Element:
 ##| \code{\link{pal_pinky}} for the corresponding color palette; 
 ##| \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
 ##| \code{\link{pal_unikn}} for the default uni.kn color palette; 
-##| \code{\link{seecol}} to show and use color palettes. 
+##| \code{\link{seecol}} for viewing and comparing color palettes;
+##| \code{\link{usecol}} for using color palettes. 
 
 # pinky <- pal_pinky[4]  # == pinky4 of pal_pinky: "pinky4" OR "#E0607E"
 
@@ -969,8 +975,8 @@ pal_pinky <- data.frame(                               #  Element:
 #' \code{\link{pal_pinky}} for the corresponding color palette; 
 #' \code{\link{pal_unikn}} for the unikn default color palette with all 5 colors of \code{\link{pal_seeblau}}; 
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
-#' \code{\link{seecol}} to show color palettes;
-#' \code{\link{usecol}} to use color palettes. 
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes.  
 #'
 #' @export
 
@@ -1018,7 +1024,8 @@ Pinky  #  "#E0607E"
 #' \code{\link{pal_unikn}} for the unikn default color palette with all 5 colors of \code{\link{pal_seeblau}}; 
 #' \code{\link{pal_peach}} and \code{\link{pal_pinky}} for alternative redish uni.kn color palettes;  
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
-#' \code{\link{seecol}} to show and use color palettes. 
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes. 
 #'
 #' @export
 
@@ -1055,7 +1062,8 @@ pal_bordeaux <- data.frame(                               #  Element:
 ##| \code{\link{pal_bordeaux}} for the corresponding color palette; 
 ##| \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
 ##| \code{\link{pal_unikn}} for the default uni.kn color palette; 
-##| \code{\link{seecol}} to show and use color palettes. 
+##| \code{\link{seecol}} for viewing and comparing color palettes;
+##| \code{\link{usecol}} for using color palettes. 
 
 # bordeaux <- pal_bordeaux[4]  # == bordeaux4 of pal_bordeaux: "bordeaux4" OR "#8E2043"
 
@@ -1084,8 +1092,8 @@ pal_bordeaux <- data.frame(                               #  Element:
 #' \code{\link{pal_bordeaux}} for the corresponding color palette; 
 #' \code{\link{pal_unikn}} for the unikn default color palette with all 5 colors of \code{\link{pal_seeblau}}; 
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
-#' \code{\link{seecol}} to show color palettes;
-#' \code{\link{usecol}} to use color palettes. 
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes. 
 #'
 #' @export
 
@@ -1136,7 +1144,8 @@ names(Bordeaux) <- "Bordeaux"
 #' @seealso
 #' \code{\link{pal_unikn}} for the unikn default color palette with all 5 colors of \code{\link{pal_seeblau}}; 
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
-#' \code{\link{seecol}} to show and use color palettes. 
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes. 
 #'
 #' @export
 
@@ -1180,7 +1189,8 @@ pal_signal <- data.frame(                               #  Element:
 ##| \code{\link{pal_signal}} for the corresponding color palette; 
 ##| \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
 ##| \code{\link{pal_unikn}} for the default uni.kn color palette; 
-##| \code{\link{seecol}} to show and use color palettes. 
+##| \code{\link{seecol}} for viewing and comparing color palettes;
+##| \code{\link{usecol}} for using color palettes. 
 
 # signal <- pal_signal[2]  # == signal2 of pal_signal: "signal2" OR "#EFDC60"
 
@@ -1219,8 +1229,8 @@ pal_signal <- data.frame(                               #  Element:
 #' \code{\link{pal_signal}} for the corresponding color palette; 
 #' \code{\link{pal_unikn}} for the unikn default color palette with all 5 colors of \code{\link{pal_seeblau}}; 
 #' \code{\link{pal_unikn_pref}} for a uni.kn color palette with all preferred colors; 
-#' \code{\link{seecol}} to show color palettes;
-#' \code{\link{usecol}} to use color palettes.  
+#' \code{\link{seecol}} for viewing and comparing color palettes;
+#' \code{\link{usecol}} for using color palettes.  
 #'
 #' @export
 
@@ -1232,22 +1242,35 @@ names(Signal) <- "Signal"
 # Signal  # "#EFDC60"
 
 
-## Lookup list of palettes: ----------
+## Lookup vectors of palette names: ----------
 
 ## Definition: -------
 # all_pal_names1 <- ls()[grepl("pal_", ls())]  # utils::apropos("pal_")
 # all_pal_names1 <- all_pal_names1[!all_pal_names1 %in% c("pal_signal", "pal_unikn_ppt")]  
 # remove ppt and signal to avoid crashing on inconsistency in usecol (defined but not with color selection).
 all_palkn_basic <- c("pal_unikn", "pal_unikn_web", "pal_unikn_ppt")
-all_palkn_pair <- c("pal_unikn_light", "pal_unikn_dark", "pal_unikn_pair")
-all_palkn_grad <- c("pal_seeblau", "pal_peach", "pal_grau", "pal_petrol", "pal_seegruen",
-                    "pal_karpfenblau", "pal_pinky", "pal_bordeaux",
-                    "pal_signal")
-all_palkn_pref <- c("pal_unikn_pref", all_palkn_grad)
+all_palkn_pair  <- c("pal_unikn_light", "pal_unikn_dark", "pal_unikn_pair")
+all_palkn_grad  <- c("pal_seeblau", "pal_peach", "pal_grau", "pal_petrol", "pal_seegruen",
+                     "pal_karpfenblau", "pal_pinky", "pal_bordeaux",
+                     "pal_signal")
+all_palkn_pref  <- c("pal_unikn_pref", all_palkn_grad)
 all_palkn <- c(all_palkn_basic, all_palkn_pair, all_palkn_pref)
 
+# additional/contributed palettes:
 
-## Color sources: ------ 
+add_pals <- c("eth_pal", "eth_pal_light", "eth_pal_grey", 
+              "mpg_pal", 
+              "uni_freiburg_br", "uni_freiburg_blue", "uni_freiburg_grey", "uni_freiburg_info",
+              "uni_konstanz", "uni_konstanz_pref",
+              "uni_princeton_0", "uni_princeton_1", "uni_princeton_2"
+)
+
+# all palettes / largest set (of unikn package):
+
+all_pals <- c(all_palkn, add_pals)
+
+
+## Sources: Links to unikn color definitions ------ 
 
 # Defining CD elements according to specifications publicly provided at https://www.uni-konstanz.de. 
 # Sources for color definitions: 
@@ -1260,7 +1283,7 @@ all_palkn <- c(all_palkn_basic, all_palkn_pair, all_palkn_pref)
 # - Seeblau seems like a muted variant of "deepskyblue"
 # - Pinky seems like a muted variant of "deeppink"
 # - Petrol is similar to "deepskyblue4"
-
+# 
 # # Demo:
 # comp_cols <- c(Seeblau, "deepskyblue", Pinky, "deeppink", Petrol, "deepskyblue4")
 # seecol(comp_cols, col_brd = "white", lwd_brd = 5)

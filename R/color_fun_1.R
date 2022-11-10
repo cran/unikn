@@ -1,6 +1,6 @@
 ## color_fun_1.R | unikn
-## spds | uni.kn | 2022 09 19
-## ---------------------------
+## spds | uni.kn | 2022 10 26
+## --------------------------
 
 ## Define color-related functions 
 ## (e.g., for choosing from, using, plotting, and viewing color palettes). 
@@ -74,7 +74,7 @@
 #' @family color functions
 #'
 #' @seealso
-#' \code{\link{seecol}} for plotting/seeing color palettes; 
+#' \code{\link{seecol}} for viewing and comparing color palettes; 
 #' \code{\link{simcol}} for finding similar colors; 
 #' \code{\link{newpal}} for defining new color palettes; 
 #' \code{\link{grepal}} for finding named colors; 
@@ -95,7 +95,13 @@ usecol <- function(pal = pal_unikn,
                    use_names = FALSE,  # should colors be returned as a named vector?
                    use_col_ramp = FALSE) {
   
+  ## 0. Handle NA input: ----
+  
+  if (all(is.na(pal))) { return(NA) }
+  
+  
   ## 1. Parse input: ---- 
+  
   parenv <- parent.frame()
   
   # parse_pal(pal = pal)
@@ -126,48 +132,62 @@ usecol <- function(pal = pal_unikn,
   
   
   # Set n to length pal_inp, if n == "all": -----
+  
   if (n == "all") { n <- length(pal_inp) }
   
-  pal_def <- FALSE  # assume default, that an undefined palette is used.
+  pal_def <- FALSE  # assume by default that an undefined palette is used.
   # Check this in the next step (this variable serves to control flow).
   
-  if ( all(unlist(lapply(all_palkn, exists))) ) {  # test whether the palettes in all_palkn are defined. 
+  if ( all(unlist(lapply(X = all_pals, FUN = exists))) ) { # if all palettes in all_pals exist: 
     
-    # Test whether equal to any palette:
-    all_pals1 <- lapply(all_palkn, get)  # get all palettes from the first part.
+    val_all_pals_lst <- lapply(X = all_pals, FUN = get)  # get VALUES of all_pals (as list) 
     
-  } else {  # if not all palettes are defined:
+  } else { # not all current palettes are pre-defined:
     
-    all_pals1 <- NA
+    val_all_pals_lst <- NA
     
   }
+
   
-  # Is the input one of the defined palettes? ----- 
-  if ( !use_col_ramp ) {
-    # execute, if not always the colorRamp should be used.
+  # Is the input one of the pre-defined palettes? ----- 
+  
+  if (!use_col_ramp) {
     
-    pal_ix <- 
-      sapply(all_pals1, function(x) { return(isTRUE(all.equal(pal_inp, unlist(x)))) }
-      )  # Test, whether specified palette is there.
+    # Get index vector of specified pal_inp (as logical):
+    pal_ix <- sapply(val_all_pals_lst, function(x) { return(isTRUE(all.equal(pal_inp, unlist(x)))) }) 
     
-    # If none fits, test for reversed palettes:
-    rev_pal <- FALSE  # should the palette be reversed?
+    # If none fits, check reversed palettes:
+    
+    rev_pal <- FALSE  # initialize flag
     
     if (!any(pal_ix)) {
-      pal_ix <-
-        sapply(all_pals1, function(x)
-          isTRUE(all.equal(rev(pal_inp), x)))
-      if (any(pal_ix)) {
-        rev_pal <- TRUE
-      }  # if palette is reversed, set pal_rev to TRUE.
+      
+      pal_ix <- sapply(X = val_all_pals_lst, FUN = function(x) isTRUE(all.equal(rev(pal_inp), x))) # check for reversed pal_inp
+      
+      if (any(pal_ix)) { rev_pal <- TRUE }  # if palette is reversed, update pal_rev to TRUE.
     }
     
-    # If input fits with any palette:
-    if ( any(pal_ix) & length(pal_inp) >= n) {
+    # +++ here now +++:
+    
+    # Problem: The palettes pal_unikn and uni_konstanz contain the SAME colors. 
+    #          => pal_ix contains 2 TRUE positions.   
+    if (sum(pal_ix) > 1){ # HACK: If there are multiple TRUE in pal_ix: 
       
-      pal_name <- all_palkn[pal_ix]  # get palette name
+      pos_true <- which(pal_ix)
+      pal_ix[pos_true[-1]] <- FALSE  # set all but 1st to FALSE
+      
+    }
+    
+    
+    # If input corresponds to any palette: ----- 
+    
+    if ( any(pal_ix) & (length(pal_inp) >= n) ) {
+      
+      pal_name <- all_pals[pal_ix]  # get palette name (from ALL pre-defined palettes)
+      # print(pal_name)  # 4debugging
       
       pal <- pal_inp  # redefine
+      # print(pal)  # 4debugging
       
       # Define sets of known palettes:
       set1 <- pal_name %in% c("pal_peach",
@@ -179,19 +199,26 @@ usecol <- function(pal = pal_unikn,
                               "pal_seegruen")
       set2 <- pal_name %in% c("pal_grau", "pal_seeblau")
       set3 <- pal_name %in% c("pal_unikn_web", "pal_unikn_ppt") 
-      set4 <- pal_name %in% "pal_unikn"
-      set5 <- pal_name %in% "pal_unikn_pair"
-      set6 <- pal_name %in% c("pal_unikn_dark", "pal_unikn_light", "pal_unikn_pref") 
-      set7 <- pal_name %in% "pal_signal"
+      set4 <- pal_name %in% c("pal_unikn")
+      set5 <- pal_name %in% c("pal_unikn_pair")
+      set6 <- pal_name %in% c("pal_unikn_dark", "pal_unikn_light", "pal_unikn_pref")  # categorical scales
+      set7 <- pal_name %in% c("pal_signal")  # categorical scale
       
-      pal_set <- which(c(set1, set2, set3, set4, set5, set6, set7))  # define a set number
+      set8 <- pal_name %in% add_pals  # (8a) all added/contributed palettes
+      # (8b) categorical/non-gradient scales of added/contributed palettes:
+      # set8 <- pal_name %in% c("eth_pal", "eth_pal_light", "uni_freiburg_info", "uni_konstanz_pref")  
       
-      # Determine the color output:
+      # Determine pal_set (as a number):
+      pal_set <- which(c(set1, set2, set3, set4, set5, set6, set7, set8))
+      # print(paste0("pal_set = ", pal_set))  # 4debugging
+      
+      
+      # Determine color output for pal_set:
       out_col <- switch(pal_set,
                         
-                        # Get indices for pal_set:
+                        # Set colors based on pal_set and n:
                         
-                        # Set1: -----
+                        # Set 1: -----
                         switch(n,
                                pal[4],
                                pal[c(4, 2)],
@@ -199,7 +226,7 @@ usecol <- function(pal = pal_unikn,
                                pal[c(5, 4, 2, 1)],
                                pal),
                         
-                        # Set2: -----
+                        # Set 2: -----
                         switch(n,
                                pal[3],
                                pal[c(4, 2)],
@@ -207,7 +234,7 @@ usecol <- function(pal = pal_unikn,
                                pal[c(5, 4, 2, 1)],
                                pal),
                         
-                        # Set3: -----
+                        # Set 3: -----
                         switch(n,
                                pal[2],  # 1
                                pal[c(1, 3)],  # 2
@@ -220,101 +247,103 @@ usecol <- function(pal = pal_unikn,
                                pal[c(1, 2, 3, 4, 5, 7, 8, 9, 10)],  # 9
                                pal),
                         
-                        # Set4: -----
-                        switch(
-                          n,
-                          pal[c("seeblau3")],
-                          # 1 preferred color
-                          pal[c("seeblau4", "seeblau2")],
-                          # 2
-                          pal[c("seeblau4", "seeblau2", "white")],
-                          # 3
-                          pal[c("seeblau4", "seeblau2", "white", "black")],
-                          # 4
-                          pal[c("seeblau4", "seeblau2", "white", "seegrau3", "black")],
-                          # 5
-                          pal[c("seeblau4",
-                                "seeblau3",
-                                "seeblau1",
-                                "white",
-                                "seegrau3",
-                                "black")],
-                          # 6
-                          pal[c("seeblau4",
-                                "seeblau3",
-                                "seeblau1",
-                                "white",
-                                "seegrau2",
-                                "seegrau4",
-                                "black")],
-                          # 7
-                          pal[c(
-                            "seeblau4",
-                            "seeblau3",
-                            "seeblau2",
-                            "seeblau1",
-                            "white",
-                            "seegrau2",
-                            "seegrau4",
-                            "black"
-                          )],
-                          # 8
-                          pal[c(
-                            "seeblau4",
-                            "seeblau3",
-                            "seeblau2",
-                            "seeblau1",
-                            "white",
-                            "seegrau1",
-                            "seegrau2",
-                            "seegrau3",
-                            "black"
-                          )],
-                          # 9
-                          pal[c(
-                            "seeblau5",
-                            "seeblau4",
-                            "seeblau3",
-                            "seeblau2",
-                            "seeblau1",
-                            "white",
-                            "seegrau1",
-                            "seegrau2",
-                            "seegrau3",
-                            "black"
-                          )],
-                          # 10
-                          pal  # all 11 colors of pal_unikn (previously known as pal_unikn_plus) 
+                        # Set 4: "pal_unikn" -----
+                        switch(n,
+                               pal[c("seeblau3")],
+                               # 1 preferred color:
+                               pal[c("seeblau4", "seeblau2")],
+                               # 2:
+                               pal[c("seeblau4", "seeblau2", "white")],
+                               # 3:
+                               pal[c("seeblau4", "seeblau2", "white", "black")],
+                               # 4:
+                               pal[c("seeblau4", "seeblau2", "white", "seegrau3", "black")],
+                               # 5:
+                               pal[c("seeblau4",
+                                     "seeblau3",
+                                     "seeblau1",
+                                     "white",
+                                     "seegrau3",
+                                     "black")],
+                               # 6:
+                               pal[c("seeblau4",
+                                     "seeblau3",
+                                     "seeblau1",
+                                     "white",
+                                     "seegrau2",
+                                     "seegrau4",
+                                     "black")],
+                               # 7:
+                               pal[c(
+                                 "seeblau4",
+                                 "seeblau3",
+                                 "seeblau2",
+                                 "seeblau1",
+                                 "white",
+                                 "seegrau2",
+                                 "seegrau4",
+                                 "black"
+                               )],
+                               # 8:
+                               pal[c(
+                                 "seeblau4",
+                                 "seeblau3",
+                                 "seeblau2",
+                                 "seeblau1",
+                                 "white",
+                                 "seegrau1",
+                                 "seegrau2",
+                                 "seegrau3",
+                                 "black"
+                               )],
+                               # 9:
+                               pal[c(
+                                 "seeblau5",
+                                 "seeblau4",
+                                 "seeblau3",
+                                 "seeblau2",
+                                 "seeblau1",
+                                 "white",
+                                 "seegrau1",
+                                 "seegrau2",
+                                 "seegrau3",
+                                 "black"
+                               )],
+                               # 10:
+                               pal  # all 11 colors of pal_unikn (previously: pal_unikn_plus) 
                         ),
                         
-                        # Set 5: -----
+                        # Set 5: "pal_unikn_pair" -----
                         pal[c("seeblau5", "seeblau3", "pinky4", "pinky2", "petrol4", 
                               "petrol2", "bordeaux4", "bordeaux2", "seegruen4", "seegruen2",
                               "peach4", "peach2", "karpfenblau4", "karpfenblau2", "grau2", "grau1")[1:n]],
                         
-                        # Set 6: -----
-                        pal[1:n],
+                        # Set 6: In categorical uni.kn scales -----
+                        pal[1:n],  # first n colors
                         
-                        # Set 7: -----
-                        pal[c("signal1", "signal3", "signal2")[1:n]]
+                        # Set 7: "pal_signal" -----
+                        pal[c("signal1", "signal3", "signal2")[1:n]],  # first n of SWAPPED signal colors
                         
-                        # Set 8: -----
+                        # Set 8: In add_pals -----
+                        pal[1:n]  # first n colors
+                        
+                        # etc. 
+                        
       )
       
-      if (rev_pal) {
-        out_col <-
-          rev(out_col)
-      } # if palette was reversed, reverse result as well.
+      # If palette was reversed, reverse result as well:
+      if (rev_pal) { out_col <- rev(out_col) } 
       
-      pal_def <- TRUE  # set flag that palette is defined
+      pal_def <- TRUE  # flag that palette is defined
       
-    }
+    } # if ( any(pal_ix) & length(pal_inp) >= n).
     
-  }
+  } # if ( !use_col_ramp ).
   
   
   # If no defined palette is used or the number exceeds 
   # the number of colors use colorRamp: ----- 
+  
   if (!pal_def) {
     
     # Decide, whether to use colorRamp or not:
@@ -324,63 +353,94 @@ usecol <- function(pal = pal_unikn,
       
     } else {
       
-      # use the colorRamp (this eats all names): 
-      out_col <- colorRampPalette(pal_inp)(n) 
+      # use the colorRamp (removing all names): 
+      out_col <- grDevices::colorRampPalette(pal_inp)(n) 
       
-    }
+    } # if (n == length(pal_inp)).
     
-  } # if (!pal_def) end. 
+  } # if (!pal_def). 
   
+  
+  # Process out_col: ------ 
   
   # Name the palette (as comment attribute): ---- 
   comment(out_col) <- ifelse(pal_def, pal_name, "custom")
   
-  # Search for names (if no names are given):
-  if ( all(is.null(names(out_col))) ) {
+  # Get color names (if no names are given): ---- 
+  if ( use_names & all(is.null(names(out_col))) ) {
     
-    tst <- out_col
+    # # (A) Combine kn_names with color() names:
+    # 
+    # # 1. Names from predefined kn palettes:
+    # kn_names <- names(unlist(val_all_pals_lst))[match(out_col, unlist(val_all_pals_lst))]
+    # 
+    # # 2. Predefined color names (in R colors()):
+    # col_names <- colors()[match(
+    #   grDevices::rgb(t(grDevices::col2rgb(out_col)), maxColorValue = 255),
+    #   c(grDevices::rgb(t(grDevices::col2rgb(colors())), maxColorValue = 255))
+    # )]
+    # 
+    # # Replace NA values by "":
+    # kn_names[is.na(kn_names)]   <- ""
+    # col_names[is.na(col_names)] <- ""
+    # 
+    # # Combine name vectors (to avoid duplicates):
+    # col_names[col_names == kn_names] <- ""  # remove duplicates in col names
+    # col_names[!col_names == "" & !kn_names == ""] <-
+    #   paste0("/", col_names[!col_names == "" & !kn_names == ""]) # distinguish different names for the same color
+    # 
+    # names(out_col) <- paste0(kn_names, col_names)
     
-    # Names from defined kn palettes:
-    kn_names <- names(unlist(all_pals1))[match(tst, unlist(all_pals1))]
     
-    # Predefined color names:
-    col_names <- colors()[match(
-      rgb(t(col2rgb(tst)), maxColorValue = 255), 
-      c(rgb(t(col2rgb(colors())), maxColorValue = 255))
-    )]
+    # (B) Use new helper function (in util_color.R):
     
-    kn_names[is.na(kn_names)] <- ""
-    col_names[is.na(col_names)] <- ""
+    # FAILS:     
+    # names(out_col) <- get_col_names(col = out_col, custom_pals = val_all_pals_lst)  # use helper function (with VALUES of val_all_pals_lst)
     
-    # Processs name vectors (to avoid duplicates): 
-    col_names[col_names == kn_names] <- ""  # remove duplicates in col names 
-    col_names[!col_names == "" & !kn_names == ""] <- 
-      paste0("/", col_names[!col_names == "" & !kn_names == ""])
-    # adding a slash to distinguish different names for the same color. 
+    # WORKS: 
+    names(out_col) <- get_col_names(col = out_col, custom_pals = all_pals)  # use helper function (with NAMES of all pals)
     
-    names(out_col) <- paste0(kn_names, col_names)
-    
-  }
+  } # if (no names in out_col).
   
   # Remove names if required (default): ---- 
   if ( !use_names ) { out_col <- unname(out_col) }
   
+  # Handle alpha: ----
   if ( !(is.null(alpha) | is.na(alpha))) { 
     
     cmnt <- comment(out_col)  # save palette name
-    out_col <- adjustcolor(out_col, alpha.f = alpha)
+    out_col <- grDevices::adjustcolor(out_col, alpha.f = alpha)
     comment(out_col) <- cmnt  # restore name
     
   }
   
-  if (distinct){ # remove visual duplicates:
+  # Remove visual duplicates: ---- 
+  if ( distinct ){
+    
     out_col <- col_distinct(out_col, use_alpha = FALSE) # (based on HEX values, but ignoring transparency)
+    
   }
+  
+  
+  # Output: ---- 
   
   return(out_col)
   
 } # usecol().
 
+# ## Check:
+# usecol(c("black", "white"), use_names = TRUE)
+# usecol(c("black", "white"), n = 5, use_names = TRUE)
+# usecol(c("black", "white"), n = 5, use_names = FALSE)
+# 
+# usecol(pal_unikn, use_names = TRUE)
+# usecol(pal_unikn, n =  5, use_names = TRUE)
+# usecol(pal_unikn, n = 15, use_names = TRUE)
+# usecol(pal_unikn, n = 15, use_names = FALSE)
+# 
+# usecol(c(Seeblau, "deepskyblue", Pinky, "deeppink"), use_names = TRUE)
+# usecol(c(Seeblau, "deepskyblue", Pinky, "deeppink"), use_names = FALSE)
+# seecol(usecol(c(Seeblau, "deepskyblue", Pinky, "deeppink"), use_names = TRUE))
 
 
 # 2. seecol(): Plot/see the colors of a palette or multiple palettes: ---------- 
@@ -424,16 +484,20 @@ usecol <- function(pal = pal_unikn,
 #' 
 #' \enumerate{
 #'
-#'   \item \code{"unikn_all"}: All color palettes defined in \bold{unikn}
+#'   \item \code{"all"}: All color palettes of the \bold{unikn} package.
 #'
-#'   \item \code{"unikn_basic"}: All basic palettes. 
-#'   
-#'   \item \code{"pair_all"}: All palettes with pairwise colors. 
-#'   
-#'   \item \code{"pref_all"}: All preferred colors and their gradients. 
-#'   
-#'   \item \code{"grad_all"}: 
+#'   \item \code{"all_unikn"} or \code{"unikn_all"}: All uni.kn color palettes 
+#'   (of the \href{https://www.uni-konstanz.de/}{University of Konstanz}).
 #'
+#'   \item \code{"unikn_basic"}: All basic uni.kn palettes. 
+#'   
+#'   \item \code{"grad_all"}: All uni.kn palettes with color gradients. 
+#'   
+#'   \item \code{"pair_all"}: All uni.kn palettes with pairwise colors. 
+#'   
+#'   \item \code{"pref_all"}: All preferred uni.kn colors and their gradients. 
+#'   
+#'   \item \code{"add"}: Additional/contributed color palettes of the \bold{unikn} package.
 #' }
 #' 
 #' \code{seecol} does also recognize keywords (e.g., \code{"all_unikn"}) or 
@@ -555,24 +619,28 @@ usecol <- function(pal = pal_unikn,
 
 # - Definition: ------ 
 
-seecol <- function(pal = "unikn_all",  # which palette to output?
-                   n = "all",
-                   alpha = NA,
-                   hex = NULL,       # determine by crowdedness, whether hex values should be shown in detail view.
-                   rgb = NULL,       # determine, whether rgb values should be shown in detail view (defaults to TRUE)
-                   col_bg = NULL,    # color of background
-                   col_brd = NULL,   # border color of the boxes
-                   lwd_brd = NULL,   # line width of box borders
-                   grid = TRUE,      # show grid? 
-                   main = NA,        # main plot title (using the default 'main = NA' constructs a default title)
-                   sub = NULL,       # plot subtitle (on bottom)
-                   title = NULL,     # Deprecated plot title (replaced by main)
-                   mar_note = NA,    # optional margin note (on bottom right)
-                   pal_names = NA,   # names of color palettes or colors (as character vector)
-                   ...               # additional arguments to plot.default().
+seecol <- function(pal = "unikn_all",  # which palette?
+                   n = "all",          # n of colors
+                   alpha = NA,         # opacity / transparency level
+                   hex = NULL,         # determine by crowdedness, whether hex values should be shown in detail view.
+                   rgb = NULL,         # determine, whether rgb values should be shown in detail view (defaults to TRUE)
+                   col_bg = NULL,      # color of background
+                   col_brd = NULL,     # border color of the boxes
+                   lwd_brd = NULL,     # line width of box borders
+                   grid = TRUE,        # show grid? 
+                   main = NA,          # main plot title (using the default 'main = NA' constructs a default title)
+                   sub = NULL,         # plot subtitle (on bottom)
+                   title = NULL,       # Deprecated: plot title (replaced by main)
+                   mar_note = NA,      # optional margin note (on bottom right)
+                   pal_names = NA,     # names of color palettes or colors (as character vector)
+                   ...                 # additional arguments to plot.default()
 ) {
   
   # 1. Preparations: ------- 
+  
+  # Handle NA input: ----
+  
+  if (all(is.na(pal))) { return(NA) }
   
   # Deprecated arguments: ---- 
   
@@ -590,11 +658,17 @@ seecol <- function(pal = "unikn_all",  # which palette to output?
   # Constants/parameters: ---- 
   
   op <- par(no.readonly = TRUE)  # save original plotting settings.
-  keys <- c("all", "unikn_all", "all_unikn",  # all palettes
-            "basic", "unikn_basic", "basic_unikn",  # the basic palettes. 
-            "pair", "all_pair", "pair_all",  # all paired palettes. 
-            "pref", "pref_all", "all_pref",  # the preferred palettes and gradients. 
-            "grad", "grad_all", "all_grad"  # the gradients.
+  keys <- c(# 
+    # (a) all palettes (of the unikn package):
+    "all", 
+    # (b) local/uni.kn palettes:
+    "all_unikn", "unikn_all",               # all local/uni.kn palettes
+    "basic", "unikn_basic", "basic_unikn",  # basic uni.kn palettes. 
+    "pair", "all_pair", "pair_all",         # paired uni.kn palettes. 
+    "pref", "pref_all", "all_pref",         # preferred uni.kn palettes and gradients. 
+    "grad", "grad_all", "all_grad",         # uni.kn gradients.
+    # (c) added/contributed palettes:
+    "add"
   )
   
   # Robustify inputs: ----
@@ -616,7 +690,7 @@ seecol <- function(pal = "unikn_all",  # which palette to output?
   # Check whether pal input is a list: 
   compare <- tryCatch(
     {
-      is.list(pal) & any(lapply(pal, length) > 1)   # get length of each component. 
+      is.list(pal) & any(lapply(pal, length) > 1)  # get length of each component. 
     },
     error = function(e) {FALSE},
     silent = TRUE
@@ -629,21 +703,26 @@ seecol <- function(pal = "unikn_all",  # which palette to output?
     
     # Default main title given a keyword:
     if (is.na(main)){
-      if (pal %in% c("all", "unikn_all", "all_unikn") ) main <- "See all unikn color palettes"
-      if (pal %in% c("basic", "unikn_basic", "basic_unikn")) main <- "See all basic unikn color palettes"
-      if (pal %in% c("pair", "all_pair", "pair_all")) main <- "See all pairwise unikn color palettes"
-      if (pal %in% c("pref", "pref_all", "all_pref")) main <- "See all preferred unikn colors and gradients"
-      if (pal %in% c("grad", "grad_all", "all_grad")) main <- "See all unikn color gradients"
+      # (a) all palettes (of the unikn package):
+      if (pal %in% c("all") ) main <- "All unikn color palettes"
+      # (b) local/uni.kn palettes:
+      if (pal %in% c("all_unikn", "unikn_all")) main <- "See uni.kn color palettes"
+      if (pal %in% c("basic", "unikn_basic", "basic_unikn")) main <- "See basic uni.kn color palettes"
+      if (pal %in% c("pair", "all_pair", "pair_all")) main <- "See pairwise uni.kn color palettes"
+      if (pal %in% c("pref", "pref_all", "all_pref")) main <- "See preferred uni.kn colors and gradients"
+      if (pal %in% c("grad", "grad_all", "all_grad")) main <- "See uni.kn color gradients"
+      # (c) added/contributed palettes:
+      if (pal %in% c("add") ) main <- "Additional unikn color palettes"      
     }
     
-    pal_tmp <- getpal_key(pal = pal, n = n, alpha = alpha)  # get the color by key.
+    pal_tmp <- get_pal_key(pal = pal, n = n, alpha = alpha)  # get color palette by its key
     
   } else if (compare){
     
-    pal_tmp <- lapply(X = pal, usecol, n = n, alpha = alpha, use_names = TRUE)  # get all palettes separately. 
+    pal_tmp <- lapply(X = pal, usecol, n = n, alpha = alpha, use_names = TRUE)  # get all palettes separately 
     
     if (is.na(main)){
-      main <- "Compare a custom set of color palettes"  # default
+      main <- "Compare a custom set of color palettes"  # default title
     }
     
     # Set or get palette names:
@@ -658,7 +737,7 @@ seecol <- function(pal = "unikn_all",  # which palette to output?
       
       if (is.null(names(pal_tmp))){ # no names exist: 
         
-        names(pal_tmp) <- paste0("pal_", 1:length(pal_tmp))  # use default names.
+        names(pal_tmp) <- paste0("pal_", 1:length(pal_tmp))  # use default names
         
       } else if (any(names(pal_tmp) == "custom")) {
         
@@ -896,31 +975,32 @@ seecol <- function(pal = "unikn_all",  # which palette to output?
     } # if (grid) etc. 
     
     # Find cex so that it is as large as possible:
-    cex_min <- .66  # lower limit for cex. 
+    cex_min <- .65  # lower limit for cex
     
     # Determine whether to display hex values:
-    cex_hex <- .96  # was par("cex")
+    cex_hex <- .95  # was par("cex")
     
-    placeholder <- ifelse(is.na(alpha), " #XXXXXX", " #XXXXXXXX")
+    placeholder <- ifelse(is.na(alpha), " #FFFFFF", " #FFFFFFFF")
     wdth_hex <- strwidth(placeholder, cex = cex_hex) * max_ncol  # + strwidth("Hex: ", cex = cex_hex)  # width of HEX strings
     
-    while ((wdth_hex > (xlim[2] + 1)) & (cex_hex > cex_min)) {
+    while ((wdth_hex > (xlim[2] + 1/2)) & (cex_hex > cex_min)) {
       
       cex_hex  <- (cex_hex - .01)  # reduce size
       wdth_hex <- strwidth(placeholder, cex = cex_hex) * max_ncol  # + strwidth("Hex: ", cex = cex_hex)  # is width small enough?
       
     }
     
-    # If hex is NULL, determine based on width and max cex.
-    # Otherwise, use the provided value: 
-    if ( is.null(hex) ) {
+    # If hex is NULL (as per default), determine hex based on width and max cex:
+    if ( is.null(hex) ) { # Can/should hex be displayed?
       
-      hex <- ifelse((wdth_hex > xlim[2] | (cex_hex < cex_min)), FALSE, TRUE)  # test, whether hex can be displayed.
+      # hex <- ifelse((wdth_hex > (xlim[2] + 1) | (cex_hex < cex_min)), FALSE, TRUE)  # conservative
       
-    }
+      hex <- ifelse((wdth_hex > (3/2 * xlim[2])), FALSE, TRUE)  # relaxed (given 3 HEX options below)
+      
+    } # otherwise: use the hex value provided.
     
     # Determine, whether to display RGB values:
-    cex_rgb <- 0.96
+    cex_rgb <- 0.95
     wdth_rgb <- strwidth(" 999 ", cex = cex_rgb) * max_ncol
     
     while ((wdth_rgb > xlim[2]) & (cex_rgb > cex_min)) {
@@ -930,11 +1010,12 @@ seecol <- function(pal = "unikn_all",  # which palette to output?
       
     }
     
-    # If rgb is NULL, determine based on width and max cex.
-    # Otherwise use the provided value: 
+    # If rgb is NULL (as per default), determine rgb based on width and max cex:
     if ( is.null(rgb) ) {
+      
       rgb <- ifelse(wdth_rgb > xlim[2] | cex_rgb < cex_min, FALSE, TRUE)
-    }
+      
+    } # otherwise: use the rgb value provided.
     
     
     # Plot rectangles: ----
@@ -996,49 +1077,49 @@ seecol <- function(pal = "unikn_all",  # which palette to output?
     
     if (hex) {
       
-      # Convert to hex (if not already in this format): 
+      # Convert pal_tmp to hex values (if not already in this format): 
       if (!all(is_hex_col(pal_tmp))) { 
-        pal_tmp <- rgb(t(col2rgb(pal_tmp)), maxColorValue = 255)
+        pal_tmp <- grDevices::rgb(t(col2rgb(pal_tmp)), maxColorValue = 255)
       }
       
-      # Plot HEX values: 
-      # cex_hex <- min(cex_hex, cex_rgb)
-      wdth_hex <- strwidth(placeholder, cex = cex_hex) * max_ncol
+      # 3 ways to plot HEX values: 
+      wdth_hex   <- strwidth(placeholder, cex = cex_hex) * max_ncol
+      wdth_hex_2 <- strwidth(placeholder, cex = max(cex_hex, cex_rgb)) * max_ncol  # using larger font size (on 2 lines)
       
-      if (wdth_hex > (2 * xlim[2])){ # HEX is too long for 2 lines:  
+      if ( wdth_hex_2 > ((2.0 * xlim[2])) ){ # (c) too long for 2 lines:
         
         y_hex  <- -0.25  # Hex label height
         
-        # rotate HEX labels:
+        # (c) rotated HEX values (45 degrees):
         text(x = txt_pos, y = y_hex, labels = pal_tmp, pos = NULL, xpd = TRUE, cex = cex_hex, srt = 45)  
         
-      } else if (wdth_hex > (xlim[2] + 1)){ # HEX is too long for 1 line:  
+      } else if (wdth_hex > (1.0 * xlim[2])){ # (b) too long for 1 line:  
         
-        cex_hex <- max(cex_hex, cex_rgb)  # use the larger of both font sizes
+        cex_hex <- max(cex_hex, cex_rgb)  # use larger font size (on 2 lines)
         
         y_hex  <- -0.15  # Hex label height
         yshift  <- 0.15  # downward shift
         
         text(x = 0, y = y_hex, labels = "Hex:", font = 2, pos = 2, offset = 0, 
-             xpd = TRUE, cex = cex_hex)  # Hex label
+             xpd = TRUE, cex = cex_hex)  # title label
         
-        # (a) print HEX on 2 levels:
-        
-        is_odd <- (1:length(pal_tmp) %% 2 == 1)  # odd elements 
+        # (b) horizontal HEX values (on 2 lines):
+        is_odd <- (1:length(pal_tmp) %% 2 == 1)  # odd elements (as logical) 
         text(x = txt_pos, y = y_hex - (is_odd * yshift), 
              labels = pal_tmp, pos = NULL, xpd = TRUE, cex = cex_hex, srt = 0)
         
-        # (b) rotate HEX labels:
+        # (b/c) rotate HEX labels:
         # text(x = txt_pos, y = y_hex, labels = pal_tmp, pos = NULL, xpd = TRUE, cex = cex_hex, srt = 45)         
         
         
-      } else { # All HEX values on same line (default):
+      } else { # (a) default: horizontal HEX values (on same line):
         
         y_hex  <- -0.25  # Hex label height
         
         text(x = 0, y = y_hex, labels = "Hex:", font = 2, pos = 2, offset = 0, 
-             xpd = TRUE, cex = cex_hex)  # Hex label
+             xpd = TRUE, cex = cex_hex)  # title label
         
+        # (a) linear HEX values (on 1 line): 
         text(x = txt_pos, y = y_hex, labels = pal_tmp, pos = NULL, xpd = TRUE, cex = cex_hex, srt = 0)        
         
       }
@@ -1100,14 +1181,19 @@ seecol <- function(pal = "unikn_all",  # which palette to output?
 # par(op)
 
 
-# 3. all_colors: Combine all unikn color palettes with all R colors(): ------
+# 3. all_colors: Combine all unikn color palettes with default R colors(): ------
 
 #' A function providing all unikn colors and base R colors.
 #' 
 #' \code{all_colors} combines the \strong{unikn} color gradients with the 
 #' 657 named colors provided by \code{\link{colors}} of \strong{grDevices}. 
 #' 
+#' The color values returned (as a named character vector) 
+#' are either HEX/HTML codes or \strong{base} R color names.
+#' 
 #' The \code{distinct} option removes colors with duplicate color values or names.
+#' 
+#' @return A named vector of color values (of type character).
 #' 
 #' @param distinct Boolean: Return only colors with unique values and names? 
 #' Default: \code{distinct = TRUE} (i.e., remove duplicate values and names).
@@ -1117,31 +1203,43 @@ seecol <- function(pal = "unikn_all",  # which palette to output?
 
 all_colors <- function(distinct = TRUE){
   
-  # initialize:
-  out <- NA 
+  out <- NA  # initialize
   
-  # 1. unikn colors:
-  unikn_colors <- usecol(c("black", "white",
+  # 1. All colors (of unikn package): ---- 
+  unikn_pkg_colors <- usecol(c("black", "white",
+                           # Local uni.kn colors:
                            pal_grau, pal_bordeaux, pal_petrol, pal_peach, 
                            pal_seeblau, pal_pinky, pal_seegruen, pal_karpfenblau, 
-                           pal_signal), use_names = TRUE)
+                           pal_signal, 
+                           pal_unikn,  # contains 4 "seegrau" variants of "grey"
+                           # Added/contributed color palettes:
+                           eth_pal, eth_pal_light, eth_pal_grey,  
+                           mpg_pal, 
+                           uni_freiburg_br, uni_freiburg_blue, uni_freiburg_info,
+                           # uni_konstanz, uni_konstanz_pref, # duplicates of pal_ above.
+                           uni_princeton_0, uni_princeton_1, uni_princeton_2
+                           ), 
+  use_names = TRUE)
   
-  unikn_colors_s <- unikn_colors[sort(names(unikn_colors))]
-  # unikn_colors_s
+  # Sort colors (by name):
+  unikn_pkg_colors_s <- unikn_pkg_colors[sort(names(unikn_pkg_colors))]
   
-  # 2. add R colors():
-  unikn_and_R_colors <- usecol(c(unikn_colors_s, colors()), use_names = TRUE)
-  unikn_and_R_colors[1:10]
+  # 2. Add R colors() (from grDevices): ---- 
+  unikn_and_R_colors <- usecol(c(unikn_pkg_colors_s, grDevices::colors()), use_names = TRUE)
+  # unikn_and_R_colors[1:10]
   
-  if (distinct){
+  if (distinct){ # Remove duplicates (3 ways): ---- 
     
-    # Remove duplicates:
     # col_unique_name <- unikn_and_R_colors[duplicated(names(unikn_and_R_colors)) == FALSE]  # 1. unique names
-    # col_unique_value <- col_distinct(col_unique_name)  # 2. unique color value (visually distinct)
+    # col_unique_value <- col_distinct(col_unique_name)  # 2. unique color values (visually distinct)
     
-    unique_colors <- col_distinct(pal = unikn_and_R_colors, use_hex = TRUE, use_alpha = FALSE, use_names = TRUE)
+    # 3. Using col_distinct() helper function: 
+    all_unique_colors <- col_distinct(pal = unikn_and_R_colors, 
+                                      use_hex = TRUE, 
+                                      use_alpha = FALSE, 
+                                      use_names = TRUE)
     
-    out <- unique_colors
+    out <- all_unique_colors
     
   } else {
     
@@ -1149,27 +1247,30 @@ all_colors <- function(distinct = TRUE){
     
   }
   
-  # Output:
+  # Output: ---- 
   return(out)
   
 } # all_colors().
 
-## Check:
+# ## Check:
 # all_colors()[1:50]
-# length(all_colors(distinct = TRUE))   # 545
-# length(all_colors(distinct = FALSE))  # 702
-# grepal("see", all_colors())   # finds unikn colors
-# grepal("purple", all_colors())  # finds base R colors
+# length(all_colors(distinct = TRUE))   # 579 [on 2022-10-26]
+# length(all_colors(distinct = FALSE))  # 762 [on 2022-10-26]
+# grepal("see", all_colors())     # finds unikn colors (and matching colors())
+# grepal("purple", all_colors())  # finds added and base R colors
 # 
-# grepal("black", all_colors())  # only 1 "black"
-# grepal("signal", all_colors())
-# grepal("alice", all_colors())
+# grepal("black", all_colors(), ignore_case = FALSE)  # only 1 "black"
+# grepal("black", all_colors(), ignore_case = TRUE)   # 2 variants of "black"
+# grepal("signal", all_colors()) # 3 signal colors
+# grepal("alice", all_colors())  # 1 base R color
+# 
+# simcol(Petrol, all_colors())
+# simcol(mpg_pal[1], all_colors())
+# simcol(uni_princeton_0[1], all_colors())
 
 
 ## ToDo: ------
 
-# - Replace `title` by `main` argument (and deprecate `title`) in `seecol()`.
-# 
 # - Consider creating more vivid versions of some
 #   `pal_unikn_pref` colors (e.g., "deepskyblue", "deeppink", etc.)
 # 

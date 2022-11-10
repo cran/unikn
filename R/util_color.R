@@ -1,15 +1,14 @@
-## color_util.R  |  unikn
-## spds | uni.kn | 2022 09 13
+## util_color.R  |  unikn
+## spds | uni.kn | 2022 10 25
 ## ---------------------------
 
-## Utility functions for converting colors, 
-## and accessing and plotting color palettes. 
+# Color-related utility functions: 
+# Converting and evaluating colors and accessing and plotting color palettes. 
 
 
-## 1. General functions: -------
+## 1. Color conversion and evaluation functions: -------
 
-
-# col2rgb in grDevices: ------ 
+# col2rgb: (in grDevices) ------ 
 
 ## Check: 
 # col2rgb("black", alpha = FALSE)  # Note: alpha is Boolean argument.
@@ -22,7 +21,7 @@
 
 
 
-# get_alpha: Get color transparency / alpha values: ------
+# get_alpha: Get color transparency / alpha values ------
 
 get_alpha <- function(pal){
   
@@ -37,7 +36,7 @@ get_alpha <- function(pal){
 
 
 
-# rgb2hex color conversion function: ------ 
+# rgb2hex: Color conversion function ------ 
 
 rgb2hex <- function(R, G, B) {
   
@@ -51,7 +50,7 @@ rgb2hex <- function(R, G, B) {
 
 
 
-# col2hex color conversion function: ------ 
+# col2hex: Color conversion function ------ 
 
 col2hex <- function(col, alpha = NA, use_alpha = FALSE) {
   
@@ -100,7 +99,7 @@ col2hex <- function(col, alpha = NA, use_alpha = FALSE) {
 
 
 
-# is_hex_col: Helper function to detect HEX-colors: ------ 
+# is_hex_col: Checking for HEX-colors ------ 
 
 is_hex_col <- function(color) {
   
@@ -115,7 +114,7 @@ is_hex_col <- function(color) {
 
 
 
-# is_col: Helper function to detect any color (in an individual character string): ------ 
+# is_col: Checking for any color (in an individual character string) ------ 
 
 is_col <- function(color) {
   
@@ -134,7 +133,7 @@ is_col <- function(color) {
 
 
 
-# col_distance: Color distance (in RGB space): ------
+# col_distance: Color distance (in RGB space) ------
 
 col_distance <- function(col_1, col_2){
   
@@ -175,7 +174,7 @@ col_distance <- function(col_1, col_2){
 
 
 
-# col_distinct: A unique() function for color values (using HEX codes): ------
+# col_distinct: A unique() function for color values (using HEX codes) ------
 
 # Goal: Remove visual duplicate colors (using HEX values to judge the identiy of colors, 
 #       rather than color names). 
@@ -290,11 +289,9 @@ col_distinct <- function(pal, use_hex = TRUE, use_alpha = FALSE, use_names = FAL
 
 
 
-## 2. Color getting functions: ------
+## 2. Color and color palette retrieval functions: ------
 
-
-
-# parse_pal(): Parse a palette input ------ 
+# parse_pal: Parse color palette input ------ 
 
 parse_pal <- function(pal) {
   
@@ -319,7 +316,7 @@ parse_pal <- function(pal) {
     
     out <- pal
     
-  } else {  # otherwise:
+  } else { # otherwise:
     
     # Deparse argument: 
     if ( identical(parenv , globalenv()) ) {  # if the calling environment is the global env:
@@ -337,9 +334,9 @@ parse_pal <- function(pal) {
     
     # Split input string; getting everything within the parentheses:
     
-    if ( grepl("\\(", tmp) ) {  # only if any parenthesis exists.
+    if ( grepl("\\(", tmp) ) {  # if a parenthesis exists: 
       
-      tmp <- sub(".*?\\(+(.*)\\).*", "\\1", tmp, perl=TRUE)
+      tmp <- sub(".*?\\(+(.*)\\).*", "\\1", tmp, perl = TRUE)
       # .\*?   matches anything but stops at the first match of what follows
       # \\s+   matches one or more blank spaces
       # (.\*)  matches any number of characters, because it is in parentheses
@@ -360,13 +357,13 @@ parse_pal <- function(pal) {
     # Remove functions: 
     elem <- sub(".*?\\(+(.*)\\).*", "\\1", elem, perl = TRUE)
     
+    
     # Existence checks: ----- 
     
-    ## Now ask for every element, whether it exists:
+    ## Check existence of every element:
     elemex <- sapply(elem, function(x) exists(x) & x != "pal")
     # also ask, whether the element is named pal, to prevent name conflicts!
     # Was: elemex <- sapply(elem, exists)
-    
     
     if ( any(!elemex) ) { # only if not all inputs have been resolved
       
@@ -436,228 +433,158 @@ parse_pal <- function(pal) {
 
 
 
-# getpal_key(): Get a palette or list of palettes by keyword: -------
+# get_pal_key: Get a color palette or list of palettes by keyword -------
 
-getpal_key <- function(pal = "all", n = "all", alpha = NA) {
+get_pal_key <- function(pal = "all", n = "all", alpha = NA) {
   
   # Process the 'pal' argument: ----- 
   
   # Getting palettes by keyword: ----- 
-  keys <- c("all", "unikn_all", "all_unikn",  # all palettes
-            "basic", "unikn_basic", "basic_unikn",  # basic palettes 
-            "pair", "pair_all", "all_pair",   # paired palettes 
-            "pref", "pref_all", "all_pref",   # preferred palettes and gradients 
-            "grad", "grad_all", "all_grad"    # gradients
+  keys <- c(#
+    # (a) all palettes (of the unikn package):
+    "all",                            # 1. all palettes (of the unikn package)
+    # (b) local/uni.kn palettes:
+    "unikn_all", "all_unikn",         # 2:3. all local/uni.kn palettes
+    "basic", "unikn_basic", "basic_unikn", # 4:6. basic palettes 
+    "pair", "pair_all", "all_pair",   # 7:9. paired palettes 
+    "pref", "pref_all", "all_pref",   # 10:12. preferred palettes and gradients 
+    "grad", "grad_all", "all_grad",   # 13:15. gradients
+    # (c) added/contributed palettes: 
+    "add", "uni"                      # 16:17. additional/contributed palettes
   )
   
   # Throw an error, if no valid keyword is specified:
   if ( !pal %in% keys ) {
     stop('Invalid keyword specified. Allowed keywords are 
-                            c("all", "unikn_all", "all_unikn", "pref_all", "all_pref", "grad_all", "all_grad")')
+         c("all", "unikn_all", "all_unikn", "pref_all", "all_pref", "grad_all", "all_grad", "add")')
   } else {
     
-    if ( pal %in% keys[1:3] )   key <- "all"
+    # (a) all palettes (of the unikn package):
+    if ( pal %in% keys[1] )     key <- "all"
+    # (b) local/uni.kn palettes:
+    if ( pal %in% keys[2:3] )   key <- "all_kn"    
     if ( pal %in% keys[4:6] )   key <- "basic"
     if ( pal %in% keys[7:9] )   key <- "pair"
     if ( pal %in% keys[10:12] ) key <- "pref"
     if ( pal %in% keys[13:15] ) key <- "grad"
+    # (c) added/contributed palettes: 
+    if ( pal %in% keys[16:17] ) key <- "add" 
     
   }
   
   # Get all color palettes with the prefix "pal_" from the environment: ----- 
   
-  # Distinguish 5 cases:
+  # Distinguish 7 cases:
   pal_names <- switch(
     key,
-    all = all_palkn,
+    # (a) all palettes (of the unikn package):
+    all = all_pals,
+    # (b) local/uni.kn palettes:
+    all_kn = all_palkn,
     basic = all_palkn_basic,
     pair = all_palkn_pair,
     pref = all_palkn_pref,
-    grad = all_palkn_grad
+    grad = all_palkn_grad,
+    # (c) added/contributed palettes:
+    add = add_pals
   )
   
   # Get list of palettes specified by keyword:
   lst_pal <- sapply(pal_names, get)
   
-  # Indicator, whether these are actually color palettes:
-  is_pal <- lapply(
-    lst_pal,
-    FUN = function(x) {
-      if ( !typeof(x) %in% c("vector", "list") ) {
-        is_color <- FALSE
-      } else {
-        is_color <- is_hex_col(color = x)
-      }
-      return(all(is_color))  # are all entries colors?
-      
-    }
+  # Check if lst_pal elements are actually color palettes:
+  is_pal <- lapply(X = lst_pal,
+                   FUN = function(x) {
+                     
+                     # if ( !typeof(x) %in% c("vector", "list") ) {  # BUG: uni-pals are of type "character"!
+                     if ( !is.vector(x) & !is.list(x) ) { # palettes are vectors or lists:
+                       
+                       is_color_ix <- FALSE
+                       
+                     } else { # check all elements:
+                       
+                       # is_color_ix <- is_hex_col(color = x)  # Why only check for HEX colors?
+                       is_color_ix <- is_col(color = x)
+                       
+                     }
+                     
+                     return(all(is_color_ix))  # TRUE iff ALL elements are colors
+                     
+                   }
   )
   
-  # Remove all non-colors:
-  tmp <- lst_pal[unlist(is_pal)]
+  # print(is_pal)  # 4debugging
+  
+  # Remove non-colors:
+  col_pals <- lst_pal[unlist(is_pal)]
   
   # Check if palette is non-empty:
-  if (length(tmp) == 0) {
-    stop("No color palettes defined in the current environment.")
+  if (length(col_pals) == 0) {
+    stop("No color palettes found in the current environment.")
   }
   
   # If only color subsets should be displayed:
   if (n != "all" ) {
     
     # Get the subset of each palette , as defined in usecol():
-    out <- lapply(tmp, FUN = usecol, n = n, alpha = alpha, use_names = TRUE)
+    out <- lapply(col_pals, FUN = usecol, n = n, alpha = alpha, use_names = TRUE)
     
   } else {
     
     if ( !is.na(alpha) ) {
       
-      out <- lapply(tmp, FUN = adjustcolor, alpha.f = alpha)   # adjust for alpha if specified.
+      out <- lapply(col_pals, FUN = adjustcolor, alpha.f = alpha)  # adjust alpha
       
-    } else {
+    } else { # if n is un-specified: 
       
-      out <- tmp  # if n n is specified return list as is.
+      out <- col_pals  # return list as is
       
     }
     
   }
   
-  pal_nm <- names(out)  # get palette names from listnames.
+  pal_nm <- names(out)  # get palette names from listnames # ToDo: Used/needed anywhere???
   
   return(out)
   
-} # getpal_key(). 
+} # get_pal_key(). 
 
 
+# get_col_names: Get custom and default color names ------
 
-## 3. Plotting functions: ------
+get_col_names <- function(col, custom_pals = all_pals){
+  
+  # 1. Customized names from custom color palettes:
+  cus_pals  <- lapply(X = custom_pals, FUN = get)
+  cus_names <- names(unlist(cus_pals))[match(col, unlist(cus_pals))]
+  
+  # 2. Default names: Predefined color names (in grDevices):
+  def_names <- grDevices::colors()[match(
+    grDevices::rgb(t(grDevices::col2rgb(col)), maxColorValue = 255), 
+    c(grDevices::rgb(t(grDevices::col2rgb(grDevices::colors())), maxColorValue = 255))
+  )]
+  
+  # Replace NA values by "": 
+  def_names[is.na(def_names)] <- ""
+  cus_names[is.na(cus_names)] <- ""
+  
+  # Combine both name vectors (to avoid duplicates): 
+  def_names[def_names == cus_names] <- ""  # remove duplicates 
+  def_names[!def_names == "" & !cus_names == ""] <- 
+    paste0("/", def_names[!def_names == "" & !cus_names == ""]) # distinguish different names for the same color
+  
+  col_names <- paste0(cus_names, def_names)
+  
+  return(col_names)
+  
+} # get_col_names(). 
 
-
-# plot_shape: Plot a shape in a certain color: ------
-
-plot_shape <- function(pos_x, pos_y,  # midpoint of shape  
-                       col_fill,      # fill color  
-                       col_brd = NA,
-                       xlen = 1, ylen = 1,  # height of axis lengths  
-                       shape = "rect",      # shape 
-                       ...  # other graphics parameters (e.g., lwd): passed to symbols() 
-) {
-  
-  # Prepare inputs for vectorized solution: -----
-  
-  len_max <- max(c(length(pos_y), length(pos_x)))  # get length of longer position vector. 
-  
-  # Recycle all vectors to length of longest vector:
-  pos_x <- rep(pos_x, length.out = len_max)
-  pos_y <- rep(pos_y, length.out = len_max)
-  xlen  <- rep(xlen,  length.out = len_max)
-  ylen  <- rep(ylen,  length.out = len_max)
-  
-  
-  # Rectangles: ----- 
-  
-  if (shape == "rect") {
-    
-    symbols(x = pos_x, y = pos_y, 
-            rectangles = cbind(xlen, ylen),  # as matrix: width and height of rectangles
-            add = TRUE,
-            inches = FALSE,  # use unit on x axis
-            fg = col_brd,    # line color
-            bg = col_fill,   # filling
-            ...              # other graphics parameters (e.g., lwd)
-    )
-    
-  }
-  
-  # Circles: ----- 
-  
-  if (shape == "circle") {
-    
-    symbols(x = pos_x, y = pos_y, 
-            circles = xlen/2,  # as vector (only using xlen): radii of circles
-            add = TRUE, 
-            inches = FALSE,  # use unit on x axis 
-            fg = col_brd,    # line color
-            bg = col_fill,   # filling
-            ...              # graphics parameters (e.g., lwd)
-    )
-    
-  } 
-  
-} # plot_shape().
-
-
-
-# plot_col: Plot a vector of colors (as circles or rectangles): -------
-
-plot_col <- function(x,         # a *vector* of colors to be plotted. 
-                     ypos = 1,  # position on y axis. 
-                     shape = "rect",
-                     xlen = 1, ylen = 1, 
-                     distance = 0,     # distance between shapes (to be subtracted from size). 
-                     plot.new = TRUE,  # TODO: Set to FALSE once done! 
-                     ...               # other graphics parameters (e.g., lwd)
-) {
-  
-  # 1. Handle inputs: -----
-  
-  # Key parameters:
-  len_x <- length(x)  # length of vector x (i.e., nr. of colors to plot)
-  
-  # Should a new plot be created? 
-  if (plot.new) {
-    
-    if (distance > 0) {
-      xlim <- c(0 - distance * len_x, len_x * (1 + distance))
-    } else {
-      xlim <- c(0, len_x)
-    }
-    
-    plot(x = 0, type = "n", xlim = xlim, ylim = c(0, 2))  # create an empty plot.
-    
-  } else {
-    
-    # Check for graphic device: 
-    if (dev.cur() == 1) {
-      stop("No graphic device to be plotted on.  Please open a plot or set plot.new to 'TRUE'.")
-    }
-    
-  }
-  
-  
-  # 2. Position parameters: -----
-  
-  # Shape centers:
-  xpos <- (1:len_x) - 0.5  # subtracting 0.5 assumes a shape width of 1.
-  
-  # ToDo: Allow scaling shape widths to fill a FIXED total width 
-  #       (e.g., each shape with a width of 10/len_x).
-  
-  # Adjust xpos by distance:
-  mid <- mean(xpos)  # get midpoint. 
-  add <- cumsum(rep(distance, sum(xpos < mid)))  # values to be added to the 1st half 
-  sub <- add * (-1)                              # values to be subtracted from the 2nd half 
-  xpos <- xpos + if (len_x %% 2 == 0) {c(rev(sub), add)} else  # even numbers: no center position needed
-  {c(rev(sub), 0, add)}                                      # odd numbers: include a middle (0)
-  
-  # Recycle other constants (to len_x):
-  ypos <- rep(ypos, length.out = len_x) 
-  xlen <- rep(xlen, length.out = len_x)
-  ylen <- rep(ylen, length.out = len_x)
-  
-  
-  # 3. Plot shapes: ------ 
-  
-  plot_shape(pos_x = xpos,  # x positions of the shapes. 
-             pos_y = ypos,  # position in y dimension (given). 
-             xlen = xlen, ylen = ylen,  # length of the axes. 
-             col_fill = unlist(x),  # filling color. 
-             shape = shape,  # shape parameter. 
-             ...  # graphics parameters (e.g., lwd)
-  )
-  
-} # plot_col().
-
-
+# ## Check:
+# get_col_names(c("black", "white"))  # colors()
+# get_col_names(pal_unikn_pref)  # unikn color palettes
+# get_col_names(pal_unikn)  # colors with multiple names (prioritizing custom names)
+# get_col_names(c("black", Grau, "white", Seeblau))  # combinations
+# get_col_names(usecol(c("black", "white"), n = 5))  # derivations (AFTER evaluating usecol())
 
 
 ## ToDo: ------

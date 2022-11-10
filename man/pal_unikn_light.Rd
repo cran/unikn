@@ -30,16 +30,17 @@ pal_unikn_light[[1]]  # color value "#59C7EB"
 pal_unikn_light["seeblau3"]   # color "seeblau3" (as df) 
 pal_unikn_light[["seeblau3"]] # color value "#59C7EB"  
 
-# Plotting palette:
+# Viewing/using color palette:
 seecol(pal_unikn_light)
+demopal(pal_unikn_light, type = "bar", main = "Light colors of Konstanz University")
 
 }
 \seealso{
 \code{\link{pal_unikn_dark}} for a darker uni.kn color palette; 
 \code{\link{pal_unikn_pair}} for a pairwise uni.kn color palette; 
 \code{\link{pal_unikn}} for the default uni.kn color palette; 
-\code{\link{seecol}} to show color palettes;
-\code{\link{usecol}} to use color palettes.
+\code{\link{seecol}} for viewing and comparing color palettes;
+\code{\link{usecol}} for using color palettes.
 
 Other color palettes: 
 \code{\link{pal_bordeaux}},
