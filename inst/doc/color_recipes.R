@@ -1,19 +1,19 @@
 ## ----setup, include = FALSE---------------------------------------------------
 options(max.print = "75")
+
 knitr::opts_chunk$set(echo = TRUE,
-	             cache = FALSE,
-               prompt = FALSE,
-               tidy = FALSE,
-               collapse = TRUE, 
-               comment = "#>",
-               message = FALSE,
-               warning = FALSE,
-               ## Default figure options:
-               # fig.width = 6, 
-               # fig.asp = .8 # .618, # golden ratio
-               fig.align = "center",
-	             out.width = "60%"
-               )
+                      cache = FALSE,
+                      prompt = FALSE,
+                      tidy = FALSE,
+                      collapse = TRUE, 
+                      comment = "#>",
+                      message = FALSE,
+                      warning = FALSE,
+                      # Default figure options:
+                      # fig.width = 6, 
+                      # fig.asp = .8 # .618, # golden ratio
+                      fig.align = "center",
+                      out.width = "60%")
 
 ## ----load-pkg-colors, message = FALSE, warning = FALSE------------------------
 # install.packages('unikn')  # install unikn from CRAN client
@@ -96,7 +96,7 @@ seecol(col_pal)  # see its colors and details
 ## ----set-seed-HCL-pals, echo = FALSE------------------------------------------
 set.seed(4 * pi)  # reproducible randomenss 
 
-## ----seecol-example-2a, echo = FALSE, fig.width = 6, fig.asp = 1.0, fig.align = 'center'----
+## ----seecol-example-2a, fig.width = 6, fig.asp = 1.0, fig.align = 'center'----
 # Parameters:
 n_col <-  8   # colors in each palette
 n_pal <- 20   # length(hcl.pals())
@@ -189,11 +189,17 @@ seecol(list(blues, oranges, purpviol,
 greys <- shades_of(10)
 seecol(greys, main = "10 shades of grey")
 
-## ----shades-of-example-2, fig.width = 5, fig.asp = .90, fig.align = 'center'----
-seecol(shades_of(4, Seeblau, "black"), main = "4 shades of Seeblau")
-seecol(shades_of(7, "forestgreen"), main = "7 shades of 'forestgreen'")
+## ----shades-of-example-2, eval = FALSE, fig.width = 5, fig.asp = .90, fig.align = 'center'----
+#  seecol(shades_of(4, Seeblau, "black"), main = "4 shades of Seeblau")
+#  seecol(shades_of(5, "forestgreen"), main = "5 shades of 'forestgreen'")
 
 ## ----shades-of-example-3, fig.width = 5, fig.asp = .90, fig.align = 'center'----
-wine_gold <- shades_of(4, Bordeaux, col_n = "gold", alpha = .65)
+wine_gold <- shades_of(4, Bordeaux, col_n = "gold", alpha = .75)
 seecol(wine_gold, main = "5 transparent shades from Bordeaux to gold")
+
+## ----gradient-example-1, fig.width = 5, fig.asp = .90, fig.align = 'center'----
+# Create bi-polar color gradient (and remove 'white' middle color):
+divergent_gradient <- usecol(pal = c("firebrick", "white", "steelblue"), n = 7)[-4]
+
+seecol(divergent_gradient, main = "A bi-polar color palette")
 

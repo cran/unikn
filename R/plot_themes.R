@@ -1,5 +1,5 @@
 ## plot_themes.R | unikn
-## spds | uni.kn |  2020 08 27
+## spds | uni.kn |  2022 11 29
 ## ---------------------------
 
 ## Defining default themes for plotting. 
@@ -7,6 +7,7 @@
 ## (A) Themes for base R plotting: ------- 
 
 ## ToDo.
+
 
 ## (B) ggplot2 themes: ------- 
 
@@ -28,11 +29,12 @@
 # } # if ("ggplot2" %in% (.packages())) end.
 
 
-## theme_unikn: Default theme for ggplot2: ------ 
+
+# theme_unikn: Default theme for ggplot2: ------ 
 
 # - Documentation: ---- 
 
-#' Basic unikn theme for ggplot2.  
+#' Basic unikn theme (for ggplot2) 
 #' 
 #' \code{theme_unikn} provides a basic \bold{unikn} theme 
 #' to use in \bold{ggplot2} commands. 
@@ -133,11 +135,12 @@ theme_unikn <- function(col_title = pal_seeblau[[4]], # "black"
 } # theme_unikn().
 
 
-## theme_grau: Alternative theme for ggplot2: ------ 
+
+# theme_grau: Alternative theme for ggplot2: ------ 
 
 # - Documentation: ---- 
 
-#' Alternative theme for ggplot2.  
+#' Alternative theme (for ggplot2)
 #' 
 #' \code{theme_grau} provides an alternative \bold{unikn} theme 
 #' to use in \bold{ggplot2} commands. 
@@ -242,6 +245,7 @@ theme_grau <- function(col_title = grey(0, 1), # OR: "black"
       complete = TRUE)
   
 } # theme_grau().
+
 
 
 ## ToDo: ------

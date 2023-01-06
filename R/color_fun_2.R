@@ -1,5 +1,5 @@
 ## color_fun_2.R | unikn
-## spds | uni.kn | 2022 11 04
+## spds | uni.kn | 2022 12 29
 ## --------------------------
 
 ## Define color-related functions 
@@ -11,11 +11,11 @@
 ## (2) Auxiliary functions: ---------- 
 
 
-# newpal(): Define a new color palette: ---------- 
+# 1. newpal(): Define a new color palette ---------- 
 
 # - Documentation: ------ 
 
-#' Define a new color palette.
+#' Define a new color palette 
 #'
 #' \code{newpal} allows defining new color palettes 
 #' (as data frames or vectors). 
@@ -136,9 +136,9 @@ newpal <- function(col,            # a vector of colors
   # Prepare: ----- 
   
   # Robustify inputs:
-  if ( any(is.na(col)) ) stop("'col' must be a vector of (named or hex) colors without NA values.")
+  if ( any(is.na(col)) ) stop("'col' must be a vector of (named or HEX) colors without NA values.")
   
-  if ( any(!is_col(col)) ) stop("'col' must be a vector containing ONLY (named or hex) colors.")
+  if ( any(!is_col(col)) ) stop("'col' must be a vector containing ONLY (named or HEX) colors.")
   
   if ( any(!is.na(names)) && ((length(col) != length(names))) ) {
     
@@ -181,7 +181,7 @@ newpal <- function(col,            # a vector of colors
     
   } else { # 3. get default color names:
     
-    names(outpal) <- get_col_names(col)  # (a) use helper functions (for default and custom color names)
+    names(outpal) <- get_col_names(col)  # (a) use helper function (for default and custom color names)
     
     # names(outpal) <- as.character(1:length(col))  # (b) use numeric digits as names
     
@@ -205,8 +205,12 @@ newpal <- function(col,            # a vector of colors
     
   } else {
     
-    outpal <- unlist(outpal)  # as vector
+    outpal <- unlist(outpal)  # as vector 
     
+    if (!is.vector(outpal)) {
+      outpal <- as.vector(outpal)  # remove attributes other than names!
+    }
+
   }
   
   
@@ -307,11 +311,11 @@ newpal <- function(col,            # a vector of colors
 #        main = "Comparing custom color palettes")
 
 
-# grepal(): Find colors matching a pattern (in palette names): -------
+# 2. grepal(): Find colors matching a pattern (in palette names) -------
 
 # - Documentation: ------ 
 
-#' Get a vector of colors whose names match a regular expression. 
+#' Get a vector of colors whose names match a regular expression 
 #'
 #' \code{grepal} returns a vector of colors whose names match a regular expression (regex). 
 #' 
@@ -503,13 +507,13 @@ grepal <- function(pattern,
 # seecol(grepal("blau", pal_unikn_pref, plot = FALSE), main = "All colors matching 'blau'")
 
 
-# simcol(): Find/see similar colors: ------
+# 3. simcol(): Find/see similar colors ------
 
 # Goal: Find (named) colors similar to a given color, within some tolerance value(s).
 
 # - Documentation: ------ 
 
-#' Find similar colors.
+#' Find similar colors 
 #'
 #' \code{simcol} finds and shows colors 
 #' from a palette of color candidates \code{col_candidates} that are similar 
@@ -739,11 +743,11 @@ simcol <- function(col_target,
 
 
 
-# shades_of(): Get n lighter or darker versions of a given color: ------ 
+# 4. shades_of(): Get n lighter or darker versions of a given color ------ 
 
 # - Documentation: ------ 
 
-#' Get n shades of a color. 
+#' Get n shades of a color 
 #'
 #' \code{shades_of} returns a vector of \code{n} colors that are 
 #' shades of a color gradient ranging 
@@ -823,14 +827,14 @@ shades_of <- function(n = 5,
 # seecol(shades_of(4, col_1 = Bordeaux, alpha = .5))
 
 
-# ac(): A flexible wrapper of adjustcolor(): ------ 
+# 5. ac(): A flexible wrapper of adjustcolor() ------ 
 
 # Goal: Wrap essentials of grDevices::adjustcolor 
 #       as a more convenient utility function:
 
 # - Documentation: ------ 
 
-#' Adjust the transparency of a color or color palette.
+#' Adjust color transparency
 #'
 #' \code{ac} adjusts the transparency of a color or color palette \code{col} 
 #' to an opacity level \code{alpha} (in \code{[0, 1]}).
@@ -953,7 +957,7 @@ ac <- function(col,
   
   return(col_adj)
   
-} # ac(). 
+} # ac().
 
 
 ## Check:

@@ -1,4 +1,71 @@
 
+# unikn 0.8.0
+
+This release of **unikn** (v0.8.0) extends its functionality to additional color palettes. [2023-01-06] 
+
+<!-- Log of changes: --> 
+
+Changes since last release: 
+
+
+## Major changes 
+
+- Add color palettes of the following academic institutions:  
+
+    - [Caltech](https://www.caltech.edu/): `caltech_pal_1`, `caltech_pal_2`, `caltech_pal_3` 
+    - [Free University Berlin](https://www.fu-berlin.de/en/index.html): `fu_pal_0`, `fu_pal_1`, `fu_pal_2`, `fu_pal_3` 
+    - [Humboldt University Berlin](https://www.hu-berlin.de/en): `hu_pal_1`, `hu_pal_2` 
+    - [LMU Munich](https://www.lmu.de/en/index.html): `lmu_pal_1`, `lmu_pal_2`, `lmu_pal_3` 
+    - [University of Bonn](https://www.uni-bonn.de/en): `uni_bonn_1`, `uni_bonn_2` 
+    - [University of Göttingen](https://uni-goettingen.de/): `uni_goettingen_1`, `uni_goettingen_2`, `uni_goettingen_3` 
+    - [University of Hamburg](https://www.uni-hamburg.de/): `uni_hamburg_1`, `uni_hamburg_2`  
+    - [University of Jena](https://www.uni-jena.de/): `uni_jena_1`, `uni_jena_2` 
+    - [Kiel University](https://www.uni-kiel.de/en/): `uni_kiel_1`, `uni_kiel_2` 
+    - [University of Köln](https://www.uni-koeln.de/): `uni_koeln_1`, `uni_koeln_2` 
+    - [University of Mannheim](https://www.uni-mannheim.de/): `uni_mannheim_1`, `uni_mannheim_2` 
+    - [University of Regensburg](https://www.uni-regensburg.de/): `uni_regensburg_1`, `uni_regensburg_2`, `uni_regensburg_3` 
+    - [University of Ulm](https://www.uni-ulm.de/): `uni_ulm_1`, `uni_ulm_2` 
+    - [Rensselaer Polytechnic Institute](https://www.rpi.edu/): `rpi_pal_1`, `rpi_pal_2`, `rpi_pal_3` 
+    - [RPTU Kaiserslautern-Landau](https://rptu.de/): `rptu_pal` 
+
+
+<!-- Blank line.  --> 
+
+
+## Minor changes 
+
+- Updated color palettes:
+
+    - [ETH Zurich](https://ethz.ch/): Renamed `eth_pal`, `eth_pal_light`, `eth_pal_grey` 
+    to `eth_pal_1`, `eth_pal_2`, `eth_pal_3`, respectively 
+    - [Max Planck Society](https://www.mpg.de/en): `mpg_pal` (based on RGB values and extended to 5 colors) 
+    - [University of Freiburg](https://uni-freiburg.de/): `uni_freiburg_0`, `uni_freiburg_1`, `uni_freiburg_2`,   
+    (added to palettes from\ 2022: `uni_freiburg_br`, `uni_freiburg_blue`, `uni_freiburg_grey`, `uni_freiburg_info`)  
+    - [University of Konstanz](https://www.uni-konstanz.de/): Renamed `uni_konstanz` and `uni_konstanz_pref` 
+    to `uni_konstanz_1` and `uni_konstanz_2`, respectively 
+  
+  
+<!-- Blank line.  --> 
+
+
+## Details 
+
+- Replace use of **crayon** package by use of **cli** package.  
+- Add utility functions `col_asif_alpha()` and `v_col_asif_alpha()`. 
+- Revise vignettes. 
+- Fix some bugs.
+
+
+
+<!-- Development version:  --> 
+
+The current development version of **unikn** is available at <https://github.com/hneth/unikn/>. 
+
+
+<!-- Previous versions: -->  
+
+---------- 
+
 # unikn 0.7.0
 
 This release of **unikn** (v0.7.0) adds and improves functionality and fixes some bugs. [2022-11-10] 
@@ -41,11 +108,6 @@ Changes since last release:
 - Reorganize files of utility functions. 
 - Add Zenodo doi [10.5281/zenodo.7096191](https://doi.org/10.5281/zenodo.7096191) for citations. 
 - Revise and update vignettes.
-
-
-<!-- Development version:  --> 
-
-The current development version of **unikn** is available at <https://github.com/hneth/unikn/>. 
 
 
 <!-- Previous versions: -->  
@@ -213,7 +275,7 @@ Changes in existing functionality:
 
 ## Details 
 
-- Bug fix: Correct an error in `seecol()` and `usecol()` that prohibited use in other packages (by requiring list of palettes). 
+- Bug fix: Correct an error in `seecol()` and `usecol()` that prevented use in other packages (by requiring list of palettes). 
 - Bug fix: Prevent showing duplicate color names in `seecol()`, due to searching both the current set of color palettes and **base** R `colors()`. Different names for the same color are now separated by a forward slash (/), duplicates are removed before naming. 
 - Bug fix: Allow `isHexCol()` to recognize hexadecimal color values starting with lowercase letters. 
 - Cleanup: Remove packages not needed from list of suggested packages. 
@@ -232,6 +294,6 @@ Changes in existing functionality:
 
 ---------- 
 
-[File `NEWS.md` updated on 2022-11-10.] 
+[File `NEWS.md` updated on 2023-01-06.] 
 
 <!-- eof. -->

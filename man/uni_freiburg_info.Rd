@@ -3,12 +3,12 @@
 \docType{data}
 \name{uni_freiburg_info}
 \alias{uni_freiburg_info}
-\title{Info colors of the University of Freiburg.}
+\title{Info colors of the University of Freiburg (2022)}
 \format{
 An object of class \code{character} of length 12.
 }
 \source{
-Color definitions are based on web style guide at 
+Color definitions are based on the web style guide at 
 \url{https://uni-freiburg.de/} 
 (at \code{portal.uni-freiburg.de/cmsforum/wsg/webstyleguide/farben} on 2022-10-20).
 }
@@ -22,10 +22,15 @@ A named vector of colors (HEX/HTML codes of type character).
 \code{uni_freiburg_info} provides the info colors 
 of the \href{https://uni-freiburg.de/}{University of Freiburg}, Germany.
 }
+\details{
+\strong{Please note}: 
+See \code{\link{uni_freiburg_1}} and \code{\link{uni_freiburg_2}}  
+for the corresponding colors of the new corporate design (as of 2023).
+}
 \examples{
 uni_freiburg_info
-seecol(uni_freiburg_info)  # view color palette
-demopal(uni_freiburg_info, type = 3, main = "Info colors of the University of Freiburg")
+seecol(uni_freiburg_info, main = "Info colors of the University of Freiburg (2022)")
+demopal(uni_freiburg_info, type = 3, main = "Info colors of Freiburg University (2022)")
 
 }
 \seealso{
@@ -37,21 +42,60 @@ demopal(uni_freiburg_info, type = 3, main = "Info colors of the University of Fr
 \code{\link{grepal}} for finding named colors.
 
 Other contributed color palettes: 
-\code{\link{eth_pal_grey}},
-\code{\link{eth_pal_light}},
-\code{\link{eth_pal}},
+\code{\link{caltech_pal_1}},
+\code{\link{caltech_pal_2}},
+\code{\link{caltech_pal_3}},
+\code{\link{eth_pal_1}},
+\code{\link{eth_pal_2}},
+\code{\link{eth_pal_3}},
+\code{\link{fu_pal_0}},
+\code{\link{fu_pal_1}},
+\code{\link{fu_pal_2}},
+\code{\link{fu_pal_3}},
+\code{\link{hu_pal_1}},
+\code{\link{hu_pal_2}},
+\code{\link{lmu_pal_1}},
+\code{\link{lmu_pal_2}},
+\code{\link{lmu_pal_3}},
 \code{\link{mpg_pal}},
+\code{\link{rpi_pal_1}},
+\code{\link{rpi_pal_2}},
+\code{\link{rpi_pal_3}},
+\code{\link{rptu_pal}},
+\code{\link{uni_bonn_1}},
+\code{\link{uni_bonn_2}},
+\code{\link{uni_freiburg_0}},
+\code{\link{uni_freiburg_1}},
+\code{\link{uni_freiburg_2}},
 \code{\link{uni_freiburg_blue}},
 \code{\link{uni_freiburg_br}},
 \code{\link{uni_freiburg_grey}},
-\code{\link{uni_konstanz_pref}},
-\code{\link{uni_konstanz}},
+\code{\link{uni_goettingen_1}},
+\code{\link{uni_goettingen_2}},
+\code{\link{uni_goettingen_3}},
+\code{\link{uni_hamburg_1}},
+\code{\link{uni_hamburg_2}},
+\code{\link{uni_jena_1}},
+\code{\link{uni_jena_2}},
+\code{\link{uni_kiel_1}},
+\code{\link{uni_kiel_2}},
+\code{\link{uni_koeln_1}},
+\code{\link{uni_koeln_2}},
+\code{\link{uni_konstanz_1}},
+\code{\link{uni_konstanz_2}},
+\code{\link{uni_mannheim_1}},
+\code{\link{uni_mannheim_2}},
 \code{\link{uni_princeton_0}},
 \code{\link{uni_princeton_1}},
-\code{\link{uni_princeton_2}}
+\code{\link{uni_princeton_2}},
+\code{\link{uni_regensburg_1}},
+\code{\link{uni_regensburg_2}},
+\code{\link{uni_regensburg_3}},
+\code{\link{uni_ulm_1}},
+\code{\link{uni_ulm_2}}
 }
 \author{
-Hansjoerg Neth, 2022-10-20.
+\strong{unikn}, 2022-10-20.
 }
 \concept{contributed color palettes}
 \keyword{datasets}

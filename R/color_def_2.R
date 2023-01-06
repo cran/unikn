@@ -1,5 +1,5 @@
 ## color_def_2.R | unikn
-## spds | uni.kn  | 2022 11 07
+## spds | uni.kn  | 2022 12 30
 ## ---------------------------
 
 ## Define colors and color palettes (2 of 2).
@@ -8,23 +8,23 @@
 
 #  (1) pal_unikn: Combination of pal_seeblau [5] and pal_unikn_web (11): ------ 
 
-#   (a) Documentation: ----  
+#    (a) Documentation: ----  
 
-#' unikn default color palette (11 colors).
+#' uni.kn default color palette (11 colors) 
 #'
 #' \code{pal_unikn} combines the 5 shades of blue colors 
 #' from color palette \code{\link{pal_seeblau}} 
 #' with the 6 non-blue colors of \code{\link{pal_unikn_web}} 
-#' to a palette containing 11 color values. 
+#' to a divergent palette of 11 colors. 
 #' 
 #' Adding seeblau5 (i.e., \code{pal_seeblau[1]}) to 
 #' the default color palette \code{\link{pal_unikn}} 
 #' also puts \code{white} at the central (middle) 
-#' position of a palette with 11 values:
+#' position of a color palette with 11 values:
 #' 
 #' \code{pal_unikn[[6]]} is \code{white} or \code{"#FFFFFF"}.  
 #'
-#' This is useful when creating color gradients. 
+#' A divergent palette is useful for creating color gradients. 
 #'
 #' See \url{https://www.uni-konstanz.de/en/university/news-and-media/create-online-and-print-media/corporate-design/} for details.
 #'
@@ -57,7 +57,7 @@
 #'
 #' @export
 
-#   (b) Definition: ----  
+#    (b) Definition: ----  
 
 pal_unikn <- cbind(rev(pal_seeblau), pal_unikn_web[5:10])
 
@@ -67,7 +67,7 @@ pal_unikn <- cbind(rev(pal_seeblau), pal_unikn_web[5:10])
 #  (2) pal_unikn_pref: Scale of all 9 (or 8 + 1) preferred colors: ------
 
 
-#   (+) Original definition: ---- 
+#    (+) Original definition: ---- 
 
 pal_unikn_pref <- data.frame(  # Element: 
   "Seeblau"     = Seeblau,     # pal_seeblau[[3]],      #  1. seeblau
@@ -81,9 +81,9 @@ pal_unikn_pref <- data.frame(  # Element:
   "Signal"      = Signal,      # pal_signal[[2]],       # (9.) (alert) signal
   stringsAsFactors = FALSE)
 
-#   (a) Documentation: ----  
+#    (a) Documentation: ----  
 
-#' uni.kn preferred colors in a color palette.
+#' uni.kn color palette of preferred colors (9 colors)
 #'
 #' \code{pal_unikn_pref} provides an additional uni.kn color palette  
 #' that collects the preferred color of each palette 
@@ -123,7 +123,7 @@ pal_unikn_pref <- data.frame(  # Element:
 #'
 #' @export
 
-#   (b) Definition: ----  
+#    (b) Definition: ----  
 #   Re-arrange original order (for higher contrasts):
 
 pal_unikn_pref <- pal_unikn_pref[c(1, 7, 5, 2, 6, 9, 8, 3, 4)]
@@ -138,19 +138,19 @@ rownames(pal_unikn_pref) <- "1"  # fix/set rownames() of palette
 
 #  (3) pal_unikn_light: Scale of 8 light colors (in 4 pairs) from other palettes: ------ 
 
-#   (a) Documentation: ----  
+#    (a) Documentation: ----  
 
-#' uni.kn light colors in a color palette.
+#' uni.kn color palette of light colors (10 colors)
 #'
 #' \code{pal_unikn_light} provides an additional uni.kn color palette  
-#' that collects 2 light colors of 4 color palettes  
-#' as a data frame containing 8 colors (in 4 pairs). 
+#' that collects 2 light colors of 5 color palettes  
+#' as a data frame containing 10 colors (in 5 pairs). 
 #' 
 #' See \url{https://www.uni-konstanz.de/en/university/news-and-media/create-online-and-print-media/corporate-design/} for details.
 #'
 #' @examples
 #' pal_unikn_light
-#' dim(pal_unikn_light)  # 1 8 
+#' dim(pal_unikn_light)  # 1 10 
 #' 
 #' # Access by position:
 #' pal_unikn_light[1]    # color "seeblau3" (as df)
@@ -175,7 +175,7 @@ rownames(pal_unikn_pref) <- "1"  # fix/set rownames() of palette
 #'
 #' @export
 
-#   (b) Definition: ----  
+#    (b) Definition: ----  
 
 pal_unikn_light <- data.frame(
   pal_seeblau[c(3, 1)],
@@ -195,13 +195,13 @@ rownames(pal_unikn_light) <- "1"  # fix/set rownames() of palette
 
 #  (4) pal_unikn_dark: Scale of 8 dark colors (in 4 pairs) from other palettes: ------ 
 
-#   (a) Documentation: ----  
+#    (a) Documentation: ----  
 
-#' uni.kn dark colors in a color palette.
+#' uni.kn color palette of dark colors (10 colors)
 #'
 #' \code{pal_unikn_dark} provides an additional uni.kn color palette  
-#' that collects 2 dark colors of 4 color palettes  
-#' as a data frame containing 8 colors (in 4 pairs). 
+#' that collects 2 dark colors of 5 color palettes  
+#' as a data frame containing 10 colors (in 5 pairs). 
 #' 
 #' See \url{https://www.uni-konstanz.de/en/university/news-and-media/create-online-and-print-media/corporate-design/} for details.
 #'
@@ -227,7 +227,7 @@ rownames(pal_unikn_light) <- "1"  # fix/set rownames() of palette
 #'
 #' @export
 
-#   (b) Definition: ----  
+#    (b) Definition: ----  
 
 pal_unikn_dark <- data.frame(
   pal_karpfenblau[c(5, 3)],
@@ -246,9 +246,9 @@ rownames(pal_unikn_dark) <- "1"  # fix/set rownames() of palette
 
 #  (5) pal_unikn_pair: Scale of 16 paired colors (in 8 pairs) from other palettes: ------ 
 
-#   (a) Documentation: ----  
+#    (a) Documentation: ----  
 
-#' uni.kn pairwise colors in a color palette.
+#' uni.kn color palette of pairwise colors (16 colors)
 #'
 #' \code{pal_unikn_pair} provides an additional uni.kn color palette  
 #' that collects 16 paired colors of 8 color palettes  
@@ -278,7 +278,7 @@ rownames(pal_unikn_dark) <- "1"  # fix/set rownames() of palette
 #'
 #' @export
 
-#   (b) Definition: ----  
+#    (b) Definition: ----  
 
 # darker/brighter pairs:
 
@@ -313,50 +313,87 @@ rownames(pal_unikn_pair) <- "1"  # fix/set rownames() of palette
 # seecol(pal_unikn_pair)
 
 
+# (D) Message colors (using crayon/cli): -------- 
 
 
-# (D) Crayon colors: -------- 
+# - crayon styles: ------ 
+# 
+# # lighter:
+# in_grau     <- crayon::make_style(pal_grau[[4]], grey = TRUE, colors = 256)
+# in_peach    <- crayon::make_style(pal_peach[[5]],    colors = 256)
+# in_pinky    <- crayon::make_style(pal_pinky[[5]],    colors = 256)
+# in_seeblau  <- crayon::make_style(pal_seeblau[[5]],  colors = 256)
+# in_seegruen <- crayon::make_style(pal_seegruen[[5]], colors = 256)
+# 
+# # darker:
+# in_bordeaux    <- crayon::make_style(pal_bordeaux[[4]],    colors = 256)
+# in_petrol      <- crayon::make_style(pal_petrol[[4]],      colors = 256)
+# in_karpfenblau <- crayon::make_style(pal_karpfenblau[[4]], colors = 256)
+# 
+# # Notes:
+# # - See details of ?crayon::make_style() for using the grey and colors arguments.  
+# # - In contexts outside the unikn pkg, the RStudio terminal only shows the 256 ANSI colors.
+# 
+# 
+# - demo_crayons: ------
+# 
+# demo_crayons <- function(){
+#   
+#   cat(crayon::black(# "Crayon colors:",
+#                     in_bordeaux("bordeaux"), 
+#                     in_grau("grau"),
+#                     in_karpfenblau("karpfenblau"), 
+#                     in_peach("peach"), 
+#                     in_petrol("petrol"), 
+#                     in_pinky("pinky"), 
+#                     in_seeblau("seeblau"), 
+#                     in_seegruen("seegruen"), 
+#                     sep = " | ")
+#   )
+#   
+# } # demo_crayons().
 
-# Define crayon styles: ------ 
+
+# - cli ANSI styles: ------
 
 # lighter:
-in_grau     <- crayon::make_style(pal_grau[[4]], grey = TRUE, colors = 256)
-in_peach    <- crayon::make_style(pal_peach[[5]],    colors = 256)
-in_pinky    <- crayon::make_style(pal_pinky[[5]],    colors = 256)
-in_seeblau  <- crayon::make_style(pal_seeblau[[5]],  colors = 256)
-in_seegruen <- crayon::make_style(pal_seegruen[[5]], colors = 256)
+in_grau     <- cli::make_ansi_style(pal_grau[[4]], grey = TRUE, colors = 256)
+in_peach    <- cli::make_ansi_style(pal_peach[[5]],    colors = 256)
+in_pinky    <- cli::make_ansi_style(pal_pinky[[5]],    colors = 256)
+in_seeblau  <- cli::make_ansi_style(pal_seeblau[[5]],  colors = 256)
+in_seegruen <- cli::make_ansi_style(pal_seegruen[[5]], colors = 256)
 
 # darker:
-in_bordeaux    <- crayon::make_style(pal_bordeaux[[4]],    colors = 256)
-in_petrol      <- crayon::make_style(pal_petrol[[4]],      colors = 256)
-in_karpfenblau <- crayon::make_style(pal_karpfenblau[[4]], colors = 256)
+in_bordeaux    <- cli::make_ansi_style(pal_bordeaux[[4]],    colors = 256)
+in_petrol      <- cli::make_ansi_style(pal_petrol[[4]],      colors = 256)
+in_karpfenblau <- cli::make_ansi_style(pal_karpfenblau[[4]], colors = 256)
 
 # Notes:
-# - See details of ?crayon::make_style() for using the grey and colors arguments.  
+# - See details of ?cli::make_ansi_style() for using the grey and colors arguments.  
 # - In contexts outside the unikn pkg, the RStudio terminal only shows the 256 ANSI colors.
 
 
-# demo_crayons: ------
+# - demo_ansi_styles: ------
 
-demo_crayons <- function(){
+demo_ansi_styles <- function(){
   
-  cat(crayon::black(# "Crayon colors:",
-                    in_bordeaux("bordeaux"), 
-                    in_grau("grau"),
-                    in_karpfenblau("karpfenblau"), 
-                    in_peach("peach"), 
-                    in_petrol("petrol"), 
-                    in_pinky("pinky"), 
-                    in_seeblau("seeblau"), 
-                    in_seegruen("seegruen"), 
-                    sep = " | ")
+  cat(# "cli ANSI style colors:",
+    in_bordeaux("bordeaux"), 
+    in_grau("grau"),
+    in_karpfenblau("karpfenblau"), 
+    in_peach("peach"), 
+    in_petrol("petrol"), 
+    in_pinky("pinky"), 
+    in_seeblau("seeblau"), 
+    in_seegruen("seegruen"), 
+    sep = " | "
   )
   
-} # demo_crayons().
+} # demo_ansi_styles().
 
 
 
-## Sources: Links to unikn color definitions ------ 
+# Sources: Links to unikn color definitions ------ 
 
 # Defining CD elements according to specifications publicly provided at https://www.uni-konstanz.de. 
 # Sources for color definitions: 

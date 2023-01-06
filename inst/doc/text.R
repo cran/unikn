@@ -1,18 +1,20 @@
 ## ----setup, include = FALSE---------------------------------------------------
 options(max.print = "75")
+
 knitr::opts_chunk$set(echo = TRUE,
-	             cache = FALSE,
-               prompt = FALSE,
-               tidy = FALSE,
-               collapse = TRUE, 
-               comment = "#>",
-               message = FALSE,
-               warning = FALSE,
-               # ## Default figure options:
-               # fig.width = 7.2, 
-               # fig.asp = .618, # golden ratio
-               fig.align = "center"
-               )
+                      cache = FALSE,
+                      collapse = TRUE, 
+                      comment = "#>",
+                      prompt = FALSE,
+                      tidy = FALSE,
+                      message = FALSE,
+                      warning = FALSE,
+                      # Default figure options:
+                      fig.align = "center" 
+                      # fig.width = 6, 
+                      # fig.asp = .8 # .618, # golden ratio
+                      # out.width = "60%"
+                      )
 
 ## ----load-pkg-text, message = FALSE, warning = FALSE--------------------------
 # install.packages('unikn')  # install unikn from CRAN client

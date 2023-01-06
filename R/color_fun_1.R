@@ -1,5 +1,5 @@
 ## color_fun_1.R | unikn
-## spds | uni.kn | 2022 10 26
+## spds | uni.kn | 2023 01 02
 ## --------------------------
 
 ## Define color-related functions 
@@ -11,11 +11,11 @@
 ## (1) Main functions: ---------- 
 
 
-# 1. usecol(): Use a color palette (as is): ---------  
+# usecol(): Use a color palette (as is) ---------  
 
 # - Documentation: ------ 
 
-#' Use a color or color palette.
+#' Use a color or color palette 
 #'
 #' \code{usecol} allows using a color or color palette \code{pal} (e.g., for plotting).
 #' 
@@ -147,7 +147,7 @@ usecol <- function(pal = pal_unikn,
     val_all_pals_lst <- NA
     
   }
-
+  
   
   # Is the input one of the pre-defined palettes? ----- 
   
@@ -166,8 +166,6 @@ usecol <- function(pal = pal_unikn,
       
       if (any(pal_ix)) { rev_pal <- TRUE }  # if palette is reversed, update pal_rev to TRUE.
     }
-    
-    # +++ here now +++:
     
     # Problem: The palettes pal_unikn and uni_konstanz contain the SAME colors. 
     #          => pal_ix contains 2 TRUE positions.   
@@ -204,9 +202,7 @@ usecol <- function(pal = pal_unikn,
       set6 <- pal_name %in% c("pal_unikn_dark", "pal_unikn_light", "pal_unikn_pref")  # categorical scales
       set7 <- pal_name %in% c("pal_signal")  # categorical scale
       
-      set8 <- pal_name %in% add_pals  # (8a) all added/contributed palettes
-      # (8b) categorical/non-gradient scales of added/contributed palettes:
-      # set8 <- pal_name %in% c("eth_pal", "eth_pal_light", "uni_freiburg_info", "uni_konstanz_pref")  
+      set8 <- pal_name %in% add_pals  # (8) all added/contributed palettes
       
       # Determine pal_set (as a number):
       pal_set <- which(c(set1, set2, set3, set4, set5, set6, set7, set8))
@@ -443,11 +439,11 @@ usecol <- function(pal = pal_unikn,
 # seecol(usecol(c(Seeblau, "deepskyblue", Pinky, "deeppink"), use_names = TRUE))
 
 
-# 2. seecol(): Plot/see the colors of a palette or multiple palettes: ---------- 
+# seecol(): Plot/see the colors of a palette or multiple palettes ---------- 
 
 # - Documentation: ------ 
 
-#' Plot color palettes (to see their colors).
+#' Plot color palettes (to see their colors) 
 #'
 #' \code{seecol} provides an interface to plotting (or "seeing") 
 #' the colors of a palette or comparing multiple color palettes. 
@@ -831,6 +827,8 @@ seecol <- function(pal = "unikn_all",  # which palette?
   
   if (length(pal_tmp) > 1) {
     
+    # print(length(pal_tmp))  # 4debugging
+    
     # Set margins:
     if ((is.null(sub) == FALSE) && (is.na(sub) == FALSE) && (sub != "") ){
       par(mar = c(5.2, 6, 3, 1))  # enable subtitle at bottom (line 5)
@@ -1181,9 +1179,9 @@ seecol <- function(pal = "unikn_all",  # which palette?
 # par(op)
 
 
-# 3. all_colors: Combine all unikn color palettes with default R colors(): ------
+# all_colors(): Combine all unikn color palettes with default R colors() ------
 
-#' A function providing all unikn colors and base R colors.
+#' Provide all unikn colors and base R colors 
 #' 
 #' \code{all_colors} combines the \strong{unikn} color gradients with the 
 #' 657 named colors provided by \code{\link{colors}} of \strong{grDevices}. 
@@ -1206,19 +1204,38 @@ all_colors <- function(distinct = TRUE){
   out <- NA  # initialize
   
   # 1. All colors (of unikn package): ---- 
+  
+  # +++ here now +++:
+  
   unikn_pkg_colors <- usecol(c("black", "white",
-                           # Local uni.kn colors:
-                           pal_grau, pal_bordeaux, pal_petrol, pal_peach, 
-                           pal_seeblau, pal_pinky, pal_seegruen, pal_karpfenblau, 
-                           pal_signal, 
-                           pal_unikn,  # contains 4 "seegrau" variants of "grey"
-                           # Added/contributed color palettes:
-                           eth_pal, eth_pal_light, eth_pal_grey,  
-                           mpg_pal, 
-                           uni_freiburg_br, uni_freiburg_blue, uni_freiburg_info,
-                           # uni_konstanz, uni_konstanz_pref, # duplicates of pal_ above.
-                           uni_princeton_0, uni_princeton_1, uni_princeton_2
-                           ), 
+                               # Local uni.kn colors:
+                               pal_grau, pal_bordeaux, pal_petrol, pal_peach, 
+                               pal_seeblau, pal_pinky, pal_seegruen, pal_karpfenblau, 
+                               pal_signal, 
+                               pal_unikn,  # contains 4 "seegrau" variants of "grey"
+                               # Added/contributed color palettes:
+                               caltech_pal_1, caltech_pal_2, caltech_pal_3, 
+                               eth_pal_1, eth_pal_2, eth_pal_3, 
+                               fu_pal_0, fu_pal_1, fu_pal_2, fu_pal_3, 
+                               hu_pal_1, hu_pal_2, 
+                               lmu_pal_1, lmu_pal_2, lmu_pal_3, 
+                               mpg_pal, 
+                               uni_bonn_1, uni_bonn_2, 
+                               uni_goettingen_1, uni_goettingen_2, uni_goettingen_3, 
+                               uni_freiburg_0, uni_freiburg_1, uni_freiburg_2, 
+                               uni_freiburg_br, uni_freiburg_blue, uni_freiburg_info,
+                               uni_hamburg_1, uni_hamburg_2, 
+                               uni_jena_1, uni_jena_2, 
+                               uni_kiel_1, uni_kiel_2, 
+                               uni_koeln_1, uni_koeln_2, 
+                               # uni_konstanz_1, uni_konstanz_2,  # duplicates of pal_ (above).
+                               uni_mannheim_1, uni_mannheim_2, 
+                               uni_princeton_0, uni_princeton_1, uni_princeton_2,
+                               uni_regensburg_1, uni_regensburg_2, uni_regensburg_3,
+                               uni_ulm_1, uni_ulm_2, 
+                               rpi_pal_1, rpi_pal_2, rpi_pal_3,
+                               rptu_pal 
+  ), 
   use_names = TRUE)
   
   # Sort colors (by name):
@@ -1248,21 +1265,25 @@ all_colors <- function(distinct = TRUE){
   }
   
   # Output: ---- 
+  
   return(out)
   
 } # all_colors().
 
-# ## Check:
+## Check:
 # all_colors()[1:50]
-# length(all_colors(distinct = TRUE))   # 579 [on 2022-10-26]
-# length(all_colors(distinct = FALSE))  # 762 [on 2022-10-26]
+# length(all_colors(distinct = TRUE))   #  755 [on 2023-01-02]
+# length(all_colors(distinct = FALSE))  # 1031 [on 2023-01-02]
 # grepal("see", all_colors())     # finds unikn colors (and matching colors())
+# grepal("gruen", all_colors())   # finds unikn and added colors
 # grepal("purple", all_colors())  # finds added and base R colors
 # 
 # grepal("black", all_colors(), ignore_case = FALSE)  # only 1 "black"
 # grepal("black", all_colors(), ignore_case = TRUE)   # 2 variants of "black"
-# grepal("signal", all_colors()) # 3 signal colors
-# grepal("alice", all_colors())  # 1 base R color
+# grepal("signal", all_colors())  # 3 signal colors
+# grepal("alice", all_colors())   # 1 base R color
+# grepal("red", all_colors())  # finds Caltech's JPL and RPI's primary colors
+# grepal("orange", all_colors())  # finds Caltech and Princeton orange colors
 # 
 # simcol(Petrol, all_colors())
 # simcol(mpg_pal[1], all_colors())
@@ -1270,6 +1291,12 @@ all_colors <- function(distinct = TRUE){
 
 
 ## ToDo: ------
+
+# - seecol(): Compare 
+# seecol(eth_pal_3) # showing only 6-digit HEX values, with 
+# seecol(eth_pal_3[3:7]) # showing full HEX values (8 digits) for transparent colors
+
+# - usecol(): $comment attribute "custom" prevents output from being a vector
 
 # - Consider creating more vivid versions of some
 #   `pal_unikn_pref` colors (e.g., "deepskyblue", "deeppink", etc.)

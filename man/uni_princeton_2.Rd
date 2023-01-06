@@ -3,7 +3,7 @@
 \docType{data}
 \name{uni_princeton_2}
 \alias{uni_princeton_2}
-\title{Colors of Princeton University (on black backgrounds).}
+\title{Colors of Princeton University (on black backgrounds)}
 \format{
 An object of class \code{character} of length 3.
 }
@@ -23,13 +23,18 @@ of \href{https://www.princeton.edu/}{Princeton University}, NJ, USA,
 for use on black backgrounds.
 }
 \details{
+Note that 
+\href{https://en.wikipedia.org/wiki/Shades_of_orange#Princeton_orange}{Wikipedia: Shades of orange} 
+defines \code{uni_princeton_2[1]} as "Princeton orange". 
+
 The color \code{"black"} was added to enable symmetrical color gradients.
 }
 \examples{
 uni_princeton_2
 opar <- par(no.readonly = TRUE)
 par(bg = "black", col.main = "white", col = "grey")
-seecol(uni_princeton_2, col_brd = "grey", lwd = 2)  # view color palette
+seecol(uni_princeton_2, col_brd = "grey", lwd = 1.5, 
+       main = "Colors of Princeton (on black backgrounds)")
 demopal(uni_princeton_2, type = 3, main = "Colors of Princeton University")
 par(opar)
 
@@ -44,21 +49,60 @@ par(opar)
 \code{\link{grepal}} for finding named colors.
 
 Other contributed color palettes: 
-\code{\link{eth_pal_grey}},
-\code{\link{eth_pal_light}},
-\code{\link{eth_pal}},
+\code{\link{caltech_pal_1}},
+\code{\link{caltech_pal_2}},
+\code{\link{caltech_pal_3}},
+\code{\link{eth_pal_1}},
+\code{\link{eth_pal_2}},
+\code{\link{eth_pal_3}},
+\code{\link{fu_pal_0}},
+\code{\link{fu_pal_1}},
+\code{\link{fu_pal_2}},
+\code{\link{fu_pal_3}},
+\code{\link{hu_pal_1}},
+\code{\link{hu_pal_2}},
+\code{\link{lmu_pal_1}},
+\code{\link{lmu_pal_2}},
+\code{\link{lmu_pal_3}},
 \code{\link{mpg_pal}},
+\code{\link{rpi_pal_1}},
+\code{\link{rpi_pal_2}},
+\code{\link{rpi_pal_3}},
+\code{\link{rptu_pal}},
+\code{\link{uni_bonn_1}},
+\code{\link{uni_bonn_2}},
+\code{\link{uni_freiburg_0}},
+\code{\link{uni_freiburg_1}},
+\code{\link{uni_freiburg_2}},
 \code{\link{uni_freiburg_blue}},
 \code{\link{uni_freiburg_br}},
 \code{\link{uni_freiburg_grey}},
 \code{\link{uni_freiburg_info}},
-\code{\link{uni_konstanz_pref}},
-\code{\link{uni_konstanz}},
+\code{\link{uni_goettingen_1}},
+\code{\link{uni_goettingen_2}},
+\code{\link{uni_goettingen_3}},
+\code{\link{uni_hamburg_1}},
+\code{\link{uni_hamburg_2}},
+\code{\link{uni_jena_1}},
+\code{\link{uni_jena_2}},
+\code{\link{uni_kiel_1}},
+\code{\link{uni_kiel_2}},
+\code{\link{uni_koeln_1}},
+\code{\link{uni_koeln_2}},
+\code{\link{uni_konstanz_1}},
+\code{\link{uni_konstanz_2}},
+\code{\link{uni_mannheim_1}},
+\code{\link{uni_mannheim_2}},
 \code{\link{uni_princeton_0}},
-\code{\link{uni_princeton_1}}
+\code{\link{uni_princeton_1}},
+\code{\link{uni_regensburg_1}},
+\code{\link{uni_regensburg_2}},
+\code{\link{uni_regensburg_3}},
+\code{\link{uni_ulm_1}},
+\code{\link{uni_ulm_2}}
 }
 \author{
-Hansjoerg Neth, 2022-10-20.
+\strong{unikn}, 2022-11-28.
 }
 \concept{contributed color palettes}
 \keyword{datasets}

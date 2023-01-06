@@ -1,5 +1,5 @@
 ## color_def_1.R | unikn
-## spds | uni.kn |  2022 11 07
+## spds | uni.kn |  2023 01 02
 ## ---------------------------
 
 ## Define colors and color palettes (1 of 2).
@@ -29,12 +29,14 @@ pal_unikn_web <- data.frame(                             #  Element:
 
 # Documentation:
 
-#' uni.kn default color palette.
+#' uni.kn default color palette (web version) 
 #'
 #' \code{pal_unikn_web} provides the default uni.kn color palette  
 #' as a data frame containing 10 colors.
 #'
 #' This is the primary (web/sRGB) scale. 
+#' 
+#' Note that \code{\link{pal_unikn}} provides a divergent color palette (of 11 colors).
 #'
 #' See \url{https://www.uni-konstanz.de/en/university/news-and-media/create-online-and-print-media/corporate-design/} for details.
 #'
@@ -98,7 +100,7 @@ pal_unikn_ppt <- data.frame(                             #  Element:
 
 # Documentation:
 
-#' uni.kn secondary color palette (ppt version).
+#' uni.kn secondary color palette (ppt version) 
 #'
 #' \code{pal_unikn_ppt} provides an alternative uni.kn color palette  
 #' as a data frame containing 10 colors. 
@@ -168,7 +170,7 @@ pal_unikn_ppt <- pal_unikn_ppt[c(4:1, 10:5)] # seeblau (1) > white (5) > grey > 
 
 #   (b) Documentation: ---- 
 
-#' uni.kn seeblau color palette.
+#' uni.kn color palette seeblau 
 #'
 #' \code{pal_seeblau} provides an additional uni.kn color palette 
 #' as a data frame containing 5 colors (shades of 
@@ -221,7 +223,7 @@ pal_seeblau <- data.frame(                               #  Element:
 
 #   (d) Named color seeblau (as df): ---- 
 
-##|  uni.kn color seeblau (as df).
+##|  uni.kn color seeblau (as df) 
 ##|  
 ##|  \code{seeblau} provides the preferred color of \code{\link{pal_seeblau}}
 ##|  (as an atomic data frame) and is defined as
@@ -249,7 +251,7 @@ pal_seeblau <- data.frame(                               #  Element:
 
 #   (e) Preferred color Seeblau (as HEX character value): ---- 
 
-#' uni.kn color Seeblau. 
+#' uni.kn color Seeblau 
 #' 
 #' \code{Seeblau} provides the preferred color of \code{\link{pal_seeblau}} 
 #' (as an atomic HEX character value) and is defined as 
@@ -296,7 +298,7 @@ names(Seeblau) <- "Seeblau"
 
 #   (b) Documentation: ----  
 
-#' uni.kn peach color palette.
+#' uni.kn color palette peach 
 #'
 #' \code{pal_peach} provides an additional uni.kn color palette  
 #' as a data frame containing 5 colors (shades of 
@@ -339,7 +341,7 @@ pal_peach <- data.frame(                               #  Element:
 
 #   (d) Named color peach (as df): ---- 
 
-##| uni.kn color peach (as df).
+##| uni.kn color peach (as df) 
 ##| 
 ##| \code{peach} provides the preferred color of \code{\link{pal_peach}}
 ##| (as an atomic data frame) and is defined as
@@ -367,7 +369,7 @@ pal_peach <- data.frame(                               #  Element:
 
 #   (e) Preferred color Peach (as HEX character value): ---- 
 
-#' uni.kn color Peach. 
+#' uni.kn color Peach 
 #' 
 #' \code{Peach} provides the preferred color of \code{\link{pal_peach}} 
 #' (as an atomic HEX character value) and is defined as 
@@ -413,7 +415,7 @@ names(Peach) <- "Peach"
 
 #   (b) Documentation: ---- 
 
-#' uni.kn grau color palette.
+#' uni.kn color palette grau 
 #'
 #' \code{pal_grau} provides an additional uni.kn color palette  
 #' as a data frame containing 5 colors (shades of 
@@ -455,7 +457,7 @@ pal_grau <- data.frame(                               #  Element:
 
 #   (d) Named color grau (as df): ---- 
 
-##| uni.kn color grau (as df).
+##| uni.kn color grau (as df) 
 ##| 
 ##| \code{grau} provides the preferred color of \code{\link{pal_grau}}
 ##| (as an atomic data frame) and is defined as
@@ -483,7 +485,7 @@ pal_grau <- data.frame(                               #  Element:
 
 #   (e) Preferred color Grau (as HEX character value): ---- 
 
-#' uni.kn color Grau.  
+#' uni.kn color Grau 
 #' 
 #' \code{Grau} provides the preferred color of \code{\link{pal_grau}} 
 #' (as an atomic HEX character value) and is defined as 
@@ -530,7 +532,7 @@ names(Grau) <- "Grau"
 
 #   (b) Documentation: ----  
 
-#' uni.kn petrol color palette.
+#' uni.kn color palette petrol 
 #'
 #' \code{pal_petrol} provides an additional uni.kn color palette  
 #' as a data frame containing 5 colors (shades of 
@@ -575,7 +577,7 @@ pal_petrol <- data.frame(                               #  Element:
 
 #   (d) Named color petrol (as df): ---- 
 
-##| uni.kn color petrol (as df). 
+##| uni.kn color petrol (as df) 
 ##| 
 ##| \code{petrol} provides the preferred color of \code{\link{pal_petrol}} 
 ##| (as an atomic data frame) and is defined as 
@@ -603,7 +605,7 @@ pal_petrol <- data.frame(                               #  Element:
 
 #   (e) Preferred color Petrol (as HEX character value): ---- 
 
-#' uni.kn color Petrol. 
+#' uni.kn color Petrol 
 #' 
 #' \code{Petrol} provides the preferred color of \code{\link{pal_petrol}} 
 #' (as an atomic HEX character value) and is defined as 
@@ -649,7 +651,7 @@ names(Petrol) <- "Petrol"
 
 #   (b) Documentation: ----  
 
-#' uni.kn seegruen color palette.
+#' uni.kn color palette seegruen 
 #'
 #' \code{pal_seegruen} provides an additional uni.kn color palette  
 #' as a data frame containing 5 colors (shades of 
@@ -692,7 +694,7 @@ pal_seegruen <- data.frame(                               #  Element:
 
 #   (d) Named color seegruen (as df): ---- 
 
-##| uni.kn color seegruen (as df).
+##| uni.kn color seegruen (as df) 
 ##| 
 ##| \code{seegruen} provides the preferred color of \code{\link{pal_seegruen}} 
 ##| (as an atomic data frame) and is defined as 
@@ -720,7 +722,7 @@ pal_seegruen <- data.frame(                               #  Element:
 
 #   (e) Preferred color Seegruen (as HEX character value): ---- 
 
-#' uni.kn color Seegruen. 
+#' uni.kn color Seegruen 
 #' 
 #' \code{Seegruen} provides the preferred color of \code{\link{pal_seegruen}} 
 #' (as an atomic HEX character value) and is defined as 
@@ -767,7 +769,7 @@ names(Seegruen) <- "Seegruen"
 
 #   (b) Documentation: ----  
 
-#' uni.kn karpfenblau color palette.
+#' uni.kn color palette karpfenblau 
 #'
 #' \code{pal_karpfenblau} provides an additional uni.kn color palette  
 #' as a data frame containing 5 colors (shades of 
@@ -810,7 +812,7 @@ pal_karpfenblau <- data.frame(                               #  Element:
 
 #   (d) Named color karpfenblau (as df): ---- 
 
-##| uni.kn color karpfenblau (as df).  
+##| uni.kn color karpfenblau (as df) 
 ##| 
 ##| \code{karpfenblau} provides the preferred color of \code{\link{pal_karpfenblau}} 
 ##| (as an atomic data) frame and is defined as 
@@ -838,7 +840,7 @@ pal_karpfenblau <- data.frame(                               #  Element:
 
 #   (e) Preferred color Karpfenblau (as HEX character value): ---- 
 
-#' uni.kn color Karpfenblau.  
+#' uni.kn color Karpfenblau 
 #' 
 #' \code{Karpfenblau} provides the preferred color of \code{\link{pal_karpfenblau}} 
 #' (as an atomic HEX character value) and is defined as 
@@ -884,7 +886,7 @@ names(Karpfenblau) <- "Karpfenblau"
 
 #   (b) Documentation: ----  
 
-#' uni.kn pinky color palette.
+#' uni.kn color palette pinky 
 #'
 #' \code{pal_pinky} provides an additional uni.kn color palette  
 #' as a data frame containing 5 colors (shades of 
@@ -927,7 +929,7 @@ pal_pinky <- data.frame(                               #  Element:
 
 #   (d) Named color pinky (as df): ---- 
 
-##| uni.kn color pinky (as df).   
+##| uni.kn color pinky (as df) 
 ##| 
 ##| \code{pinky} provides the preferred color of \code{\link{pal_pinky}} 
 ##| (as an atomic data frame) and is defined as 
@@ -955,7 +957,7 @@ pal_pinky <- data.frame(                               #  Element:
 
 #   (e) Preferred color Pinky (as HEX character value): ---- 
 
-#' uni.kn color Pinky.   
+#' uni.kn color Pinky 
 #' 
 #' \code{Pinky} provides the preferred color of \code{\link{pal_pinky}} 
 #' (as an atomic HEX character value) and is defined as 
@@ -1001,7 +1003,7 @@ Pinky  #  "#E0607E"
 
 #   (b) Documentation: ----  
 
-#' uni.kn bordeaux color palette.
+#' uni.kn color palette bordeaux 
 #'
 #' \code{pal_bordeaux} provides an additional uni.kn color palette  
 #' as a data frame containing 5 colors (shades of 
@@ -1044,7 +1046,7 @@ pal_bordeaux <- data.frame(                               #  Element:
 
 #   (d) Named color bordeaux (as df): ---- 
 
-##| uni.kn color bordeaux (as df).    
+##| uni.kn color bordeaux (as df) 
 ##| 
 ##| \code{bordeaux} provides the preferred color of \code{\link{pal_bordeaux}} 
 ##| (as an atomic data frame) and is defined as 
@@ -1072,7 +1074,7 @@ pal_bordeaux <- data.frame(                               #  Element:
 
 #   (e) Preferred color Bordeaux (as HEX character value): ---- 
 
-#' uni.kn color Bordeaux.    
+#' uni.kn color Bordeaux 
 #' 
 #' \code{Bordeaux} provides the preferred color of \code{\link{pal_bordeaux}} 
 #' (as an atomic HEX character value) and is defined as 
@@ -1116,7 +1118,7 @@ names(Bordeaux) <- "Bordeaux"
 
 #   (b) Documentation: ----  
 
-#' uni.kn signal (Ampel) color palette.
+#' uni.kn color palette signal (Ampel colors) 
 #'
 #' \code{pal_signal} provides an additional uni.kn color palette  
 #' as a data frame containing 3 colors (Ampel or traffic signal colors). 
@@ -1165,7 +1167,7 @@ pal_signal <- data.frame(                               #  Element:
 # Note: As the Ampel palette specification does NOT identify a preferred color,  
 #       using "signal" as a dedicated color is NOT part of the official definition. 
 
-##| uni.kn color alert signal (as df).    
+##| uni.kn color alert signal (as df)  
 ##| 
 ##| \code{signal} provides the alert color of \code{\link{pal_signal}} 
 ##| (as an atomic data frame) and is defined as 
@@ -1203,7 +1205,7 @@ pal_signal <- data.frame(                               #  Element:
 # Note: As the Ampel palette specification does NOT identify a preferred color,  
 #       using "signal" as a dedicated color is NOT part of the official definition. 
 
-#' uni.kn color Signal or alert.    
+#' uni.kn color Signal or alert 
 #' 
 #' \code{Signal} provides the alert color of \code{\link{pal_signal}} 
 #' (as an atomic HEX character value) and is defined as 
@@ -1242,9 +1244,11 @@ names(Signal) <- "Signal"
 # Signal  # "#EFDC60"
 
 
-## Lookup vectors of palette names: ----------
 
-## Definition: -------
+# Lookup vectors of palette names: ------ 
+
+# - Definition: ----
+
 # all_pal_names1 <- ls()[grepl("pal_", ls())]  # utils::apropos("pal_")
 # all_pal_names1 <- all_pal_names1[!all_pal_names1 %in% c("pal_signal", "pal_unikn_ppt")]  
 # remove ppt and signal to avoid crashing on inconsistency in usecol (defined but not with color selection).
@@ -1256,21 +1260,40 @@ all_palkn_grad  <- c("pal_seeblau", "pal_peach", "pal_grau", "pal_petrol", "pal_
 all_palkn_pref  <- c("pal_unikn_pref", all_palkn_grad)
 all_palkn <- c(all_palkn_basic, all_palkn_pair, all_palkn_pref)
 
-# additional/contributed palettes:
+# - Additional/contributed palettes: ----
 
-add_pals <- c("eth_pal", "eth_pal_light", "eth_pal_grey", 
-              "mpg_pal", 
+add_pals <- c("caltech_pal_1", "caltech_pal_2", "caltech_pal_3",
+              "eth_pal_1", "eth_pal_2", "eth_pal_3",
+              "fu_pal_0", "fu_pal_1", "fu_pal_2", "fu_pal_3",
+              "hu_pal_1", "hu_pal_2",
+              "lmu_pal_1", "lmu_pal_2", "lmu_pal_3",
+              "mpg_pal",
+              "uni_bonn_1", "uni_bonn_2",
+              "uni_freiburg_0", "uni_freiburg_1", "uni_freiburg_2",
               "uni_freiburg_br", "uni_freiburg_blue", "uni_freiburg_grey", "uni_freiburg_info",
-              "uni_konstanz", "uni_konstanz_pref",
-              "uni_princeton_0", "uni_princeton_1", "uni_princeton_2"
+              "uni_goettingen_1", "uni_goettingen_2", "uni_goettingen_3",
+              "uni_hamburg_1", "uni_hamburg_2",
+              "uni_jena_1", "uni_jena_2", 
+              "uni_kiel_1", "uni_kiel_2",
+              "uni_koeln_1", "uni_koeln_2",
+              "uni_konstanz_1", "uni_konstanz_2",
+              "uni_mannheim_1", "uni_mannheim_2",
+              "uni_princeton_0", "uni_princeton_1", "uni_princeton_2",
+              "uni_regensburg_1", "uni_regensburg_2", "uni_regensburg_3",
+              "uni_ulm_1", "uni_ulm_2",
+              "rpi_pal_1", "rpi_pal_2", "rpi_pal_3",
+              "rptu_pal"
 )
 
-# all palettes / largest set (of unikn package):
+# length(add_pals)  # 52 [2023-01-02]
+
+
+# - All palettes / largest set (of unikn package): ----
 
 all_pals <- c(all_palkn, add_pals)
 
 
-## Sources: Links to unikn color definitions ------ 
+# Sources: Links to unikn color definitions ------ 
 
 # Defining CD elements according to specifications publicly provided at https://www.uni-konstanz.de. 
 # Sources for color definitions: 
@@ -1278,7 +1301,7 @@ all_pals <- c(all_palkn, add_pals)
 # https://www.uni-konstanz.de/en/university/news-and-media/create-online-and-print-media/corporate-design/colours-for-complex-graphics/ 
 
 
-## Note: Compare colors ----- 
+# Note: Compare colors ----- 
 
 # - Seeblau seems like a muted variant of "deepskyblue"
 # - Pinky seems like a muted variant of "deeppink"
