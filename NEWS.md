@@ -1,4 +1,49 @@
 
+# unikn 0.9.0
+
+This release of **unikn** (v0.9.0) reduces its functionality by migrating some color palettes to a new R\ package **[unicol](https://github.com/hneth/unicol/)**. [2023-08-09] 
+
+<!-- Log of changes: --> 
+
+<!-- This is the development version of **unikn**, which is available at <https://github.com/hneth/unikn/>. --> 
+
+<!-- Log of changes: --> 
+
+
+Changes since last release: 
+
+<!-- Major changes: --> 
+
+## Major changes 
+
+- Migrated all color palettes from other institutions to a dedicated R\ package **[unicol](https://github.com/hneth/unicol/)**.  
+
+<!-- Minor changes: --> 
+
+## Minor changes 
+
+- Add user feedback when `newpal()` uses `col` and `names` of different lengths. 
+
+- Add `is_col_pal()` utility function.
+
+
+<!-- Details:  --> 
+
+## Details 
+
+- Update status badges in `README`. 
+
+
+<!-- Development version:  --> 
+
+The current development version of **unikn** is available at <https://github.com/hneth/unikn/>. 
+
+
+<!-- Previous versions: -->  
+
+---------- 
+
+
 # unikn 0.8.0
 
 This release of **unikn** (v0.8.0) extends its functionality to additional color palettes. [2023-01-06] 
@@ -36,7 +81,7 @@ Changes since last release:
 
 - Updated color palettes:
 
-    - [ETH Zurich](https://ethz.ch/): Renamed `eth_pal`, `eth_pal_light`, `eth_pal_grey` 
+    - [ETH Zurich](https://ethz.ch/de.html): Renamed `eth_pal`, `eth_pal_light`, `eth_pal_grey` 
     to `eth_pal_1`, `eth_pal_2`, `eth_pal_3`, respectively 
     - [Max Planck Society](https://www.mpg.de/en): `mpg_pal` (based on RGB values and extended to 5 colors) 
     - [University of Freiburg](https://uni-freiburg.de/): `uni_freiburg_0`, `uni_freiburg_1`, `uni_freiburg_2`,   
@@ -54,12 +99,6 @@ Changes since last release:
 - Add utility functions `col_asif_alpha()` and `v_col_asif_alpha()`. 
 - Revise vignettes. 
 - Fix some bugs.
-
-
-
-<!-- Development version:  --> 
-
-The current development version of **unikn** is available at <https://github.com/hneth/unikn/>. 
 
 
 <!-- Previous versions: -->  
@@ -169,6 +208,7 @@ Changes since last release:
 
 <!-- Blank line.  --> 
 
+
 ## Minor changes
 
 - Add a `plot` argument to `grepal()` and `simcol()` to visualize results.
@@ -179,6 +219,7 @@ detecting and filtering visual duplicates (`col_distinct()`).
 - Add an `x_layout` argument to control horizontal positions of text labels (e.g., by numeric increments, centering, right-adjusted). 
 
 <!-- Blank line.  --> 
+
 
 ## Details
 
@@ -294,6 +335,6 @@ Changes in existing functionality:
 
 ---------- 
 
-[File `NEWS.md` updated on 2023-01-06.] 
+[File `NEWS.md` updated on 2023-08-09.] 
 
 <!-- eof. -->

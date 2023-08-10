@@ -16,15 +16,22 @@ knitr::opts_chunk$set(echo = TRUE,
                       out.width = "60%"
 )
 
+# URLs:
+# unicol: 
+url_unicol_cran   <- "" # "https://CRAN.R-project.org/package=unicol"
+url_unicol_github <- "https://github.com/hneth/unicol"
+
 ## ----load-pkg-colors, message = FALSE, warning = FALSE------------------------
 # install.packages('unikn')  # install unikn from CRAN client
 library('unikn')             # load the package
 
-## ----show-add-pals, fig.width = 7.2, out.width = "550px", fig.asp = 2.0-------
-seecol("add", main = "Color palettes from various institutions")
+## ----def-col-mpg-pal-local, echo = FALSE--------------------------------------
+mpg_pal <- newpal(col = c(rgb( 17, 102,  86, maxColorValue = 255), "white", "#DDDED6"),
+                  names = c("MPG green", "white", "MPG grey"),
+                  as_df = FALSE)
 
-## ----def-col-mpg-example, fig.width = 5, fig.asp = 1, fig.align = 'center'----
-seecol(pal = unikn::mpg_pal, col_brd = "black", lwd_brd = .5)
+## ----def-col-mpg-example, echo = FALSE, fig.width = 5, fig.asp = 1, fig.align = 'center'----
+seecol(pal = mpg_pal, col_brd = "black", lwd_brd = .5)
 
 ## ----def-col-rgb--------------------------------------------------------------
 mpg_green <- grDevices::rgb( 17, 102,  86, maxColorValue = 255)
@@ -66,11 +73,8 @@ seecol(my_mpg_pal, main = "My new MPG color palette",
 all.equal(col2rgb(mpg_pal), col2rgb(my_mpg_pal), check.attributes = FALSE)
 
 ## ----compare-custom-pals, eval = TRUE, fig.width = 5, fig.asp = .55, fig.align = 'center', collapse = TRUE----
-# Re-define an existing color palette:
-lmu_pal_rev <- newpal(col = lmu_pal_1[c(1, 3, 2)])
-
-# Scaled version: 
-seecol(list(lmu_pal_rev, uni_princeton_1, mpg_pal, pal_unikn), n = 7,
-       pal_names = c("LMU Munich", "Princeton Uni", "Max Planck", "Uni Konstanz"),
+# Scaled palettes: 
+seecol(list(mpg_pal, pal_unikn), n = 7,
+       pal_names = c("Max Planck", "Uni Konstanz"),
        main = "Comparing scaled color palettes")
 

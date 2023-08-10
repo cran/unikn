@@ -49,8 +49,8 @@ seecol("pref_all")
 ## ----seecol-grad-all-2, fig.width = 5, fig.asp = .8, fig.align = 'center', out.width="400"----
 seecol("grad_all")
 
-## ----seecol-add, fig.width = 7.2, fig.asp = .9, fig.align = 'center', out.width="500"----
-seecol("add")
+## ----seecol-add, echo = FALSE, eval = FALSE, fig.width = 7.2, fig.asp = .9, fig.align = 'center', out.width="500"----
+#  seecol("add")
 
 ## ----seecol-aesthetic-parameters, fig.width = 5, out.width = "60%", fig.asp = .8, fig.align = 'center', out.width="400"----
 seecol("grad_all", col_brd = "black", lwd_brd = .5, main = "Color gradients (with black borders)")
@@ -174,5 +174,5 @@ flag_de  <- newpal(col = col_flag,
 seecol(flag_de, main = "Defining a flag_de color palette")
 
 ## ----demopal, fig.width = 5, fig.asp = .8, fig.align = 'center'---------------
-demopal(pal = uni_freiburg_info, type = 3)
+demopal(pal = pg_2, type = 3)
 
